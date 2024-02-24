@@ -19,4 +19,10 @@ public:
 	// EnemyInterface
 	virtual void HighlightActor() override;
 	virtual void UnHighlightActor() override;
+
+	UPROPERTY(BlueprintReadOnly)
+	bool bIsHighlighted = false;
+protected:
+
+private:
 };
