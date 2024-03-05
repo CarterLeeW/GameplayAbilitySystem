@@ -44,19 +44,28 @@ void AAuraEffectActor::OnOverlap(AActor* TargetActor)
 	// Instant
 	if (InstantEffectApplicationPolicy == EEffectApplicationPolicy::ApplyOnOverlap)
 	{
-		ApplyEffectToTarget(TargetActor, InstantGameplayEffectClass);
+		for (auto& EffectClass : InstantGameplayEffectClass)
+		{
+			ApplyEffectToTarget(TargetActor, EffectClass);
+		}
 	}
 
 	// Duration
 	if (DurationEffectApplicationPolicy == EEffectApplicationPolicy::ApplyOnOverlap)
 	{
-		ApplyEffectToTarget(TargetActor, DurationGameplayEffectClass);
+		for (auto& EffectClass : DurationGameplayEffectClass)
+		{
+			ApplyEffectToTarget(TargetActor, EffectClass);
+		}
 	}
 
 	// Infinite
 	if (InfiniteEffectApplicationPolicy == EEffectApplicationPolicy::ApplyOnOverlap)
 	{
-		ApplyEffectToTarget(TargetActor, InfiniteGameplayEffectClass);
+		for (auto& EffectClass : InfiniteGameplayEffectClass)
+		{
+			ApplyEffectToTarget(TargetActor, EffectClass);
+		}
 	}
 }
 
@@ -65,19 +74,28 @@ void AAuraEffectActor::OnEndOverlap(AActor* TargetActor)
 	// Instant
 	if (InstantEffectApplicationPolicy == EEffectApplicationPolicy::ApplyOnEndOverlap)
 	{
-		ApplyEffectToTarget(TargetActor, InstantGameplayEffectClass);
+		for (auto& EffectClass : InstantGameplayEffectClass)
+		{
+			ApplyEffectToTarget(TargetActor, EffectClass);
+		}
 	}
 
 	// Duration
 	if (DurationEffectApplicationPolicy == EEffectApplicationPolicy::ApplyOnEndOverlap)
 	{
-		ApplyEffectToTarget(TargetActor, DurationGameplayEffectClass);
+		for (auto& EffectClass : DurationGameplayEffectClass)
+		{
+			ApplyEffectToTarget(TargetActor, EffectClass);
+		}
 	}
 
 	// Infinite
 	if (InfiniteEffectApplicationPolicy == EEffectApplicationPolicy::ApplyOnEndOverlap)
 	{
-		ApplyEffectToTarget(TargetActor, InfiniteGameplayEffectClass);
+		for (auto& EffectClass : InfiniteGameplayEffectClass)
+		{
+			ApplyEffectToTarget(TargetActor, EffectClass);
+		}
 	}
 
 	// Infinite Removal

@@ -50,19 +50,19 @@ protected:
 
 	// Instant
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Applied Effects")
-	const TSubclassOf<UGameplayEffect> InstantGameplayEffectClass;
+	TArray<TSubclassOf<UGameplayEffect>> InstantGameplayEffectClass;
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Applied Effects")
 	EEffectApplicationPolicy InstantEffectApplicationPolicy = EEffectApplicationPolicy::DoNotApply;
 
 	// Duration
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Applied Effects")
-	const TSubclassOf<UGameplayEffect> DurationGameplayEffectClass;
+	TArray<TSubclassOf<UGameplayEffect>> DurationGameplayEffectClass;
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Applied Effects")
 	EEffectApplicationPolicy DurationEffectApplicationPolicy = EEffectApplicationPolicy::DoNotApply;
 
 	// Infinite
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Applied Effects")
-	const TSubclassOf<UGameplayEffect> InfiniteGameplayEffectClass;
+	TArray<TSubclassOf<UGameplayEffect>> InfiniteGameplayEffectClass;
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Applied Effects")
 	EEffectApplicationPolicy InfiniteEffectApplicationPolicy = EEffectApplicationPolicy::DoNotApply;
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Applied Effects")
