@@ -51,7 +51,6 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
 					{
 						MessageWidgetRowDelegate.Broadcast(*Row);
 					}
-
 				}
 			}
 		}
