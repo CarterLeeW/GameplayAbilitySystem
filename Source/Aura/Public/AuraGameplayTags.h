@@ -17,6 +17,16 @@ public:
 	static void InitializeNativeGameplayTags();
 
 	FGameplayTag Attributes_Secondary_Armor;
+	FGameplayTag Attributes_Secondary_ArmorPenetration;
+	FGameplayTag Attributes_Secondary_BlockChance;
+	FGameplayTag Attributes_Secondary_CriticalHitChance;
+	FGameplayTag Attributes_Secondary_CriticalHitDamage;
+	FGameplayTag Attributes_Secondary_CriticalHitResistance;
+	FGameplayTag Attributes_Secondary_HealthRegen;
+	FGameplayTag Attributes_Secondary_ManaRegen;
+	FGameplayTag Attributes_Secondary_MaxHealth;
+	FGameplayTag Attributes_Secondary_MaxMana;
+
 	FAuraGameplayTags(const FAuraGameplayTags& obj) = delete;
 protected:
 
