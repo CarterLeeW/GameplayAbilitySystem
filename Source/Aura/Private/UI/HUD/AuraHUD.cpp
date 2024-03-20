@@ -4,22 +4,25 @@
 #include "UI/HUD/AuraHUD.h"
 #include "UI/Widget/AuraUserWidget.h"
 #include "UI/WidgetController/OverlayWidgetController.h"
+#include "UI/WidgetController/AttributeMenuWidgetController.h"
 #include "AbilitySystemComponent.h"
+
+#define ACCESS_WIDGET_CONTROLLER(WC, WCC, Params) \
+	if (!WC)\
+	{\
+		WC = NewObject<U##WC##>(this, WCC);\
+		WC->SetWidgetControllerParams(Params);\
+		WC->BindCallbacksToDependencies();\
+		return WC;\
+	}\
+	else\
+	{\
+		return WC;\
+	}
 
 UOverlayWidgetController* AAuraHUD::GetOverlayWidgetController(const FWidgetControllerParams& WCParams)
 {
-	if (!OverlayWidgetController)
-	{
-		OverlayWidgetController = NewObject<UOverlayWidgetController>(this, OverlayWidgetControllerClass);
-		OverlayWidgetController->SetWidgetControllerParams(WCParams);
-		OverlayWidgetController->BindCallbacksToDependencies();
-
-		return OverlayWidgetController;
-	}
-	else
-	{
-		return OverlayWidgetController;
-	}
+	ACCESS_WIDGET_CONTROLLER(OverlayWidgetController, OverlayWidgetControllerClass, WCParams);
 }
 
 void AAuraHUD::InitOverlay(APlayerController* PC, APlayerState* PS, UAbilitySystemComponent* ASC, UAttributeSet* AS)
@@ -37,4 +40,9 @@ void AAuraHUD::InitOverlay(APlayerController* PC, APlayerState* PS, UAbilitySyst
 	OverlayWidget->SetWidgetController(WidgetController);
 	WidgetController->BroadCastInitialValues();
 	OverlayWidget->AddToViewport();
+}
+
+UAttributeMenuWidgetController* AAuraHUD::GetAttributeMenuWidgetController(const FWidgetControllerParams& WCParams)
+{
+	ACCESS_WIDGET_CONTROLLER(AttributeMenuWidgetController, AttributeMenuWidgetControllerClass, WCParams);
 }
