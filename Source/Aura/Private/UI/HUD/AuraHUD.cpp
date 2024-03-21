@@ -10,7 +10,7 @@
 #define ACCESS_WIDGET_CONTROLLER(WC, WCC, Params) \
 	if (!WC)\
 	{\
-		WC = NewObject<U##WC##>(this, WCC);\
+		WC = NewObject<U##WC>(this, WCC);\
 		WC->SetWidgetControllerParams(Params);\
 		WC->BindCallbacksToDependencies();\
 		return WC;\

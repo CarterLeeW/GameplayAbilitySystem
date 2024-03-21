@@ -61,6 +61,8 @@ public:
 	virtual void PreAttributeBaseChange(const FGameplayAttribute& Attribute, float& NewValue) const override;
 	virtual void PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data) override;
 
+	TMap<FGameplayTag, FGameplayAttribute> TagsToAttributes;
+
 	/*
 	* Primary Attributes
 	*/
@@ -128,11 +130,11 @@ public:
 
 	UFUNCTION()
 	void OnRep_HeathRegeneration(const FGameplayAttributeData& OldHeathRegeneration) const;
-	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, HeathRegeneration);
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, HealthRegen);
 
 	UFUNCTION()
 	void OnRep_ManaRegeneration(const FGameplayAttributeData& OldManaRegeneration) const;
-	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, ManaRegeneration);
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, ManaRegen);
 
 protected:
 	/*
@@ -188,10 +190,10 @@ protected:
 	FGameplayAttributeData CriticalHitResistance;
 
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_HeathRegeneration, Category = "Secondary Attributes")
-	FGameplayAttributeData HeathRegeneration;
+	FGameplayAttributeData HealthRegen;
 
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_ManaRegeneration, Category = "Secondary Attributes")
-	FGameplayAttributeData ManaRegeneration;
+	FGameplayAttributeData ManaRegen;
 #pragma endregion "Secondary"
 
 private:

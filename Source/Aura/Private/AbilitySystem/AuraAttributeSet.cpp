@@ -6,11 +6,29 @@
 #include "GameplayEffectExtension.h"
 #include "GameFramework/Character.h"
 #include "AbilitySystemBlueprintLibrary.h"
+#include "AuraGameplayTags.h"
 
+#define MAP_TAG_TO_ATTRIBUTE(Type, Attr) TagsToAttributes.Add(GameplayTags->Attributes_##Type##_##Attr, Get##Attr##Attribute());
 UAuraAttributeSet::UAuraAttributeSet()
 {
-	InitHealth(50.0f);
-	InitMana(25.0f);
+	const FAuraGameplayTags* GameplayTags = FAuraGameplayTags::Get();
+	
+	MAP_TAG_TO_ATTRIBUTE(Primary, Strength);
+	MAP_TAG_TO_ATTRIBUTE(Primary, Intelligence);
+	MAP_TAG_TO_ATTRIBUTE(Primary, Resilience);
+	MAP_TAG_TO_ATTRIBUTE(Primary, Vigor);
+
+	MAP_TAG_TO_ATTRIBUTE(Secondary, Armor);
+	MAP_TAG_TO_ATTRIBUTE(Secondary, ArmorPenetration);
+	MAP_TAG_TO_ATTRIBUTE(Secondary, BlockChance);
+	MAP_TAG_TO_ATTRIBUTE(Secondary, CriticalHitChance);
+	MAP_TAG_TO_ATTRIBUTE(Secondary, CriticalHitDamage);
+	MAP_TAG_TO_ATTRIBUTE(Secondary, CriticalHitResistance);
+	MAP_TAG_TO_ATTRIBUTE(Secondary, HealthRegen);
+	MAP_TAG_TO_ATTRIBUTE(Secondary, ManaRegen);
+	MAP_TAG_TO_ATTRIBUTE(Secondary, MaxHealth);
+	MAP_TAG_TO_ATTRIBUTE(Secondary, MaxMana);
+	
 }
 
 void UAuraAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -27,16 +45,16 @@ void UAuraAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Ou
 	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, Mana, COND_None, REPNOTIFY_Always);
 
 	// Secondary
-	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, MaxHealth, COND_None, REPNOTIFY_Always);
-	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, MaxMana, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, Armor, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, ArmorPenetration, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, BlockChance, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, CriticalHitChance, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, CriticalHitDamage, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, CriticalHitResistance, COND_None, REPNOTIFY_Always);
-	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, HeathRegeneration, COND_None, REPNOTIFY_Always);
-	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, ManaRegeneration, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, HealthRegen, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, ManaRegen, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, MaxHealth, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, MaxMana, COND_None, REPNOTIFY_Always);
 
 }
 
@@ -136,12 +154,12 @@ void UAuraAttributeSet::OnRep_CriticalHitResistance(const FGameplayAttributeData
 
 void UAuraAttributeSet::OnRep_HeathRegeneration(const FGameplayAttributeData& OldHeathRegeneration) const
 {
-	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, HeathRegeneration, OldHeathRegeneration);
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, HealthRegen, OldHeathRegeneration);
 }
 
 void UAuraAttributeSet::OnRep_ManaRegeneration(const FGameplayAttributeData& OldManaRegeneration) const
 {
-	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, ManaRegeneration, OldManaRegeneration);
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, ManaRegen, OldManaRegeneration);
 }
 
 #pragma endregion "OnRep"
