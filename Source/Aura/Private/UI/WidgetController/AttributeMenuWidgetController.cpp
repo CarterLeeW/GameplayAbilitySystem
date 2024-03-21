@@ -6,7 +6,7 @@
 #include "AuraGameplayTags.h"
 #include "AbilitySystem/Data/AttributeInfo.h"
 
-void UAttributeMenuWidgetController::BroadCastInitialValues()
+void UAttributeMenuWidgetController::BroadcastInitialValues()
 {
 	const UAuraAttributeSet* AS = CastChecked<UAuraAttributeSet>(AttributeSet);
 	check(AttributeInfo);
