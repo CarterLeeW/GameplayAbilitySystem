@@ -27,7 +27,7 @@ inline void UAuraInputComponent::BindAbilityActions(const UAuraInputConfig* Inpu
 
 	for (const FAuraInputAction& Action : InputConfig->AbilityInputActions)
 	{
-		if (!Action.InputAction && Action.InputTag.IsValid())
+		if (Action.InputAction && Action.InputTag.IsValid())
 		{
 			if (PressedFunc)
 			{
@@ -39,7 +39,7 @@ inline void UAuraInputComponent::BindAbilityActions(const UAuraInputConfig* Inpu
 			}
 			if (HeldFunc)
 			{
-				BindAction(Action.InputAction, ETriggerEvent::Triggered, Object, ReleasedFunc, Action.InputTag);
+				BindAction(Action.InputAction, ETriggerEvent::Triggered, Object, HeldFunc, Action.InputTag);
 			}
 		}
 	}
