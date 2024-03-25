@@ -14,7 +14,6 @@ struct FAuraGameplayTags
 {
 public:
 	static FAuraGameplayTags* Get();
-	static void InitializeNativeGameplayTags();
 
 	// Primary Attributes
 	FGameplayTag Attributes_Primary_Strength;
