@@ -42,6 +42,7 @@ private:
 
 	// Highlighting
 	void CursorTrace();
+	FHitResult CursorHit;
 	IEnemyInterface* LastActor;
 	IEnemyInterface* ThisActor;
 
