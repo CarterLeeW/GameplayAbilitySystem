@@ -9,7 +9,12 @@ void UAuraProjectileSpell::ActivateAbility(const FGameplayAbilitySpecHandle Hand
 {
 	Super::ActivateAbility(Handle, ActorInfo, ActivationInfo, TriggerEventData);
 
-	const bool bIsServer = HasAuthority(&ActivationInfo);
+	
+}
+
+void UAuraProjectileSpell::SpawnProjectileSpell()
+{
+	const bool bIsServer = GetAvatarActorFromActorInfo()->HasAuthority();
 	if (!bIsServer) return;
 	// We are on the server
 
