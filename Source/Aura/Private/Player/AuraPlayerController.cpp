@@ -27,6 +27,18 @@ void AAuraPlayerController::PlayerTick(float DeltaTime)
 	AutoRun();
 }
 
+FVector AAuraPlayerController::GetCursorHitLocation() const
+{
+	if (CursorHit.bBlockingHit)
+	{
+		return CursorHit.ImpactPoint;
+	}
+	else
+	{
+		return FVector(0.f);
+	}
+}
+
 void AAuraPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
