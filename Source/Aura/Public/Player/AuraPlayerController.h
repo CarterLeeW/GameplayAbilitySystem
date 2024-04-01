@@ -38,14 +38,19 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = "Input")
 	TObjectPtr<UInputAction> MoveAction;
-
 	void Move(const FInputActionValue& InputActionValue);
+
+	UPROPERTY(EditAnywhere, Category = "Input")
+	TObjectPtr<UInputAction> ShiftAction;
+	void ShiftPressed() { bShiftKeyHeld = true; };
+	void ShiftReleased() { bShiftKeyHeld = false; };
+	bool bShiftKeyHeld = false;
 
 	// Highlighting
 	void CursorTrace();
 	FHitResult CursorHit;
-	IEnemyInterface* LastActor;
-	IEnemyInterface* ThisActor;
+	IEnemyInterface* LastTargetActor;
+	IEnemyInterface* ThisTargetActor;
 
 	void AbilityInputTagPressed(FGameplayTag InputTag);
 	void AbilityInputTagReleased(FGameplayTag InputTag);
