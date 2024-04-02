@@ -78,6 +78,8 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 
 	FEffectProperties Properties;
 	SetEffectProperties(Data, Properties);
+
+	UE_LOG(LogTemp, Warning, TEXT("Changed Health on %s, Health: %f"), *Properties.TargetAvatarActor->GetName(), GetHealth());
 }
 
 #pragma region "OnRep"
