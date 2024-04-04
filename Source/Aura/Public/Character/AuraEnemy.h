@@ -21,6 +21,7 @@ class AURA_API AAuraEnemy : public AAuraCharacterBase, public IEnemyInterface
 	
 public:
 	AAuraEnemy();
+	void HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCount);
 
 	// EnemyInterface
 	virtual void HighlightActor() override;
@@ -37,18 +38,22 @@ public:
 	UPROPERTY(BlueprintAssignable)
 	FOnAttributeChangeSignature OnMaxHealthChanged;
 
+	bool GetHitReacting() const { return bHitReacting; }
 protected:
 	virtual void BeginPlay() override;
 	virtual void InitAbilityActorInfo() override;
 	virtual void InitializeDefaultAttributes() const override;
-
 	// Components
 	UPROPERTY(VisibleAnywhere, Category = "Combat")
 	TObjectPtr<UWidgetComponent> HealthBar;
 
-
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Character Class Defaults")
 	ECharacterClass CharacterClass = ECharacterClass::Warrior;
+
+	UPROPERTY(BlueprintReadOnly, Category = "Combat")
+	bool bHitReacting = false;
+	UPROPERTY(BlueprintReadOnly, Category = "Combat")
+	float BaseWalkSpeed = 250.f;
 
 private:
 	UPROPERTY(BlueprintReadOnly, VisibleAnywhere, Category = "Character Class Defaults", meta = (AllowPrivateAccess = "true"))

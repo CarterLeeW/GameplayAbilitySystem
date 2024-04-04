@@ -21,7 +21,7 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
 {
 	const UAuraAttributeSet* AuraAttributeSet = CastChecked<UAuraAttributeSet>(AttributeSet);
 
-#define BIND_CALLBACK( AttributeName ) \
+#define BIND_ATTRIBUTE_CALLBACK( AttributeName ) \
 	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate( \
 		AuraAttributeSet->Get##AttributeName##Attribute()).AddLambda( \
 			[this](const FOnAttributeChangeData& Data) \
@@ -29,10 +29,10 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
 				On##AttributeName##Changed.Broadcast(Data.NewValue); \
 			});
 
-	BIND_CALLBACK(Health);
-	BIND_CALLBACK(MaxHealth);
-	BIND_CALLBACK(Mana);
-	BIND_CALLBACK(MaxMana);
+	BIND_ATTRIBUTE_CALLBACK(Health);
+	BIND_ATTRIBUTE_CALLBACK(MaxHealth);
+	BIND_ATTRIBUTE_CALLBACK(Mana);
+	BIND_ATTRIBUTE_CALLBACK(MaxMana);
 
 
 	// Capture tags from EffectApplied in Ability System Component

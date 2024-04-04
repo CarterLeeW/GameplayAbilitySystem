@@ -43,6 +43,8 @@ public:
 
 	FGameplayTag Damage;
 
+	FGameplayTag Effects_HitReact;
+
 	FAuraGameplayTags(const FAuraGameplayTags& obj) = delete;
 
 private:

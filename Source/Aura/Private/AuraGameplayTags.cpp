@@ -46,5 +46,7 @@ FAuraGameplayTags* FAuraGameplayTags::Get()
 
 	ADD_TAG(Damage, "Damage", "Damage");
 
+	ADD_TAG(Effects_HitReact, "Effects.HitReact", "Handles what happens when a pawn is hit with an object or spell");
+
 	return GameplayTags;
 }

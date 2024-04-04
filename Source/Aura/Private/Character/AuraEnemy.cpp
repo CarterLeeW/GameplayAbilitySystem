@@ -9,6 +9,8 @@
 #include "Components/WidgetComponent.h"
 #include "UI/Widget/AuraUserWidget.h"
 #include "AbilitySystem/AuraAbilitySystemLibrary.h"
+#include "AuraGameplayTags.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 
 AAuraEnemy::AAuraEnemy()
@@ -41,7 +43,7 @@ void AAuraEnemy::UnHighlightActor()
 void AAuraEnemy::BeginPlay()
 {
 	Super::BeginPlay();
-
+	GetCharacterMovement()->MaxWalkSpeed = BaseWalkSpeed;
 	InitAbilityActorInfo();
 
 	if (UAuraUserWidget* AuraUserWidget = Cast<UAuraUserWidget>(HealthBar->GetUserWidgetObject()))
@@ -71,7 +73,7 @@ void AAuraEnemy::BindCallbacksToDependencies()
 	const UAuraAttributeSet* AuraAttributeSet = CastChecked<UAuraAttributeSet>(AttributeSet);
 
 	// TODO: This macro also exists in OverlayWidgetController.cpp
-#define BIND_CALLBACK( AttributeName ) \
+#define BIND_ATTRIBUTE_CALLBACK( AttributeName ) \
 	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate( \
 		AuraAttributeSet->Get##AttributeName##Attribute()).AddLambda( \
 			[this](const FOnAttributeChangeData& Data) \
@@ -79,8 +81,19 @@ void AAuraEnemy::BindCallbacksToDependencies()
 				On##AttributeName##Changed.Broadcast(Data.NewValue); \
 			});
 
-	BIND_CALLBACK(Health);
-	BIND_CALLBACK(MaxHealth);
+	BIND_ATTRIBUTE_CALLBACK(Health);
+	BIND_ATTRIBUTE_CALLBACK(MaxHealth);
+
+	AbilitySystemComponent->RegisterGameplayTagEvent(FAuraGameplayTags::Get()->Effects_HitReact, EGameplayTagEventType::NewOrRemoved)
+		.AddUObject(
+		this, &AAuraEnemy::HitReactTagChanged
+	);
+}
+
+void AAuraEnemy::HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCount)
+{
+	bHitReacting = NewCount > 0;
+	GetCharacterMovement()->MaxWalkSpeed = bHitReacting ? 0.f : BaseWalkSpeed;
 }
 
 void AAuraEnemy::BroadcastInitialValues()
