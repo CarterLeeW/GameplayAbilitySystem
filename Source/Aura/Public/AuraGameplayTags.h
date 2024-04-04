@@ -41,6 +41,8 @@ public:
 	FGameplayTag InputTag_3;
 	FGameplayTag InputTag_4;
 
+	FGameplayTag Damage;
+
 	FAuraGameplayTags(const FAuraGameplayTags& obj) = delete;
 
 private:

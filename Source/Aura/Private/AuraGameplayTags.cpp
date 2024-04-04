@@ -44,5 +44,7 @@ FAuraGameplayTags* FAuraGameplayTags::Get()
 	ADD_TAG(InputTag_3,   INPUTTAG".3",   "Input Tag for 3 Key Button");
 	ADD_TAG(InputTag_4,   INPUTTAG".4",   "Input Tag for 4 Key Button");
 
+	ADD_TAG(Damage, "Damage", "Damage");
+
 	return GameplayTags;
 }
