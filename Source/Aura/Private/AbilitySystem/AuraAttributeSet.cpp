@@ -91,6 +91,13 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 			SetHealth(FMath::Clamp(NewHealth, 0.f, GetMaxHealth()));
 
 			const bool bFatal = NewHealth <= 0.f;
+			// Play HitReaction ability
+			if (!bFatal)
+			{
+				FGameplayTagContainer TagContainer;
+				TagContainer.AddTag(FAuraGameplayTags::Get()->Effects_HitReact);
+				Properties.TargetASC->TryActivateAbilitiesByTag(TagContainer);
+			}
 		}
 	}
 }
