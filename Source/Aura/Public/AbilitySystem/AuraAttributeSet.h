@@ -82,17 +82,6 @@ public:
 	void OnRep_Vigor(const FGameplayAttributeData& OldVigor) const;
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, Vigor);
 
-	/* 
-	* Vital Attributes
-	*/
-	UFUNCTION()
-	void OnRep_Health(const FGameplayAttributeData& OldHealth) const;
-	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, Health);
-
-	UFUNCTION()
-	void OnRep_Mana(const FGameplayAttributeData& OldMana) const;
-	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, Mana);
-
 	/*
 	* Secondary Attributes
 	*/
@@ -136,6 +125,22 @@ public:
 	void OnRep_ManaRegeneration(const FGameplayAttributeData& OldManaRegeneration) const;
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, ManaRegen);
 
+	/* 
+	* Vital Attributes
+	*/
+	UFUNCTION()
+	void OnRep_Health(const FGameplayAttributeData& OldHealth) const;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, Health);
+
+	UFUNCTION()
+	void OnRep_Mana(const FGameplayAttributeData& OldMana) const;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, Mana);
+
+	/*
+	* Meta Attributes
+	*/
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, IncomingDamage);
+
 protected:
 	/*
 	* Primary Attributes
@@ -151,15 +156,6 @@ protected:
 
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Vigor, Category = "Primary Attributes")
 	FGameplayAttributeData Vigor;
-
-	/*
-	* Vital Attributes
-	*/
-	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Health, Category = "Vital Attributes")
-	FGameplayAttributeData Health;
-
-	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Mana, Category = "Vital Attributes")
-	FGameplayAttributeData Mana;
 
 	/*
 	* Secondary Attributes
@@ -195,6 +191,21 @@ protected:
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_ManaRegeneration, Category = "Secondary Attributes")
 	FGameplayAttributeData ManaRegen;
 #pragma endregion "Secondary"
+
+	/*
+	* Vital Attributes
+	*/
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Health, Category = "Vital Attributes")
+	FGameplayAttributeData Health;
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Mana, Category = "Vital Attributes")
+	FGameplayAttributeData Mana;
+
+	/*
+	* Meta Attributes
+	*/
+	UPROPERTY(BlueprintReadOnly, Category = "Meta Attributes")
+	FGameplayAttributeData IncomingDamage;
 
 private:
 	void SetEffectProperties(const FGameplayEffectModCallbackData& Data, FEffectProperties& Properties) const;
