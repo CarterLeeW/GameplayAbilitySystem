@@ -23,7 +23,13 @@ public:
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	UAttributeSet* GetAttributeSet() const { return AttributeSet; }
 
+	/* CombatInterface */
 	virtual UAnimMontage* GetHitReactMontage_Implementation() const override;
+	virtual void Die() override;
+	/* End CombatInterface */
+
+	UFUNCTION(NetMulticast, Reliable)
+	virtual void MulticastHandleDeath();
 protected:
 	virtual void BeginPlay() override;
 
