@@ -14,6 +14,7 @@ class IEnemyInterface;
 class UAuraInputConfig;
 class UAuraAbilitySystemComponent;
 class USplineComponent;
+class UDamageTextComponent;
 
 /**
  * 
@@ -27,6 +28,10 @@ public:
 	AAuraPlayerController();
 	virtual void PlayerTick(float DeltaTime) override;
 	FHitResult GetCursorHitResult() const { return CursorHit; }
+
+	// Damage widget
+	UFUNCTION(Client, Reliable)
+	void ShowDamageNumber(ACharacter* TargetCharacter, float DamageAmount);
 
 protected:
 	virtual void BeginPlay() override;
@@ -76,4 +81,8 @@ private:
 	TObjectPtr<USplineComponent> Spline;
 
 	void AutoRun();
+
+	// Damage widget
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<UDamageTextComponent> DamageTextComponentClass;
 };
