@@ -59,7 +59,7 @@ protected:
 	float LifeSpan = 5.f;
 
 private:
-	UPROPERTY(BlueprintReadOnly, VisibleAnywhere, Category = "Character Class Defaults", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Character Class Defaults", meta = (AllowPrivateAccess = "true"))
 	int32 Level = 1;
 
 	void BindCallbacksToDependencies();
