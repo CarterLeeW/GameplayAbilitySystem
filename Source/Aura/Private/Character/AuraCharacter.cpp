@@ -45,6 +45,15 @@ int32 AAuraCharacter::GetPlayerLevel() const
 	return AuraPlayerState->GetPlayerLevel();
 }
 
+void AAuraCharacter::InitializeDefaultAttributes() const
+{
+	AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>();
+	check(AuraPlayerState);
+	ApplyEffectToSelf(DefaultPrimaryAttributes, AuraPlayerState->GetPlayerLevel());
+	ApplyEffectToSelf(DefaultSecondaryAttributes, AuraPlayerState->GetPlayerLevel());
+	ApplyEffectToSelf(DefaultVitalAttributes, AuraPlayerState->GetPlayerLevel());
+}
+
 void AAuraCharacter::InitAbilityActorInfo()
 {
 	AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>();
@@ -64,5 +73,7 @@ void AAuraCharacter::InitAbilityActorInfo()
 			AuraHUD->InitOverlay(AuraPlayerController, AuraPlayerState, AbilitySystemComponent, AttributeSet);
 		}
 	}
+
+	// Set Default Attributes
 
 }

@@ -28,6 +28,8 @@ public:
 	virtual int32 GetPlayerLevel() const override;
 	// End CombatInterface
 
+	virtual void InitializeDefaultAttributes() const override;
+
 private:
 	virtual void InitAbilityActorInfo() override;
 };
