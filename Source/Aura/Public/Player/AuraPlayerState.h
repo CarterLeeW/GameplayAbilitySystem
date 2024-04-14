@@ -35,7 +35,7 @@ protected:
 
 private:
 	UPROPERTY(EditDefaultsOnly, ReplicatedUsing = OnRep_Level)
-	int32 Level = 40;
+	int32 Level = 1;
 
 	UFUNCTION()
 	void OnRep_Level(int32 OldLevel);
