@@ -10,6 +10,7 @@
 #include "Interaction/CombatInterface.h"
 #include "Kismet/GameplayStatics.h"
 #include "Player/AuraPlayerController.h"
+#include "AbilitySystem/AuraAbilitySystemLibrary.h"
 
 #define MAP_TAG_TO_ATTRIBUTE(Type, Attr) TagsToAttributes.Add(GameplayTags->Attributes_##Type##_##Attr, Get##Attr##Attribute());
 UAuraAttributeSet::UAuraAttributeSet()
@@ -112,7 +113,12 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 			{
 				if (AAuraPlayerController* APC = Cast<AAuraPlayerController>(UGameplayStatics::GetPlayerController(Properties.SourceCharacter, 0)))
 				{
-					APC->ShowDamageNumber(Properties.TargetCharacter, LocalIncomingDamage);
+					APC->ShowDamageNumber(
+						Properties.TargetCharacter,
+						LocalIncomingDamage,
+						UAuraAbilitySystemLibrary::IsBlockedHit(Properties.EffectContextHandle),
+						UAuraAbilitySystemLibrary::IsCriticalHit(Properties.EffectContextHandle)
+					);
 				}
 			}
 		}

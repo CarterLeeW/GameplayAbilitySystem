@@ -7,6 +7,7 @@
 #include "AuraGameplayTags.h"
 #include "AbilitySystem/AuraAbilitySystemLibrary.h"
 #include "Interaction/CombatInterface.h"
+#include "AuraAbilityTypes.h"
 
 struct AuraDamageStatics
 {
@@ -64,6 +65,7 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	EvaluationParameters.SourceTags = SourceTags;
 	EvaluationParameters.TargetTags = TargetTags;
 
+	FGameplayEffectContextHandle EffectContextHandle = Spec.GetContext();
 
 	/* Begin calculation 
 	* Order:
@@ -90,6 +92,7 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	if (bShouldBlock)
 	{
 		Damage /= 2.f;
+		UAuraAbilitySystemLibrary::SetIsBlockedHit(EffectContextHandle, true);
 	}
 
 	// Capture Armor on Target
@@ -132,21 +135,10 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 
 		const bool bShouldCrit = SourceCriticalHitChance > FMath::FRandRange(0.f, 100.f) ? true : false;
 		const bool bShouldResist = TargetCriticalHitResistance > FMath::FRandRange(0.f, 100.f) ? true : false;
-		if (bShouldCrit)
-		{
-			UE_LOG(LogTemp, Error, TEXT("crit"));
-		}
-		if (bShouldResist)
-		{
-			UE_LOG(LogTemp, Error, TEXT("resist"));
-		}
-		if (bShouldCrit && bShouldResist)
-		{
-			UE_LOG(LogTemp, Error, TEXT("crit resisted"));
-		}
+
 		if (bShouldCrit && !bShouldResist)
 		{
-
+			UAuraAbilitySystemLibrary::SetIsCriticalHit(EffectContextHandle, true);
 			float SourceCriticalHitDamage = 0.f;
 			ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().CriticalHitDamageDef, EvaluationParameters, SourceCriticalHitDamage);
 			SourceCriticalHitDamage = FMath::Max<float>(SourceCriticalHitDamage, 0.f);
