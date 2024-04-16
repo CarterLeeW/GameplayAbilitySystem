@@ -9,6 +9,7 @@
 #define ATTRIBUTES_PRIMARY "Attributes.Primary"
 #define ATTRIBUTES_SECONDARY "Attributes.Secondary"
 #define INPUTTAG "InputTag"
+#define DAMAGE "Damage"
 
 FAuraGameplayTags* FAuraGameplayTags::GameplayTags = nullptr;
 
@@ -44,7 +45,10 @@ FAuraGameplayTags* FAuraGameplayTags::Get()
 	ADD_TAG(InputTag_3,   INPUTTAG".3",   "Input Tag for 3 Key Button");
 	ADD_TAG(InputTag_4,   INPUTTAG".4",   "Input Tag for 4 Key Button");
 
-	ADD_TAG(Damage, "Damage", "Damage");
+	ADD_TAG(Damage, DAMAGE, "Generic Damage Type");
+	ADD_TAG(Damage_Fire, DAMAGE".Fire", "Fire Damage Type");
+	// Add all damage types to array
+	GameplayTags->DamageTypes.Add(GameplayTags->Damage_Fire);
 
 	ADD_TAG(Effects_HitReact, "Effects.HitReact", "Handles what happens when a pawn is hit with an object or spell");
 

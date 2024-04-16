@@ -78,8 +78,14 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	*/
 
 	// 1.
-	// Get Damage set by Caller Magnitude
-	float Damage = Spec.GetSetByCallerMagnitude(FAuraGameplayTags::Get()->Damage);
+	// Get Damage types set by Caller Magnitude and check resistances
+	float Damage = 0.f;
+	for (const FGameplayTag& DamageTypeTag : FAuraGameplayTags::Get()->DamageTypes)
+	{
+		const float DamageTypeValue = Spec.GetSetByCallerMagnitude(DamageTypeTag);
+		// TODO: This is where resistances would be calculated based on damage type
+		Damage += DamageTypeValue;
+	}
 
 	// Capture BlockChance on Target, and determine if there was a successful block
 	float TargetBlockChance = 0.f;
