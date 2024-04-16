@@ -37,7 +37,11 @@ void AAuraPlayerController::ShowDamageNumber_Implementation(ACharacter* TargetCh
 		DTC->RegisterComponent();
 		DTC->AttachToComponent(TargetCharacter->GetRootComponent(), FAttachmentTransformRules::KeepRelativeTransform);
 		DTC->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform); // Its own animation will play
-		DTC->SetDamageText(DamageAmount);
+		if (bBlockedHit || bCriticalHit)
+		{
+
+		}
+		DTC->SetDamageText(DamageAmount, bBlockedHit, bCriticalHit);
 	}
 }
 
