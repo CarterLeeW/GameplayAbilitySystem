@@ -80,9 +80,9 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	// 1.
 	// Get Damage types set by Caller Magnitude and check resistances
 	float Damage = 0.f;
-	for (const FGameplayTag& DamageTypeTag : FAuraGameplayTags::Get()->DamageTypes)
+	for (const auto& Pair : FAuraGameplayTags::Get()->DamageTypesToResistances)
 	{
-		const float DamageTypeValue = Spec.GetSetByCallerMagnitude(DamageTypeTag);
+		const float DamageTypeValue = Spec.GetSetByCallerMagnitude(Pair.Key);
 		// TODO: This is where resistances would be calculated based on damage type
 		Damage += DamageTypeValue;
 	}

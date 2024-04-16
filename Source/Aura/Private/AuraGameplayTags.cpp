@@ -5,11 +5,13 @@
 #include "GameplayTagsManager.h"
 #include "NativeGameplayTags.h"
 
-#define ADD_TAG(tag, name, comment) GameplayTags->tag = UGameplayTagsManager::Get().AddNativeGameplayTag(FName(name), FString(comment));
+#define ADD_TAG(tag, name, comment) GameplayTags->tag = UGameplayTagsManager::Get().AddNativeGameplayTag(FName(name), FString(comment))
+#define MAP_DAM_TO_RES(type) GameplayTags->DamageTypesToResistances.Add(GameplayTags->Damage_##type, GameplayTags->Attributes_Resistance_##type);
 #define ATTRIBUTES_PRIMARY "Attributes.Primary"
 #define ATTRIBUTES_SECONDARY "Attributes.Secondary"
-#define INPUTTAG "InputTag"
+#define ATTRIBUTES_RESISTANCE "Attributes.Resistance"
 #define DAMAGE "Damage"
+#define INPUTTAG "InputTag"
 
 FAuraGameplayTags* FAuraGameplayTags::GameplayTags = nullptr;
 
@@ -38,17 +40,28 @@ FAuraGameplayTags* FAuraGameplayTags::Get()
 	ADD_TAG(Attributes_Secondary_MaxHealth,             ATTRIBUTES_SECONDARY".MaxHealth",             "Maximum amount of Health obtainable");
 	ADD_TAG(Attributes_Secondary_MaxMana,               ATTRIBUTES_SECONDARY".MaxMana",               "Maximum amount of Mana obtainable");
 
+	ADD_TAG(Attributes_Resistance_Arcane,    ATTRIBUTES_RESISTANCE".Arcane", "Resistance to Arcane Damage");
+	ADD_TAG(Attributes_Resistance_Fire,      ATTRIBUTES_RESISTANCE".Fire", "Resistance to Fire Damage");
+	ADD_TAG(Attributes_Resistance_Lightning, ATTRIBUTES_RESISTANCE".Lightning", "Resistance to Lightning Damage");
+	ADD_TAG(Attributes_Resistance_Physical,  ATTRIBUTES_RESISTANCE".Physical", "Resistance to Physical Damage");
+
+	ADD_TAG(Damage,           DAMAGE,             "Generic Damage Type");
+	ADD_TAG(Damage_Arcane,    DAMAGE".Arcane",    "Arcane Damage Type");
+	ADD_TAG(Damage_Fire,      DAMAGE".Fire",      "Fire Damage Type");
+	ADD_TAG(Damage_Lightning, DAMAGE".Lightning", "Lightning Damage Type");
+	ADD_TAG(Damage_Physical,  DAMAGE".Physical",  "Physical Damage Type");
+	// Map of damage types to resistances, must be updated each time a resistance or damage is added
+	MAP_DAM_TO_RES(Arcane);
+	MAP_DAM_TO_RES(Fire);
+	MAP_DAM_TO_RES(Lightning);
+	MAP_DAM_TO_RES(Physical);
+
 	ADD_TAG(InputTag_LMB, INPUTTAG".LMB", "Input Tag for Left Mouse Button");
 	ADD_TAG(InputTag_RMB, INPUTTAG".RMB", "Input Tag for Right Mouse Button");
 	ADD_TAG(InputTag_1,   INPUTTAG".1",   "Input Tag for 1 Key Button");
 	ADD_TAG(InputTag_2,   INPUTTAG".2",   "Input Tag for 2 Key Button");
 	ADD_TAG(InputTag_3,   INPUTTAG".3",   "Input Tag for 3 Key Button");
 	ADD_TAG(InputTag_4,   INPUTTAG".4",   "Input Tag for 4 Key Button");
-
-	ADD_TAG(Damage, DAMAGE, "Generic Damage Type");
-	ADD_TAG(Damage_Fire, DAMAGE".Fire", "Fire Damage Type");
-	// Add all damage types to array
-	GameplayTags->DamageTypes.Add(GameplayTags->Damage_Fire);
 
 	ADD_TAG(Effects_HitReact, "Effects.HitReact", "Handles what happens when a pawn is hit with an object or spell");
 
