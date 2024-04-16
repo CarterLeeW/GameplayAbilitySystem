@@ -40,10 +40,10 @@ FAuraGameplayTags* FAuraGameplayTags::Get()
 	ADD_TAG(Attributes_Secondary_MaxHealth,             ATTRIBUTES_SECONDARY".MaxHealth",             "Maximum amount of Health obtainable");
 	ADD_TAG(Attributes_Secondary_MaxMana,               ATTRIBUTES_SECONDARY".MaxMana",               "Maximum amount of Mana obtainable");
 
-	ADD_TAG(Attributes_Resistance_Arcane,    ATTRIBUTES_RESISTANCE".Arcane", "Resistance to Arcane Damage");
-	ADD_TAG(Attributes_Resistance_Fire,      ATTRIBUTES_RESISTANCE".Fire", "Resistance to Fire Damage");
+	ADD_TAG(Attributes_Resistance_Arcane,    ATTRIBUTES_RESISTANCE".Arcane",    "Resistance to Arcane Damage");
+	ADD_TAG(Attributes_Resistance_Fire,      ATTRIBUTES_RESISTANCE".Fire",      "Resistance to Fire Damage");
 	ADD_TAG(Attributes_Resistance_Lightning, ATTRIBUTES_RESISTANCE".Lightning", "Resistance to Lightning Damage");
-	ADD_TAG(Attributes_Resistance_Physical,  ATTRIBUTES_RESISTANCE".Physical", "Resistance to Physical Damage");
+	ADD_TAG(Attributes_Resistance_Physical,  ATTRIBUTES_RESISTANCE".Physical",  "Resistance to Physical Damage");
 
 	ADD_TAG(Damage,           DAMAGE,             "Generic Damage Type");
 	ADD_TAG(Damage_Arcane,    DAMAGE".Arcane",    "Arcane Damage Type");
