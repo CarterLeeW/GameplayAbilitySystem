@@ -19,7 +19,7 @@ public:
 
 	virtual UScriptStruct* GetScriptStruct() const override
 	{
-		return StaticStruct();
+		return FAuraGameplayEffectContext::StaticStruct();
 	}
 
 	virtual FAuraGameplayEffectContext* Duplicate() const override
@@ -48,7 +48,7 @@ struct TStructOpsTypeTraits<FAuraGameplayEffectContext> : public TStructOpsTypeT
 {
 	enum
 	{
-		WithNetSetializer = true,
+		WithNetSerializer = true,
 		WithCopy = true
 	};
 };
