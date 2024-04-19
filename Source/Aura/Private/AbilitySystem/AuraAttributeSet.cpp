@@ -98,7 +98,7 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 
 	UE_LOG(LogTemp, Warning, TEXT("Changed Health on %s, Health: %f"), *Properties.TargetAvatarActor->GetName(), GetHealth());
 
-	// Handle IncomingDamage Meta Attribute
+	// Handle IncomingDamage Meta Attribute, all of this will be on server
 	if (Data.EvaluatedData.Attribute == GetIncomingDamageAttribute())
 	{
 		const float LocalIncomingDamage = GetIncomingDamage();
@@ -125,7 +125,7 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 			// Show damage widget
 			if (Properties.SourceCharacter != Properties.TargetCharacter)
 			{
-				if (AAuraPlayerController* APC = Cast<AAuraPlayerController>(UGameplayStatics::GetPlayerController(Properties.SourceCharacter, 0)))
+				if (AAuraPlayerController* APC = Cast<AAuraPlayerController>(Properties.SourceCharacter->Controller))
 				{
 					APC->ShowDamageNumber(
 						Properties.TargetCharacter,
