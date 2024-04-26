@@ -9,6 +9,12 @@
 #include "Interaction/CombatInterface.h"
 #include "AuraAbilityTypes.h"
 
+#define DEFINE_ATTRIBUTE_CAPTUREDEF_LOCAL(set, prop, targetsource, bcapture) \
+{ \
+	prop##Property = FindFieldChecked<FProperty>(set::StaticClass(), ((void)sizeof(UEAsserts_Private::GetMemberNameCheckedJunk(((set*)0)->Get##prop())), FName(TEXT(#prop)))); \
+	prop##Def = FGameplayEffectAttributeCaptureDefinition(prop##Property, EGameplayEffectAttributeCaptureSource::targetsource, bcapture); \
+}
+
 struct AuraDamageStatics
 {
 	DECLARE_ATTRIBUTE_CAPTUREDEF(Armor);
@@ -28,18 +34,19 @@ struct AuraDamageStatics
 
 	AuraDamageStatics()
 	{
-		DEFINE_ATTRIBUTE_CAPTUREDEF(UAuraAttributeSet, Armor, Target, false);
-		DEFINE_ATTRIBUTE_CAPTUREDEF(UAuraAttributeSet, ArmorPenetration, Source, false);
-		DEFINE_ATTRIBUTE_CAPTUREDEF(UAuraAttributeSet, BlockChance, Target, false);
-		DEFINE_ATTRIBUTE_CAPTUREDEF(UAuraAttributeSet, CriticalHitChance, Source, false);
-		DEFINE_ATTRIBUTE_CAPTUREDEF(UAuraAttributeSet, CriticalHitDamage, Source, false);
-		DEFINE_ATTRIBUTE_CAPTUREDEF(UAuraAttributeSet, CriticalHitResistance, Target, false);
+		DEFINE_ATTRIBUTE_CAPTUREDEF_LOCAL(UAuraAttributeSet, Armor, Target, false);
+		DEFINE_ATTRIBUTE_CAPTUREDEF_LOCAL(UAuraAttributeSet, Armor, Target, false);
+		DEFINE_ATTRIBUTE_CAPTUREDEF_LOCAL(UAuraAttributeSet, ArmorPenetration, Source, false);
+		DEFINE_ATTRIBUTE_CAPTUREDEF_LOCAL(UAuraAttributeSet, BlockChance, Target, false);
+		DEFINE_ATTRIBUTE_CAPTUREDEF_LOCAL(UAuraAttributeSet, CriticalHitChance, Source, false);
+		DEFINE_ATTRIBUTE_CAPTUREDEF_LOCAL(UAuraAttributeSet, CriticalHitDamage, Source, false);
+		DEFINE_ATTRIBUTE_CAPTUREDEF_LOCAL(UAuraAttributeSet, CriticalHitResistance, Target, false);
 
 		// Resistances
-		DEFINE_ATTRIBUTE_CAPTUREDEF(UAuraAttributeSet, ArcaneResistance, Target, false);
-		DEFINE_ATTRIBUTE_CAPTUREDEF(UAuraAttributeSet, FireResistance, Target, false);
-		DEFINE_ATTRIBUTE_CAPTUREDEF(UAuraAttributeSet, LightningResistance, Target, false);
-		DEFINE_ATTRIBUTE_CAPTUREDEF(UAuraAttributeSet, PhysicalResistance, Target, false);
+		DEFINE_ATTRIBUTE_CAPTUREDEF_LOCAL(UAuraAttributeSet, ArcaneResistance, Target, false);
+		DEFINE_ATTRIBUTE_CAPTUREDEF_LOCAL(UAuraAttributeSet, FireResistance, Target, false);
+		DEFINE_ATTRIBUTE_CAPTUREDEF_LOCAL(UAuraAttributeSet, LightningResistance, Target, false);
+		DEFINE_ATTRIBUTE_CAPTUREDEF_LOCAL(UAuraAttributeSet, PhysicalResistance, Target, false)
 
 		// Map tags to capture defs
 		const FAuraGameplayTags* Tags = FAuraGameplayTags::Get();
