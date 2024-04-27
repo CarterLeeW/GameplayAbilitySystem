@@ -34,6 +34,8 @@ public:
 	// CombatInterface
 	virtual int32 GetPlayerLevel() const override { return Level; };
 	virtual void Die() override;
+	virtual void SetCombatTarget_Implementation(AActor* InCombatTarget) override { CombatTarget = InCombatTarget; }
+	virtual AActor* GetCombatTarget_Implementation() const override { return CombatTarget; }
 	// End CombatInterface
 
 	UPROPERTY(BlueprintAssignable)
@@ -41,6 +43,9 @@ public:
 
 	UPROPERTY(BlueprintAssignable)
 	FOnAttributeChangeSignature OnMaxHealthChanged;
+
+	UPROPERTY(BlueprintReadWrite, Category = "Combat")
+	TObjectPtr<AActor> CombatTarget;
 
 	bool GetHitReacting() const { return bHitReacting; }
 protected:
