@@ -26,6 +26,9 @@ public:
 	/* CombatInterface */
 	virtual UAnimMontage* GetHitReactMontage_Implementation() const override;
 	virtual void Die() override;
+	virtual bool IsDead_Implementation() const override { return bDead; }
+	virtual AActor* GetAvatar_Implementation() override { return this; }
+	virtual FVector GetCombatSocketLocation_Implementation() const override;
 	/* End CombatInterface */
 
 	UFUNCTION(NetMulticast, Reliable)
@@ -33,12 +36,12 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
+	bool bDead = false;
+
 	UPROPERTY(EditAnywhere, Category = "Combat")
 	TObjectPtr<USkeletalMeshComponent> Weapon;
 	UPROPERTY(EditAnywhere, Category = "Combat")
 	FName WeaponTipSocketName;
-
-	virtual FVector GetCombatSocketLocation_Implementation() const override;
 
 	UPROPERTY()
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;

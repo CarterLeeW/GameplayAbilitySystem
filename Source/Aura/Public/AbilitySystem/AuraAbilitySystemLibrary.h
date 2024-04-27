@@ -71,4 +71,7 @@ public:
 			AuraEffectContext->SetIsCriticalHit(bInIsCriticalHit);
 		}
 	}
+
+	UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|GameplayMechanics", meta = (WorldContext = "WorldContextObject"))
+	static void GetLivePlayersWithinRadius(const UObject* WorldContextObject, const TArray<AActor*>& ActorsToIgnore, float Radius, const FVector& SphereOrigin, TArray<AActor*>& OutOverlappingActors);
 };
