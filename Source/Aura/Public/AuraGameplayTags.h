@@ -48,7 +48,7 @@ public:
 
 	TMap<FGameplayTag, FGameplayTag> DamageTypesToResistances;
 
-	// Ability Tags
+	// Input Tags
 	FGameplayTag InputTag_LMB;
 	FGameplayTag InputTag_RMB;
 	FGameplayTag InputTag_1;
@@ -57,6 +57,9 @@ public:
 	FGameplayTag InputTag_4;
 
 	FGameplayTag Effects_HitReact;
+
+	// Ability Tags
+	FGameplayTag Ability_Attack;
 
 	FAuraGameplayTags(const FAuraGameplayTags& obj) = delete;
 

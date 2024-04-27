@@ -65,5 +65,6 @@ FAuraGameplayTags* FAuraGameplayTags::Get()
 
 	ADD_TAG(Effects_HitReact, "Effects.HitReact", "Handles what happens when a pawn is hit with an object or spell");
 
+	ADD_TAG(Ability_Attack, "Ability.Attack", "Tag for attacking gameplay ability");
 	return GameplayTags;
 }
