@@ -45,4 +45,6 @@ private:
 
 	UPROPERTY(EditDefaultsOnly)
 	float LifeSpan = 15.f;
+
+	void SpawnEffects();
 };

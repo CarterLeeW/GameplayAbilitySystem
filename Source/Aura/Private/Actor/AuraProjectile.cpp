@@ -10,6 +10,7 @@
 #include "Aura/Aura.h"
 #include "AbilitySystemBlueprintLibrary.h"
 #include "AbilitySystemComponent.h"
+#include "TimerManager.h"
 
 AAuraProjectile::AAuraProjectile()
 {
@@ -36,7 +37,6 @@ void AAuraProjectile::BeginPlay()
 	Super::BeginPlay();
 	
 	Sphere->OnComponentBeginOverlap.AddDynamic(this, &AAuraProjectile::OnSphereOverlap);
-
 	SetLifeSpan(LifeSpan);
 }
 
@@ -44,15 +44,9 @@ void AAuraProjectile::Destroyed()
 {
 	if (!bHit && !HasAuthority())
 	{
-		if (ImpactSound)
-		{
-			UGameplayStatics::PlaySoundAtLocation(this, ImpactSound, GetActorLocation(), FRotator::ZeroRotator);
-		}
-		if (ImpactEffect)
-		{
-			UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, ImpactEffect, GetActorLocation());
-		}
+		SpawnEffects();
 	}
+
 	Super::Destroyed();
 }
 
@@ -63,13 +57,9 @@ void AAuraProjectile::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, 
 		return;
 	}
 
-	if (ImpactSound && !bHit)
+	if (!bHit)
 	{
-		UGameplayStatics::PlaySoundAtLocation(this, ImpactSound, GetActorLocation(), FRotator::ZeroRotator);
-	}
-	if (ImpactEffect && !bHit)
-	{
-		UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, ImpactEffect, GetActorLocation());
+		SpawnEffects();
 	}
 	
 	if (HasAuthority())
@@ -79,11 +69,22 @@ void AAuraProjectile::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, 
 		{
 			TargetASC->ApplyGameplayEffectSpecToSelf(*DamageEffectSpecHandle.Data.Get());
 		}
-
 		Destroy();
 	}
 	else
 	{
 		bHit = true;
+	}
+}
+
+void AAuraProjectile::SpawnEffects()
+{
+	if (ImpactSound)
+	{
+		UGameplayStatics::PlaySoundAtLocation(this, ImpactSound, GetActorLocation(), FRotator::ZeroRotator);
+	}
+	if (ImpactEffect)
+	{
+		UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, ImpactEffect, GetActorLocation());
 	}
 }
