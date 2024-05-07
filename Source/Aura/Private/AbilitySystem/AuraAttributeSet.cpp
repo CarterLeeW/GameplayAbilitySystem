@@ -125,9 +125,18 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 			// Show damage widget
 			if (Properties.SourceCharacter != Properties.TargetCharacter)
 			{
-				if (AAuraPlayerController* APC = Cast<AAuraPlayerController>(Properties.SourceCharacter->Controller))
+				if (AAuraPlayerController* SPC = Cast<AAuraPlayerController>(Properties.SourceCharacter->Controller))
 				{
-					APC->ShowDamageNumber(
+					SPC->ShowDamageNumber(
+						Properties.TargetCharacter,
+						LocalIncomingDamage,
+						UAuraAbilitySystemLibrary::IsBlockedHit(Properties.EffectContextHandle),
+						UAuraAbilitySystemLibrary::IsCriticalHit(Properties.EffectContextHandle)
+					);
+				}
+				else if (AAuraPlayerController* TPC = Cast<AAuraPlayerController>(Properties.TargetCharacter->Controller))
+				{
+					TPC->ShowDamageNumber(
 						Properties.TargetCharacter,
 						LocalIncomingDamage,
 						UAuraAbilitySystemLibrary::IsBlockedHit(Properties.EffectContextHandle),

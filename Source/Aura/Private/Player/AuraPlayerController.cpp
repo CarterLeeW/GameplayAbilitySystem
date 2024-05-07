@@ -2,6 +2,7 @@
 
 
 #include "Player/AuraPlayerController.h"
+#include "Aura/Aura.h"
 #include "EnhancedInputSubsystems.h"
 #include "Interaction/EnemyInterface.h"
 #include "Input/AuraInputComponent.h"
@@ -95,7 +96,7 @@ void AAuraPlayerController::Move(const FInputActionValue& InputActionValue)
 
 void AAuraPlayerController::CursorTrace()
 {
-	GetHitResultUnderCursor(ECC_Visibility, false, CursorHit);
+	GetHitResultUnderCursor(ECC_CursorVis, false, CursorHit);
 	if (!CursorHit.bBlockingHit) return;
 
 	LastTargetActor = ThisTargetActor;
