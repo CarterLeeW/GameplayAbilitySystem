@@ -12,6 +12,7 @@
 #define ATTRIBUTES_RESISTANCE "Attributes.Resistance"
 #define DAMAGE "Damage"
 #define INPUTTAG "InputTag"
+#define MONTAGE_ATTACK "Montage.Attack"
 
 FAuraGameplayTags* FAuraGameplayTags::GameplayTags = nullptr;
 
@@ -66,5 +67,10 @@ FAuraGameplayTags* FAuraGameplayTags::Get()
 	ADD_TAG(Effects_HitReact, "Effects.HitReact", "Handles what happens when a pawn is hit with an object or spell");
 
 	ADD_TAG(Ability_Attack, "Ability.Attack", "Tag for attacking gameplay ability");
+
+	ADD_TAG(Montage_Attack_Weapon,    MONTAGE_ATTACK".Weapon",    "Weapon attack montage");
+	ADD_TAG(Montage_Attack_RightHand, MONTAGE_ATTACK".RightHand", "Right hand attack montage");
+	ADD_TAG(Montage_Attack_LeftHand,  MONTAGE_ATTACK".LeftHand",  "Left hand attack montage");
+
 	return GameplayTags;
 }

@@ -61,6 +61,10 @@ public:
 	// Ability Tags
 	FGameplayTag Ability_Attack;
 
+	FGameplayTag Montage_Attack_Weapon;
+	FGameplayTag Montage_Attack_RightHand;
+	FGameplayTag Montage_Attack_LeftHand;
+
 	FAuraGameplayTags(const FAuraGameplayTags& obj) = delete;
 
 private:
