@@ -29,7 +29,10 @@ public:
 	virtual bool IsDead_Implementation() const override { return bDead; }
 	virtual AActor* GetAvatar_Implementation() override { return this; }
 	virtual FVector GetCombatSocketLocation_Implementation() const override;
+	virtual TArray<FTaggedMontage> GetAttackMontages_Implementation() const override;
 	/* End CombatInterface */
+	UPROPERTY(EditAnywhere, Category = "Combat")
+	TArray<FTaggedMontage> AttackMontages;
 
 	UFUNCTION(NetMulticast, Reliable)
 	virtual void MulticastHandleDeath();

@@ -64,6 +64,11 @@ FVector AAuraCharacterBase::GetCombatSocketLocation_Implementation() const
 	return Weapon->GetSocketLocation(WeaponTipSocketName);
 }
 
+TArray<FTaggedMontage> AAuraCharacterBase::GetAttackMontages_Implementation() const
+{
+	return AttackMontages;
+}
+
 void AAuraCharacterBase::Dissolve()
 {
 	if (IsValid(DissolveMaterialInstance))
