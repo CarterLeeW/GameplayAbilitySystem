@@ -4,6 +4,7 @@
 #include "Components/CapsuleComponent.h"
 #include "AbilitySystemComponent.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
+#include "AuraGameplayTags.h"
 #include "Aura/Aura.h"
 
 AAuraCharacterBase::AAuraCharacterBase()
@@ -58,10 +59,25 @@ void AAuraCharacterBase::BeginPlay()
 	
 }
 
-FVector AAuraCharacterBase::GetCombatSocketLocation_Implementation() const
+FVector AAuraCharacterBase::GetCombatSocketLocation_Implementation(const FGameplayTag& MontageTag) const
 {
-	check(Weapon);
-	return Weapon->GetSocketLocation(WeaponTipSocketName);
+	// TODO return correct socket based on montage tag
+	if (MontageTag.MatchesTagExact(FAuraGameplayTags::Get()->Montage_Attack_Weapon) && IsValid(Weapon))
+	{
+		return Weapon->GetSocketLocation(WeaponTipSocketName);
+	}
+	else if (MontageTag.MatchesTagExact(FAuraGameplayTags::Get()->Montage_Attack_LeftHand))
+	{
+		return GetMesh()->GetSocketLocation(LeftHandSocketName);
+	}
+	else if (MontageTag.MatchesTagExact(FAuraGameplayTags::Get()->Montage_Attack_RightHand))
+	{
+		return GetMesh()->GetSocketLocation(RightHandSocketName);
+	}
+	else
+	{
+		return FVector();
+	}
 }
 
 TArray<FTaggedMontage> AAuraCharacterBase::GetAttackMontages_Implementation() const

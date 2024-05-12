@@ -35,7 +35,7 @@ class AURA_API ICombatInterface
 public:
 	virtual int32 GetPlayerLevel() const;
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
-	FVector GetCombatSocketLocation() const;
+	FVector GetCombatSocketLocation(const FGameplayTag& MontageTag) const;
 
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
 	void UpdateWarpFacingTarget(FVector TargetLocation);

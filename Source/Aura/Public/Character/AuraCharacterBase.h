@@ -28,7 +28,7 @@ public:
 	virtual void Die() override;
 	virtual bool IsDead_Implementation() const override { return bDead; }
 	virtual AActor* GetAvatar_Implementation() override { return this; }
-	virtual FVector GetCombatSocketLocation_Implementation() const override;
+	virtual FVector GetCombatSocketLocation_Implementation(const FGameplayTag& MontageTag) const override;
 	virtual TArray<FTaggedMontage> GetAttackMontages_Implementation() const override;
 	/* End CombatInterface */
 	UPROPERTY(EditAnywhere, Category = "Combat")
@@ -45,6 +45,10 @@ protected:
 	TObjectPtr<USkeletalMeshComponent> Weapon;
 	UPROPERTY(EditAnywhere, Category = "Combat")
 	FName WeaponTipSocketName;
+	UPROPERTY(EditAnywhere, Category = "Combat")
+	FName LeftHandSocketName;
+	UPROPERTY(EditAnywhere, Category = "Combat")
+	FName RightHandSocketName;
 
 	UPROPERTY()
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
