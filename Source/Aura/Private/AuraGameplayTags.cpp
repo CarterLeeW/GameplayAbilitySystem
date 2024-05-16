@@ -12,6 +12,7 @@
 #define ATTRIBUTES_RESISTANCE "Attributes.Resistance"
 #define DAMAGE "Damage"
 #define INPUTTAG "InputTag"
+#define COMBATSOCKET "CombatSocket"
 #define MONTAGE_ATTACK "Montage.Attack"
 
 FAuraGameplayTags* FAuraGameplayTags::GameplayTags = nullptr;
@@ -68,9 +69,14 @@ FAuraGameplayTags* FAuraGameplayTags::Get()
 
 	ADD_TAG(Ability_Attack, "Ability.Attack", "Tag for attacking gameplay ability");
 
-	ADD_TAG(Montage_Attack_Weapon,    MONTAGE_ATTACK".Weapon",    "Weapon attack montage");
-	ADD_TAG(Montage_Attack_RightHand, MONTAGE_ATTACK".RightHand", "Right hand attack montage");
-	ADD_TAG(Montage_Attack_LeftHand,  MONTAGE_ATTACK".LeftHand",  "Left hand attack montage");
+	ADD_TAG(CombatSocket_Weapon,    COMBATSOCKET".Weapon",    "Weapon CombatSocket");
+	ADD_TAG(CombatSocket_RightHand, COMBATSOCKET".RightHand", "Right hand CombatSocket");
+	ADD_TAG(CombatSocket_LeftHand,  COMBATSOCKET".LeftHand",  "Left hand CombatSocket");
+
+	ADD_TAG(Montage_Attack_1, MONTAGE_ATTACK".1", "First montage attack tag");
+	ADD_TAG(Montage_Attack_2, MONTAGE_ATTACK".2", "Second montage attack tag");
+	ADD_TAG(Montage_Attack_3, MONTAGE_ATTACK".3", "Third montage attack tag");
+	ADD_TAG(Montage_Attack_4, MONTAGE_ATTACK".4", "Fourth montage attack tag");
 
 	return GameplayTags;
 }
