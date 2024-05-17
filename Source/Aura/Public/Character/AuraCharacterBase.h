@@ -53,6 +53,8 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Combat")
 	FName RightHandSocketName;
 	UPROPERTY(EditAnywhere, Category = "Combat")
+	FName TailSocketName;
+	UPROPERTY(EditAnywhere, Category = "Combat")
 	TObjectPtr<UNiagaraSystem> BloodEffect;
 	UPROPERTY(EditAnywhere, Category = "Combat")
 	TObjectPtr<USoundBase> DeathSound;
