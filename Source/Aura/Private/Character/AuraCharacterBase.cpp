@@ -5,6 +5,7 @@
 #include "AbilitySystemComponent.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "AuraGameplayTags.h"
+#include "Kismet/GameplayStatics.h"
 #include "Aura/Aura.h"
 
 AAuraCharacterBase::AAuraCharacterBase()
@@ -37,6 +38,9 @@ void AAuraCharacterBase::Die()
 /** Handles what happens on both client and server */
 void AAuraCharacterBase::MulticastHandleDeath_Implementation()
 {
+	// Death sound
+	UGameplayStatics::PlaySoundAtLocation(this, DeathSound, GetActorLocation(), GetActorRotation());
+
 	/* Ragdoll character and weapon */
 	Weapon->SetSimulatePhysics(true);
 	Weapon->SetEnableGravity(true);
