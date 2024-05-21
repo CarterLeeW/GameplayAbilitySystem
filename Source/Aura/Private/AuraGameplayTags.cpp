@@ -12,6 +12,7 @@
 #define ATTRIBUTES_RESISTANCE "Attributes.Resistance"
 #define DAMAGE "Damage"
 #define INPUTTAG "InputTag"
+#define ABILITY "Ability"
 #define COMBATSOCKET "CombatSocket"
 #define MONTAGE_ATTACK "Montage.Attack"
 
@@ -67,12 +68,13 @@ FAuraGameplayTags* FAuraGameplayTags::Get()
 
 	ADD_TAG(Effects_HitReact, "Effects.HitReact", "Handles what happens when a pawn is hit with an object or spell");
 
-	ADD_TAG(Ability_Attack, "Ability.Attack", "Tag for attacking gameplay ability");
+	ADD_TAG(Ability_Attack,  ABILITY".Attack", "Tag for attacking gameplay ability");
+	ADD_TAG(Ability_Summon,  ABILITY".Summon", "Tag for summon gameplay ability");
 
 	ADD_TAG(CombatSocket_Weapon,    COMBATSOCKET".Weapon",    "Weapon CombatSocket");
 	ADD_TAG(CombatSocket_RightHand, COMBATSOCKET".RightHand", "Right hand CombatSocket");
 	ADD_TAG(CombatSocket_LeftHand,  COMBATSOCKET".LeftHand",  "Left hand CombatSocket");
-	ADD_TAG(CombatSocket_Tail, COMBATSOCKET".Tail", "Tail CombatSocket");
+	ADD_TAG(CombatSocket_Tail,      COMBATSOCKET".Tail",      "Tail CombatSocket");
 
 	ADD_TAG(Montage_Attack_1, MONTAGE_ATTACK".1", "First montage attack tag");
 	ADD_TAG(Montage_Attack_2, MONTAGE_ATTACK".2", "Second montage attack tag");
