@@ -20,6 +20,8 @@ public:
 	TArray<FVector> GetSpawnLocations();
 	UFUNCTION(BlueprintPure, Category = "Summoning")
 	TSubclassOf<APawn> GetRandomMinionClass() const;
+	UFUNCTION(BlueprintCallable, Category = "Summoning")
+	APawn* SummonMinion(TSubclassOf<AActor> Class, const FVector& Location, const FRotator& Rotation, AActor* Owner);
 
 	UPROPERTY(EditDefaultsOnly, Category = "Summoning")
 	int32 NumMinions = 5;

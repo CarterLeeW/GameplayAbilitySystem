@@ -2,6 +2,7 @@
 
 
 #include "AbilitySystem/Ability/AuraSummonAbility.h"
+#include "Character/AuraCharacterBase.h"
 
 TArray<FVector> UAuraSummonAbility::GetSpawnLocations()
 {
@@ -41,4 +42,15 @@ TSubclassOf<APawn> UAuraSummonAbility::GetRandomMinionClass() const
 {
     const int32 Selection = FMath::RandRange(0, MinionClasses.Num() - 1);
     return MinionClasses[Selection];
+}
+
+APawn* UAuraSummonAbility::SummonMinion(TSubclassOf<AActor> Class, const FVector& Location, const FRotator& Rotation, AActor* Owner)
+{
+    FActorSpawnParameters SpawnParams;
+    SpawnParams.Owner = Owner;
+    AAuraCharacterBase* OwningEnemy = Cast<AAuraCharacterBase>(Owner);
+    
+    APawn* Minion = GetWorld()->SpawnActor<APawn>(Class, Location, Rotation, SpawnParams);
+    Minion->OnDestroyed.AddDynamic(OwningEnemy, &AAuraCharacterBase::MinionHasDied);
+    return Minion;
 }

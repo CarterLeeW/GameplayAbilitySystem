@@ -57,6 +57,11 @@ void AAuraCharacterBase::MulticastHandleDeath_Implementation()
 	bDead = true;
 }
 
+void AAuraCharacterBase::MinionHasDied(AActor* DestroyedActor)
+{
+	Execute_IncrementMinionCount(this, -1);
+}
+
 void AAuraCharacterBase::BeginPlay()
 {
 	Super::BeginPlay();

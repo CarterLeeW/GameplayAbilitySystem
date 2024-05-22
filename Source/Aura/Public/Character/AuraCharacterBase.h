@@ -38,6 +38,8 @@ public:
 	/* End CombatInterface */
 	UPROPERTY(EditAnywhere, Category = "Combat")
 	TArray<FTaggedMontage> AttackMontages;
+	UFUNCTION()
+	void MinionHasDied(AActor* DestroyedActor);
 
 	UFUNCTION(NetMulticast, Reliable)
 	virtual void MulticastHandleDeath();
