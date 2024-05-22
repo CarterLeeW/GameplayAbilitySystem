@@ -34,6 +34,7 @@ public:
 	virtual UNiagaraSystem* GetBloodEffect_Implementation() const override;
 	virtual FTaggedMontage GetTaggedMontageByTag_Implementation(const FGameplayTag& MontageTag) const override;
 	virtual int32 GetMinionCount_Implementation() const override { return MinionCount; }
+	virtual void IncrementMinionCount_Implementation(int32 Amount) override { MinionCount += Amount; }
 	/* End CombatInterface */
 	UPROPERTY(EditAnywhere, Category = "Combat")
 	TArray<FTaggedMontage> AttackMontages;
