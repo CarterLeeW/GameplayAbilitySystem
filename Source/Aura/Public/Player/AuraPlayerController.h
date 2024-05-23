@@ -54,16 +54,18 @@ public:
 	UFUNCTION(Client, Reliable)
 	void ShowDamageNumber(ACharacter* TargetCharacter, float DamageAmount, bool bBlockedHit, bool bCriticalHit);
 
-	/* Occulsion */
+	/* Occlusion */
 	UFUNCTION(BlueprintCallable)
 	void SyncOccludedActors();
-	/* End Occulsion */
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
+	void BeginOcclusion(const FCameraOccludedActor& OccludedActor) const;
+	/* End Occlusion */
 
 protected:
 	virtual void BeginPlay() override;
 	virtual void SetupInputComponent() override;
 
-	/* Occulsion */
+	/* Occlusion */
 	/** How much of the Pawn capsule Radius and Height
    * should be used for the Line Trace before considering an Actor occluded?
    * Values too low may make the camera clip through walls.
@@ -89,7 +91,7 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Camera Occlusion|Occlusion")
 	bool DebugLineTraces;
-	/* End Occulsion */
+	/* End Occlusion */
 
 private:
 	UPROPERTY(EditAnywhere, Category = "Input")
@@ -140,7 +142,7 @@ private:
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UDamageTextComponent> DamageTextComponentClass;
 
-	/* Occulsion */
+	/* Occlusion */
 	TMap<const AActor*, FCameraOccludedActor> OccludedActors;
 
 	bool HideOccludedActor(const AActor* Actor);
@@ -153,5 +155,5 @@ private:
 	{
 		return IsOcclusionEnabled && FadeMaterial && ActiveCamera && ActiveCapsuleComponent;
 	}
-	/* End Occulsion */
+	/* End Occlusion */
 };

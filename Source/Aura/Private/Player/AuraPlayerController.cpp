@@ -28,11 +28,11 @@ AAuraPlayerController::AAuraPlayerController()
 
 	Spline = CreateDefaultSubobject<USplineComponent>("Spline");
 
-	/* Occulsion */
+	/* Occlusion */
 	CapsulePercentageForTrace = 1.0f;
 	DebugLineTraces = true;
 	IsOcclusionEnabled = true;
-	/* End Occulsion */
+	/* End Occlusion */
 }
 
 void AAuraPlayerController::PlayerTick(float DeltaTime)
@@ -58,7 +58,7 @@ void AAuraPlayerController::ShowDamageNumber_Implementation(ACharacter* TargetCh
 		DTC->SetDamageText(DamageAmount, bBlockedHit, bCriticalHit);
 	}
 }
-/* Occulsion */
+/* Occlusion */
 void AAuraPlayerController::SyncOccludedActors()
 {
 	if (!ShouldCheckCameraOcclusion()) return;
@@ -95,7 +95,7 @@ void AAuraPlayerController::SyncOccludedActors()
 		TSet<const AActor*> ActorsJustOccluded;
 
 		// Hide actors that are occluded by the camera
-		for (FHitResult Hit : OutHits)
+		for (const FHitResult& Hit : OutHits)
 		{
 			AActor* HitActor = Cast<AActor>(Hit.GetActor());
 			HideOccludedActor(HitActor);
@@ -143,7 +143,7 @@ void AAuraPlayerController::BeginPlay()
 	InputModeData.SetHideCursorDuringCapture(false);
 	SetInputMode(InputModeData);
 
-	/* Occulsion */
+	/* Occlusion */
 	if (IsValid(GetPawn()))
 	{
 		ActiveSpringArm = Cast<
@@ -152,7 +152,7 @@ void AAuraPlayerController::BeginPlay()
 		ActiveCapsuleComponent = Cast<UCapsuleComponent>(
 			GetPawn()->GetComponentByClass(UCapsuleComponent::StaticClass()));
 	}
-	/* End Occulsion */
+	/* End Occlusion */
 }
 
 void AAuraPlayerController::SetupInputComponent()
@@ -354,6 +354,7 @@ bool AAuraPlayerController::HideOccludedActor(const AActor* Actor)
 
 bool AAuraPlayerController::OnHideOccludedActor(const FCameraOccludedActor& OccludedActor) const
 {
+	BeginOcclusion(OccludedActor);
 	for (int i = 0; i < OccludedActor.StaticMesh->GetNumMaterials(); ++i)
 	{
 		OccludedActor.StaticMesh->SetMaterial(i, FadeMaterial);
