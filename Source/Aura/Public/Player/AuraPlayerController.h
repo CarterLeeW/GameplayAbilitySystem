@@ -15,6 +15,27 @@ class UAuraInputConfig;
 class UAuraAbilitySystemComponent;
 class USplineComponent;
 class UDamageTextComponent;
+class USpringArmComponent;
+class UCameraComponent;
+class UCapsuleComponent;
+
+USTRUCT(BlueprintType)
+struct FCameraOccludedActor
+{
+	GENERATED_BODY()
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	const AActor* Actor;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	TObjectPtr<UStaticMeshComponent> StaticMesh = nullptr;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	TArray<TObjectPtr<UMaterialInterface>> Materials;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	bool IsOccluded;
+};
 
 /**
  * 
@@ -33,9 +54,42 @@ public:
 	UFUNCTION(Client, Reliable)
 	void ShowDamageNumber(ACharacter* TargetCharacter, float DamageAmount, bool bBlockedHit, bool bCriticalHit);
 
+	/* Occulsion */
+	UFUNCTION(BlueprintCallable)
+	void SyncOccludedActors();
+	/* End Occulsion */
+
 protected:
 	virtual void BeginPlay() override;
 	virtual void SetupInputComponent() override;
+
+	/* Occulsion */
+	/** How much of the Pawn capsule Radius and Height
+   * should be used for the Line Trace before considering an Actor occluded?
+   * Values too low may make the camera clip through walls.
+   */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Camera Occlusion|Occlusion",
+		meta = (ClampMin = "0.1", ClampMax = "10.0"))
+	float CapsulePercentageForTrace;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Camera Occlusion|Materials")
+	TObjectPtr<UMaterialInterface> FadeMaterial;
+
+	UPROPERTY(BlueprintReadWrite, Category = "Camera Occlusion|Components")
+	TObjectPtr<USpringArmComponent> ActiveSpringArm;
+
+	UPROPERTY(BlueprintReadWrite, Category = "Camera Occlusion|Components")
+	TObjectPtr<UCameraComponent> ActiveCamera;
+
+	UPROPERTY(BlueprintReadWrite, Category = "Camera Occlusion|Components")
+	TObjectPtr<UCapsuleComponent> ActiveCapsuleComponent;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Camera Occlusion")
+	bool IsOcclusionEnabled;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Camera Occlusion|Occlusion")
+	bool DebugLineTraces;
+	/* End Occulsion */
 
 private:
 	UPROPERTY(EditAnywhere, Category = "Input")
@@ -85,4 +139,19 @@ private:
 	// Damage widget
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UDamageTextComponent> DamageTextComponentClass;
+
+	/* Occulsion */
+	TMap<const AActor*, FCameraOccludedActor> OccludedActors;
+
+	bool HideOccludedActor(const AActor* Actor);
+	bool OnHideOccludedActor(const FCameraOccludedActor& OccludedActor) const;
+	void ShowOccludedActor(FCameraOccludedActor& OccludedActor);
+	bool OnShowOccludedActor(const FCameraOccludedActor& OccludedActor) const;
+	void ForceShowOccludedActors();
+
+	FORCEINLINE bool ShouldCheckCameraOcclusion() const
+	{
+		return IsOcclusionEnabled && FadeMaterial && ActiveCamera && ActiveCapsuleComponent;
+	}
+	/* End Occulsion */
 };
