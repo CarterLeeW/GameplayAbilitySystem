@@ -46,11 +46,16 @@ TSubclassOf<APawn> UAuraSummonAbility::GetRandomMinionClass() const
 
 APawn* UAuraSummonAbility::SummonMinion(TSubclassOf<AActor> Class, const FVector& Location, const FRotator& Rotation, AActor* Owner)
 {
-    FActorSpawnParameters SpawnParams;
-    SpawnParams.Owner = Owner;
-    AAuraCharacterBase* OwningEnemy = Cast<AAuraCharacterBase>(Owner);
+    AAuraCharacterBase* OwningCharacter = Cast<AAuraCharacterBase>(Owner);
     
-    APawn* Minion = GetWorld()->SpawnActor<APawn>(Class, Location, Rotation, SpawnParams);
-    Minion->OnDestroyed.AddDynamic(OwningEnemy, &AAuraCharacterBase::MinionHasDied);
+    FTransform SpawnTransform;
+    SpawnTransform.SetLocation(Location);
+    SpawnTransform.SetRotation(Rotation.Quaternion());
+
+    APawn* Minion = GetWorld()->SpawnActorDeferred<APawn>(Class, SpawnTransform, Owner, NULL, ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn);
+
+    //APawn* Minion = GetWorld()->SpawnActor<APawn>(Class, Location, Rotation, SpawnParams);
+    Minion->OnDestroyed.AddDynamic(OwningCharacter, &AAuraCharacterBase::MinionHasDied);
+    Minion->FinishSpawning(SpawnTransform);
     return Minion;
 }
