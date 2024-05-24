@@ -75,7 +75,7 @@ void AAuraPlayerController::SyncOccludedActors()
 	FVector End = GetPawn()->GetActorLocation();
 
 	TArray<TEnumAsByte<EObjectTypeQuery>> CollisionObjectTypes;
-	CollisionObjectTypes.Add(UEngineTypes::ConvertToObjectType(ECC_WorldStatic));
+	CollisionObjectTypes.Add(UEngineTypes::ConvertToObjectType(ECC_OccludingEnvironment));
 
 	TArray<AActor*> ActorsToIgnore; // TODO: Add configuration to ignore actor types
 	TArray<FHitResult> OutHits;
