@@ -12,6 +12,7 @@ struct FOnAttributeChangeData;
 struct FGameplayAttributeData;
 class UAuraUserWidget;
 class UAuraAttributeSet;
+class UAbilityInfo;
 
 USTRUCT(BlueprintType)
 struct FUIWidgetRow : public FTableRowBase
@@ -60,8 +61,11 @@ public:
 	FMessageWidgetRowSignature MessageWidgetRowDelegate;
 
 protected:
-	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Widget Data")
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Data")
 	TObjectPtr<UDataTable> MessageWidgetDataTable;
+
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Data")
+	TObjectPtr<UAbilityInfo> AbilityInfo;
 
 	template<typename T>
 	T* GetDataTableRowByTag(UDataTable* DataTable, const FGameplayTag& Tag);
