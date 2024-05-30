@@ -1,7 +1,7 @@
 <h1>Gameplay Ability System demo repository</h1>
 
 <p>
-  This repository is essentially a dev log for my participation in an Unreal Engine 5 Gameplay Ability System course, which can be found on Udemy <a href="https://www.udemy.com/course/unreal-engine-5-gas-top-down-rpg/">here</a>.
+  This repository is essentially a dev log for my continued learning of Unreal Engine 5.
 </p>
 <p>
   I hope this repository to be used as proof of my understanding of the Gameplay Ability System in UE5, as well as other popular design patterns, such as the Model View Controller pattern for widgets, and multiplayer replication.
