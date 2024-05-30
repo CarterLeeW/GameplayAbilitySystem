@@ -5,6 +5,14 @@
 #include "AbilitySystem/AuraAttributeSet.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 
+#define BIND_ATTRIBUTE_CALLBACK( AttributeName ) \
+	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate( \
+		AuraAttributeSet->Get##AttributeName##Attribute()).AddLambda( \
+			[this](const FOnAttributeChangeData& Data) \
+			{\
+				On##AttributeName##Changed.Broadcast(Data.NewValue); \
+			});
+
 void UOverlayWidgetController::BroadcastInitialValues()
 {
 	const UAuraAttributeSet* AuraAttributeSet = CastChecked<UAuraAttributeSet>(AttributeSet);
@@ -20,23 +28,26 @@ void UOverlayWidgetController::BroadcastInitialValues()
 void UOverlayWidgetController::BindCallbacksToDependencies()
 {
 	const UAuraAttributeSet* AuraAttributeSet = CastChecked<UAuraAttributeSet>(AttributeSet);
-
-#define BIND_ATTRIBUTE_CALLBACK( AttributeName ) \
-	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate( \
-		AuraAttributeSet->Get##AttributeName##Attribute()).AddLambda( \
-			[this](const FOnAttributeChangeData& Data) \
-			{\
-				On##AttributeName##Changed.Broadcast(Data.NewValue); \
-			});
+	UAuraAbilitySystemComponent* AuraASC = CastChecked<UAuraAbilitySystemComponent>(AbilitySystemComponent);
 
 	BIND_ATTRIBUTE_CALLBACK(Health);
 	BIND_ATTRIBUTE_CALLBACK(MaxHealth);
 	BIND_ATTRIBUTE_CALLBACK(Mana);
 	BIND_ATTRIBUTE_CALLBACK(MaxMana);
 
+	/* If abilities are set, then we can call this function directly.
+	If abilities are not set, then we must bind this function to the delegate */
+	if (AuraASC->bStartupAbilitiesGiven)
+	{
+		OnInitializeStartupAbilities(AuraASC);
+	}
+	else
+	{
+		AuraASC->AbilitiesGiven.AddUObject(this, &UOverlayWidgetController::OnInitializeStartupAbilities);
+	}
 
 	// Capture tags from EffectApplied in Ability System Component
-	Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent)->EffectAssetTags.AddLambda(
+	AuraASC->EffectAssetTags.AddLambda(
 		[this](const FGameplayTagContainer& AssetTags) 
 		{
 			for (const auto& Tag : AssetTags)
@@ -53,4 +64,12 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
 			}
 		}
 	);
+}
+
+void UOverlayWidgetController::OnInitializeStartupAbilities(UAuraAbilitySystemComponent* AuraASC)
+{
+	// TODO Get information about all given abilities, look up their ability info, and broadcast it to widgets
+	if (!AuraASC->bStartupAbilitiesGiven) return;
+
+
 }
