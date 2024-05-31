@@ -4,6 +4,7 @@
 #include "UI/WidgetController/OverlayWidgetController.h"
 #include "AbilitySystem/AuraAttributeSet.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
+#include "AbilitySystem/Data/AbilityInfo.h"
 
 #define BIND_ATTRIBUTE_CALLBACK( AttributeName ) \
 	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate( \
@@ -71,5 +72,14 @@ void UOverlayWidgetController::OnInitializeStartupAbilities(UAuraAbilitySystemCo
 	// TODO Get information about all given abilities, look up their ability info, and broadcast it to widgets
 	if (!AuraASC->bStartupAbilitiesGiven) return;
 
-
+	FForEachAbility BroadcastDelegate;
+	BroadcastDelegate.BindLambda(
+		[this](const FGameplayAbilitySpec& AbilitySpec)
+		{
+			FAuraAbilityInfo Info = AbilityInfo->FindAbilityInfoForTag(UAuraAbilitySystemComponent::GetAbilityTagFromSpec(AbilitySpec));
+			Info.InputTag = UAuraAbilitySystemComponent::GetInputTagFromSpec(AbilitySpec);
+			AbilityInfoDelegate.Broadcast(Info);
+		}
+	);
+	AuraASC->ForEachAbility(BroadcastDelegate);
 }
