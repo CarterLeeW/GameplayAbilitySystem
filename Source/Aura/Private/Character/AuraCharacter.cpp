@@ -36,6 +36,13 @@ void AAuraCharacter::OnRep_PlayerState()
 
 	// Init ability actor info for the Client
 	InitAbilityActorInfo();
+	/* The following fix is in response to issues in 241 */
+	UAuraAbilitySystemComponent* AuraASC = Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent);
+	if (!AuraASC->bStartupAbilitiesGiven)
+	{
+		AuraASC->bStartupAbilitiesGiven = true;
+		AuraASC->AbilitiesGivenDelegate.Broadcast(AuraASC);
+	}
 }
 
 int32 AAuraCharacter::GetPlayerLevel() const

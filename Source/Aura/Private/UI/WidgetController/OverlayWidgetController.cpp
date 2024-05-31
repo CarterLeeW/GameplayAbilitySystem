@@ -44,11 +44,11 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
 	}
 	else
 	{
-		AuraASC->AbilitiesGiven.AddUObject(this, &UOverlayWidgetController::OnInitializeStartupAbilities);
+		AuraASC->AbilitiesGivenDelegate.AddUObject(this, &UOverlayWidgetController::OnInitializeStartupAbilities);
 	}
 
 	// Capture tags from EffectApplied in Ability System Component
-	AuraASC->EffectAssetTags.AddLambda(
+	AuraASC->EffectAssetTagsDelegate.AddLambda(
 		[this](const FGameplayTagContainer& AssetTags) 
 		{
 			for (const auto& Tag : AssetTags)

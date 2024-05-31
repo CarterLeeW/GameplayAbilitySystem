@@ -21,9 +21,9 @@ class AURA_API UAuraAbilitySystemComponent : public UAbilitySystemComponent
 public:
 	void AbilityActorInfoSet();
 	// Delegate
-	FEffectAssetTagsSignature EffectAssetTags;
+	FEffectAssetTagsSignature EffectAssetTagsDelegate;
 	// Delegate
-	FAbilitiesGiven AbilitiesGiven;
+	FAbilitiesGiven AbilitiesGivenDelegate;
 
 	void ForEachAbility(const FForEachAbility& Delegate);
 	void AddCharacterAbilities(const TArray<TSubclassOf<UGameplayAbility>>& StartupAbilities);
@@ -35,4 +35,6 @@ public:
 protected:
 	UFUNCTION(Client, Reliable)
 	void ClientEffectApplied(UAbilitySystemComponent* AbilitySystemComponent, const FGameplayEffectSpec& EffectSpec, FActiveGameplayEffectHandle ActiveEffectHandle);
+
+	virtual void OnRep_ActivateAbilities() override;
 };
