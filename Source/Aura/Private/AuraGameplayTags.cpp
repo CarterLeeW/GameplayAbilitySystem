@@ -14,6 +14,7 @@
 #define INPUTTAG "InputTag"
 #define ABILITY "Ability"
 #define ABILITY_FIRE "Ability.Fire"
+#define COOLDOWN_FIRE "Cooldown.Fire"
 #define COMBATSOCKET "CombatSocket"
 #define MONTAGE_ATTACK "Montage.Attack"
 
@@ -72,6 +73,8 @@ FAuraGameplayTags* FAuraGameplayTags::Get()
 	ADD_TAG(Ability_Attack,        ABILITY".Attack", "Tag for attacking gameplay ability");
 	ADD_TAG(Ability_Summon,        ABILITY".Summon", "Tag for summon gameplay ability");
 	ADD_TAG(Ability_Fire_FireBolt, ABILITY_FIRE".FireBolt", "Tag for firebolt gameplay ability");
+
+	ADD_TAG(Cooldown_Fire_Firebolt, COOLDOWN_FIRE".FireBolt", "Tag for firebolt GA cooldown");
 
 	ADD_TAG(CombatSocket_Weapon,    COMBATSOCKET".Weapon",    "Weapon CombatSocket");
 	ADD_TAG(CombatSocket_RightHand, COMBATSOCKET".RightHand", "Right hand CombatSocket");
