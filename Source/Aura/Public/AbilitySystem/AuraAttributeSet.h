@@ -103,6 +103,7 @@ public:
 	* Meta Attributes
 	*/
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, IncomingDamage);
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, IncomingExp);
 
 protected:
 	/*
@@ -222,7 +223,11 @@ protected:
 	*/
 	UPROPERTY(BlueprintReadOnly, Category = "Meta Attributes")
 	FGameplayAttributeData IncomingDamage;
+	UPROPERTY(BlueprintReadOnly, Category = "Meta Attributes")
+	FGameplayAttributeData IncomingExp;
 
 private:
 	void SetEffectProperties(const FGameplayEffectModCallbackData& Data, FEffectProperties& Properties) const;
+	void HandleIncomingDamage(const FEffectProperties& Properties);
+	void HandleIncomingExp(const FEffectProperties& Properties);
 };

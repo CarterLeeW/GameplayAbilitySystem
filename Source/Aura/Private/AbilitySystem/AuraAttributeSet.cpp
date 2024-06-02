@@ -11,6 +11,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "Player/AuraPlayerController.h"
 #include "AbilitySystem/AuraAbilitySystemLibrary.h"
+#include "AuraLogChannels.h"
 
 #define MAP_TAG_TO_ATTRIBUTE(Type, Attr) TagsToAttributes.Add(GameplayTags->Attributes_##Type##_##Attr, Get##Attr##Attribute());
 UAuraAttributeSet::UAuraAttributeSet()
@@ -72,77 +73,6 @@ void UAuraAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Ou
 	// Vital
 	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, Health, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, Mana, COND_None, REPNOTIFY_Always);
-}
-
-void UAuraAttributeSet::PreAttributeBaseChange(const FGameplayAttribute& Attribute, float& NewValue) const
-{
-	Super::PreAttributeBaseChange(Attribute, NewValue);
-
-	if (Attribute == GetHealthAttribute())
-	{
-		NewValue = FMath::Clamp(NewValue, 0.0f, GetMaxHealth());
-	}
-	else if (Attribute == GetManaAttribute())
-	{
-		NewValue = FMath::Clamp(NewValue, 0.0f, GetMaxMana());
-	}
-}
-
-void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data)
-{
-	Super::PostGameplayEffectExecute(Data);
-
-	FEffectProperties Properties;
-	SetEffectProperties(Data, Properties);
-
-	// Handle IncomingDamage Meta Attribute, all of this will be on server
-	if (Data.EvaluatedData.Attribute == GetIncomingDamageAttribute())
-	{
-		const float LocalIncomingDamage = GetIncomingDamage();
-		SetIncomingDamage(0.f);
-		if (LocalIncomingDamage > 0.f)
-		{
-			const float NewHealth = GetHealth() - LocalIncomingDamage;
-			SetHealth(FMath::Clamp(NewHealth, 0.f, GetMaxHealth()));
-
-			const bool bFatal = NewHealth <= 0.f;
-			if (!bFatal) // not fatal - Play HitReaction ability
-			{
-				FGameplayTagContainer TagContainer;
-				TagContainer.AddTag(FAuraGameplayTags::Get()->Effects_HitReact);
-				Properties.TargetASC->TryActivateAbilitiesByTag(TagContainer);
-			}
-			else // is fatal
-			{
-				if (ICombatInterface* CombatInterface = Cast<ICombatInterface>(Properties.TargetAvatarActor))
-				{
-					CombatInterface->Die();
-				}
-			}
-			// Show damage widget
-			if (Properties.SourceCharacter != Properties.TargetCharacter)
-			{
-				if (AAuraPlayerController* SPC = Cast<AAuraPlayerController>(Properties.SourceCharacter->Controller))
-				{
-					SPC->ShowDamageNumber(
-						Properties.TargetCharacter,
-						LocalIncomingDamage,
-						UAuraAbilitySystemLibrary::IsBlockedHit(Properties.EffectContextHandle),
-						UAuraAbilitySystemLibrary::IsCriticalHit(Properties.EffectContextHandle)
-					);
-				}
-				else if (AAuraPlayerController* TPC = Cast<AAuraPlayerController>(Properties.TargetCharacter->Controller))
-				{
-					TPC->ShowDamageNumber(
-						Properties.TargetCharacter,
-						LocalIncomingDamage,
-						UAuraAbilitySystemLibrary::IsBlockedHit(Properties.EffectContextHandle),
-						UAuraAbilitySystemLibrary::IsCriticalHit(Properties.EffectContextHandle)
-					);
-				}
-			}
-		}
-	}
 }
 
 #pragma region "OnRep"
@@ -249,6 +179,41 @@ void UAuraAttributeSet::OnRep_PhysicalResistance(const FGameplayAttributeData& O
 
 #pragma endregion "OnRep"
 
+void UAuraAttributeSet::PreAttributeBaseChange(const FGameplayAttribute& Attribute, float& NewValue) const
+{
+	Super::PreAttributeBaseChange(Attribute, NewValue);
+
+	if (Attribute == GetHealthAttribute())
+	{
+		NewValue = FMath::Clamp(NewValue, 0.0f, GetMaxHealth());
+	}
+	else if (Attribute == GetManaAttribute())
+	{
+		NewValue = FMath::Clamp(NewValue, 0.0f, GetMaxMana());
+	}
+}
+
+void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data)
+{
+	Super::PostGameplayEffectExecute(Data);
+
+	FEffectProperties Properties;
+	SetEffectProperties(Data, Properties);
+
+	// Handle IncomingDamage Meta Attribute, all of this will be on server
+	if (Data.EvaluatedData.Attribute == GetIncomingDamageAttribute())
+	{
+		HandleIncomingDamage(Properties);
+	}
+
+	if (Data.EvaluatedData.Attribute == GetIncomingExpAttribute())
+	{
+		HandleIncomingExp(Properties);
+	}
+}
+
+
+
 /** Used internally in PostGameplayEffectExecute */
 void UAuraAttributeSet::SetEffectProperties(const FGameplayEffectModCallbackData& Data, FEffectProperties& Props) const
 {
@@ -284,4 +249,59 @@ void UAuraAttributeSet::SetEffectProperties(const FGameplayEffectModCallbackData
 		Props.TargetCharacter = Cast<ACharacter>(Props.TargetAvatarActor);
 		Props.TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(Props.TargetAvatarActor);
 	}
+}
+
+void UAuraAttributeSet::HandleIncomingDamage(const FEffectProperties& Properties)
+{
+	const float LocalIncomingDamage = GetIncomingDamage();
+	SetIncomingDamage(0.f);
+	if (LocalIncomingDamage > 0.f)
+	{
+		const float NewHealth = GetHealth() - LocalIncomingDamage;
+		SetHealth(FMath::Clamp(NewHealth, 0.f, GetMaxHealth()));
+
+		const bool bFatal = NewHealth <= 0.f;
+		if (!bFatal) // not fatal - Play HitReaction ability
+		{
+			FGameplayTagContainer TagContainer;
+			TagContainer.AddTag(FAuraGameplayTags::Get()->Effects_HitReact);
+			Properties.TargetASC->TryActivateAbilitiesByTag(TagContainer);
+		}
+		else // is fatal
+		{
+			if (ICombatInterface* CombatInterface = Cast<ICombatInterface>(Properties.TargetAvatarActor))
+			{
+				CombatInterface->Die();
+			}
+		}
+		// Show damage widget
+		if (Properties.SourceCharacter != Properties.TargetCharacter)
+		{
+			if (AAuraPlayerController* SPC = Cast<AAuraPlayerController>(Properties.SourceCharacter->Controller))
+			{
+				SPC->ShowDamageNumber(
+					Properties.TargetCharacter,
+					LocalIncomingDamage,
+					UAuraAbilitySystemLibrary::IsBlockedHit(Properties.EffectContextHandle),
+					UAuraAbilitySystemLibrary::IsCriticalHit(Properties.EffectContextHandle)
+				);
+			}
+			else if (AAuraPlayerController* TPC = Cast<AAuraPlayerController>(Properties.TargetCharacter->Controller))
+			{
+				TPC->ShowDamageNumber(
+					Properties.TargetCharacter,
+					LocalIncomingDamage,
+					UAuraAbilitySystemLibrary::IsBlockedHit(Properties.EffectContextHandle),
+					UAuraAbilitySystemLibrary::IsCriticalHit(Properties.EffectContextHandle)
+				);
+			}
+		}
+	}
+}
+
+void UAuraAttributeSet::HandleIncomingExp(const FEffectProperties& Properties)
+{
+	const float LocalIncomingExp = GetIncomingExp();
+	SetIncomingExp(0.f);
+	UE_LOG(LogAura, Display, TEXT("Incoming Exp: %f"), LocalIncomingExp);
 }
