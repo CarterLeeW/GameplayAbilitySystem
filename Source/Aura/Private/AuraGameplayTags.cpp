@@ -10,6 +10,7 @@
 #define ATTRIBUTES_PRIMARY "Attributes.Primary"
 #define ATTRIBUTES_SECONDARY "Attributes.Secondary"
 #define ATTRIBUTES_RESISTANCE "Attributes.Resistance"
+#define ATTRIBUTES_META "Attributes.Meta"
 #define DAMAGE "Damage"
 #define INPUTTAG "InputTag"
 #define ABILITY "Ability"
@@ -49,6 +50,8 @@ FAuraGameplayTags* FAuraGameplayTags::Get()
 	ADD_TAG(Attributes_Resistance_Fire,      ATTRIBUTES_RESISTANCE".Fire",      "Resistance to Fire Damage");
 	ADD_TAG(Attributes_Resistance_Lightning, ATTRIBUTES_RESISTANCE".Lightning", "Resistance to Lightning Damage");
 	ADD_TAG(Attributes_Resistance_Physical,  ATTRIBUTES_RESISTANCE".Physical",  "Resistance to Physical Damage");
+
+	ADD_TAG(Attributes_Meta_IncomingExp, ATTRIBUTES_META".IncomingExp", "Tag for IncomingExp meta attribute");
 
 	ADD_TAG(Damage,           DAMAGE,             "Generic Damage Type");
 	ADD_TAG(Damage_Arcane,    DAMAGE".Arcane",    "Arcane Damage Type");
