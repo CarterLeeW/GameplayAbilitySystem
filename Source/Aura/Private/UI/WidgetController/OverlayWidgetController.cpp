@@ -4,6 +4,7 @@
 #include "UI/WidgetController/OverlayWidgetController.h"
 #include "AbilitySystem/AuraAttributeSet.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
+#include "Player/AuraPlayerState.h"
 #include "AbilitySystem/Data/AbilityInfo.h"
 
 #define BIND_ATTRIBUTE_CALLBACK( AttributeName ) \
@@ -28,6 +29,7 @@ void UOverlayWidgetController::BroadcastInitialValues()
 
 void UOverlayWidgetController::BindCallbacksToDependencies()
 {
+	AAuraPlayerState* AuraPS = CastChecked<AAuraPlayerState>(PlayerState);
 	const UAuraAttributeSet* AuraAttributeSet = CastChecked<UAuraAttributeSet>(AttributeSet);
 	UAuraAbilitySystemComponent* AuraASC = CastChecked<UAuraAbilitySystemComponent>(AbilitySystemComponent);
 
@@ -65,6 +67,9 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
 			}
 		}
 	);
+
+	// PlayerState
+	AuraPS->OnExpChangedDelegate.AddUObject(this, &UOverlayWidgetController::OnExpChanged);
 }
 
 void UOverlayWidgetController::OnInitializeStartupAbilities(UAuraAbilitySystemComponent* AuraASC)
@@ -82,4 +87,9 @@ void UOverlayWidgetController::OnInitializeStartupAbilities(UAuraAbilitySystemCo
 		}
 	);
 	AuraASC->ForEachAbility(BroadcastDelegate);
+}
+
+void UOverlayWidgetController::OnExpChanged(int32 NewExp)
+{
+	PlayerExpDelegate.Broadcast(NewExp);
 }

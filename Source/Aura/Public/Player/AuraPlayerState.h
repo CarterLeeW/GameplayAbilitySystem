@@ -9,6 +9,7 @@
 
 class UAbilitySystemComponent;
 class UAttributeSet;
+class ULevelUpInfo;
 
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnPlayerStatChanged, int32 /*StatValue*/)
 
@@ -33,10 +34,16 @@ public:
 
 	void SetLevel(int32 InLevel);
 	void AddToLevel(int32 InLevel);
+	UFUNCTION(BlueprintCallable)
 	int32 GetPlayerLevel() const { return Level; }
 	void SetExp(int32 InExp);
+	UFUNCTION(BlueprintCallable)
 	void AddToExp(int32 InExp);
+	UFUNCTION(BlueprintCallable)
 	int32 GetExp() const { return Exp; }
+
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
+	TObjectPtr<ULevelUpInfo> LevelUpInfo;
 
 protected:
 	UPROPERTY(VisibleAnywhere)
@@ -46,7 +53,7 @@ protected:
 	TObjectPtr<UAttributeSet> AttributeSet;
 
 private:
-	UPROPERTY(EditDefaultsOnly, ReplicatedUsing = OnRep_Level)
+	UPROPERTY(EditDefaultsOnly, ReplicatedUsing = OnRep_Level, meta = (ClampMin = "1"))
 	int32 Level = 1;
 	UFUNCTION()
 	void OnRep_Level(int32 OldLevel);
