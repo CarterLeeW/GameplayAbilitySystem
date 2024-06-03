@@ -306,6 +306,8 @@ void UAuraAttributeSet::HandleIncomingExp(const FEffectProperties& Properties)
 	const float LocalIncomingExp = GetIncomingExp();
 	SetIncomingExp(0.f);
 	// TODO: see if we should level up
+
+
 	if (Properties.SourceCharacter->Implements<UPlayerInterface>())
 	{
 		IPlayerInterface::Execute_AddToExp(Properties.SourceCharacter, LocalIncomingExp);
@@ -314,9 +316,9 @@ void UAuraAttributeSet::HandleIncomingExp(const FEffectProperties& Properties)
 
 void UAuraAttributeSet::SendExpEvent(const FEffectProperties& Properties)
 {
-	if (ICombatInterface* CombatInterface = Cast<ICombatInterface>(Properties.TargetCharacter))
+	if (Properties.TargetCharacter->Implements<UCombatInterface>())
 	{
-		const int32 TargetLevel = CombatInterface->GetPlayerLevel();
+		const int32 TargetLevel = ICombatInterface::Execute_GetPlayerLevel(Properties.TargetCharacter);
 		const ECharacterClass TargetClass = ICombatInterface::Execute_GetCharacterClass(Properties.TargetCharacter);
 		const int32 ExpReward = UAuraAbilitySystemLibrary::GetExpRewardForCharacterClassAndLevel(Properties.TargetCharacter, TargetClass, TargetLevel);
 

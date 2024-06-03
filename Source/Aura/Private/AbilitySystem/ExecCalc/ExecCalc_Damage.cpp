@@ -93,8 +93,19 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 
 	AActor* SourceAvatar = SourceASC ? SourceASC->GetAvatarActor() : nullptr;
 	AActor* TargetAvatar = TargetASC ? TargetASC->GetAvatarActor() : nullptr;
-	ICombatInterface* SourceCI = Cast<ICombatInterface>(SourceAvatar);
-	ICombatInterface* TargetCI = Cast<ICombatInterface>(TargetAvatar);
+
+	int32 SourcePlayerLevel = 1;
+	if (SourceAvatar->Implements<UCombatInterface>())
+	{
+		SourcePlayerLevel = ICombatInterface::Execute_GetPlayerLevel(SourceAvatar);
+	}
+
+	int32 TargetPlayerLevel = 1;
+	if (TargetAvatar->Implements<UCombatInterface>())
+	{
+		TargetPlayerLevel = ICombatInterface::Execute_GetPlayerLevel(TargetAvatar);
+	}
+
 	const UCharacterClassInfo* CCI = UAuraAbilitySystemLibrary::GetCharacterClassInfo(SourceAvatar);
 
 	const FGameplayEffectSpec& Spec = ExecutionParams.GetOwningSpec();
@@ -165,11 +176,11 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	SourceArmorPenetration = FMath::Max<float>(SourceArmorPenetration, 0.f);
 
 	const FRealCurve* ArmorPenetrationCurve = CCI->DamageCalculationCoefficients->FindCurve(FName("ArmorPenetration"), FString());
-	const float ArmorPenetrationCoefficient = ArmorPenetrationCurve->Eval(SourceCI->GetPlayerLevel(), 1.f);
+	const float ArmorPenetrationCoefficient = ArmorPenetrationCurve->Eval(SourcePlayerLevel, 1.f);
 	// Calculate Effective Armor using TargetArmor and SourceArmorPenetration
 	const float EffectiveArmor = FMath::Max<float>(TargetArmor * (100.f - SourceArmorPenetration * ArmorPenetrationCoefficient) / 100.f, 0.f);
 	const FRealCurve* EffectiveArmorCurve = CCI->DamageCalculationCoefficients->FindCurve(FName("EffectiveArmor"), FString());
-	const float EffectiveArmorCoefficient = EffectiveArmorCurve->Eval(TargetCI->GetPlayerLevel(), 1.f);
+	const float EffectiveArmorCoefficient = EffectiveArmorCurve->Eval(TargetPlayerLevel, 1.f);
 
 	// 4.
 	// Reduce Damage value by effective armor
@@ -188,7 +199,7 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 		TargetCriticalHitResistance = FMath::Max<float>(TargetCriticalHitResistance, 0.f);
 
 		const FRealCurve* CriticalHitResistanceCurve = CCI->DamageCalculationCoefficients->FindCurve(FName("CriticalHitResistance"), FString());
-		const float CriticalHitResistanceCoefficient = CriticalHitResistanceCurve->Eval(TargetCI->GetPlayerLevel(), 1.f);
+		const float CriticalHitResistanceCoefficient = CriticalHitResistanceCurve->Eval(TargetPlayerLevel, 1.f);
 
 		const bool bShouldCrit = SourceCriticalHitChance > FMath::FRandRange(0.f, 100.f) ? true : false;
 		const bool bShouldResist = TargetCriticalHitResistance > FMath::FRandRange(0.f, 100.f) ? true : false;

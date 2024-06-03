@@ -47,7 +47,7 @@ void AAuraCharacter::OnRep_PlayerState()
 	}
 }
 
-int32 AAuraCharacter::GetPlayerLevel() const
+int32 AAuraCharacter::GetPlayerLevel_Implementation() const
 {
 	const AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>();
 	check(AuraPlayerState);
@@ -59,6 +59,11 @@ void AAuraCharacter::AddToExp_Implementation(int32 InExp)
 	AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>();
 	check(AuraPlayerState);
 	AuraPlayerState->AddToExp(InExp);
+}
+
+void AAuraCharacter::LevelUp_Implementation()
+{
+
 }
 
 void AAuraCharacter::InitializeDefaultAttributes() const
