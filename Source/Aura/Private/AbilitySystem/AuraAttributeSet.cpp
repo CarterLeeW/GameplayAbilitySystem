@@ -273,6 +273,7 @@ void UAuraAttributeSet::HandleIncomingDamage(const FEffectProperties& Properties
 			{
 				CombatInterface->Die();
 			}
+			SendExpEvent(Properties);
 		}
 		// Show damage widget
 		if (Properties.SourceCharacter != Properties.TargetCharacter)
@@ -303,5 +304,19 @@ void UAuraAttributeSet::HandleIncomingExp(const FEffectProperties& Properties)
 {
 	const float LocalIncomingExp = GetIncomingExp();
 	SetIncomingExp(0.f);
-	UE_LOG(LogAura, Display, TEXT("Incoming Exp: %f"), LocalIncomingExp);
+}
+
+void UAuraAttributeSet::SendExpEvent(const FEffectProperties& Properties)
+{
+	if (ICombatInterface* CombatInterface = Cast<ICombatInterface>(Properties.TargetCharacter))
+	{
+		const int32 TargetLevel = CombatInterface->GetPlayerLevel();
+		const ECharacterClass TargetClass = ICombatInterface::Execute_GetCharacterClass(Properties.TargetCharacter);
+		const int32 ExpReward = UAuraAbilitySystemLibrary::GetExpRewardForCharacterClassAndLevel(Properties.TargetCharacter, TargetClass, TargetLevel);
+
+		FGameplayEventData Payload;
+		Payload.EventTag = FAuraGameplayTags::Get()->Attributes_Meta_IncomingExp;
+		Payload.EventMagnitude = static_cast<float>(ExpReward);
+		UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(Properties.SourceCharacter, FAuraGameplayTags::Get()->Attributes_Meta_IncomingExp, Payload);
+	}
 }
