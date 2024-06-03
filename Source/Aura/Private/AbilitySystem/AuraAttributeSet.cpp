@@ -12,6 +12,7 @@
 #include "Player/AuraPlayerController.h"
 #include "AbilitySystem/AuraAbilitySystemLibrary.h"
 #include "AuraLogChannels.h"
+#include "Interaction/PlayerInterface.h"
 
 #define MAP_TAG_TO_ATTRIBUTE(Type, Attr) TagsToAttributes.Add(GameplayTags->Attributes_##Type##_##Attr, Get##Attr##Attribute());
 UAuraAttributeSet::UAuraAttributeSet()
@@ -304,6 +305,11 @@ void UAuraAttributeSet::HandleIncomingExp(const FEffectProperties& Properties)
 {
 	const float LocalIncomingExp = GetIncomingExp();
 	SetIncomingExp(0.f);
+	// TODO: see if we should level up
+	if (Properties.SourceCharacter->Implements<UPlayerInterface>())
+	{
+		IPlayerInterface::Execute_AddToExp(Properties.SourceCharacter, LocalIncomingExp);
+	}
 }
 
 void UAuraAttributeSet::SendExpEvent(const FEffectProperties& Properties)

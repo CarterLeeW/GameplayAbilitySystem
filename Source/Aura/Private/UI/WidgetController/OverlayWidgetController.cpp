@@ -91,5 +91,5 @@ void UOverlayWidgetController::OnInitializeStartupAbilities(UAuraAbilitySystemCo
 
 void UOverlayWidgetController::OnExpChanged(int32 NewExp)
 {
-	PlayerExpDelegate.Broadcast(NewExp);
+	OnPlayerExpChanged.Broadcast(NewExp);
 }

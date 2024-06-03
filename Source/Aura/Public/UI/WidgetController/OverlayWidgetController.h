@@ -70,7 +70,7 @@ public:
 	FAbilityInfoSignature AbilityInfoDelegate;
 
 	UPROPERTY(BlueprintAssignable, Category = "GAS|PlayerStat")
-	FPlayerExpSignature PlayerExpDelegate;
+	FPlayerExpSignature OnPlayerExpChanged;
 
 protected:
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Data")
