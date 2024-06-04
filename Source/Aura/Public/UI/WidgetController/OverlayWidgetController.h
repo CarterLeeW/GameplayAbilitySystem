@@ -37,7 +37,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FMessageWidgetRowSignature, FUIWidge
 // Ability Info Delegate
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FAbilityInfoSignature, const FAuraAbilityInfo&, Info);
 // Player Stat Delegate
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FPlayerExpSignature, int32, StatValue);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FPlayerStatChangedSignature, int32, StatValue);
 
 /**
  * 
@@ -69,8 +69,11 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = "GAS|Ability")
 	FAbilityInfoSignature AbilityInfoDelegate;
 
-	UPROPERTY(BlueprintAssignable, Category = "GAS|PlayerStat")
-	FPlayerExpSignature OnPlayerExpChanged;
+	UPROPERTY(BlueprintAssignable, Category = "GAS|PlayerStats")
+	FPlayerStatChangedSignature OnPlayerExpChanged;
+
+	UPROPERTY(BlueprintAssignable, Category = "GAS|PlayerStats")
+	FPlayerStatChangedSignature OnPlayerLevelChanged;
 
 protected:
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Data")
@@ -84,7 +87,6 @@ protected:
 
 	void OnInitializeStartupAbilities(UAuraAbilitySystemComponent* AuraASC);
 
-	void OnExpChanged(int32 NewExp);
 private:
 
 };

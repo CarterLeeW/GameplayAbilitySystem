@@ -69,7 +69,12 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
 	);
 
 	// PlayerState
-	AuraPS->OnExpChangedDelegate.AddUObject(this, &UOverlayWidgetController::OnExpChanged);
+	AuraPS->OnExpChangedDelegate.AddLambda(
+		[this](int32 NewExp) { OnPlayerExpChanged.Broadcast(NewExp); }
+	);
+	AuraPS->OnLevelChangedDelegate.AddLambda(
+		[this](int32 NewLevel) { OnPlayerLevelChanged.Broadcast(NewLevel); }
+	);
 }
 
 void UOverlayWidgetController::OnInitializeStartupAbilities(UAuraAbilitySystemComponent* AuraASC)
@@ -87,9 +92,4 @@ void UOverlayWidgetController::OnInitializeStartupAbilities(UAuraAbilitySystemCo
 		}
 	);
 	AuraASC->ForEachAbility(BroadcastDelegate);
-}
-
-void UOverlayWidgetController::OnExpChanged(int32 NewExp)
-{
-	OnPlayerExpChanged.Broadcast(NewExp);
 }
