@@ -31,16 +31,31 @@ public:
 	FOnPlayerStatChanged OnExpChangedDelegate;
 	// Delegate
 	FOnPlayerStatChanged OnLevelChangedDelegate;
+	// Delegate
+	FOnPlayerStatChanged OnAttributePointsChangedDelegate;
+	// Delegate
+	FOnPlayerStatChanged OnSpellPointsChangedDelegate;
 
 	void SetLevel(int32 InLevel);
 	void AddToLevel(int32 InLevel);
 	UFUNCTION(BlueprintCallable)
 	int32 GetPlayerLevel() const { return Level; }
+
 	void SetExp(int32 InExp);
 	UFUNCTION(BlueprintCallable)
 	void AddToExp(int32 InExp);
 	UFUNCTION(BlueprintCallable)
 	int32 GetExp() const { return Exp; }
+
+	void SetAttributePoints(int32 InAttributePoints);
+	void AddToAttributePoints(int32 InAttributePoints);
+	UFUNCTION(BlueprintCallable)
+	int32 GetAttributePoints() const { return AttributePoints; }
+
+	void SetSpellPoints(int32 InSpellPoints);
+	void AddToSpellPoints(int32 InSpellPoints);
+	UFUNCTION(BlueprintCallable)
+	int32 GetSpellPoints() const { return SpellPoints; }
 
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
 	TObjectPtr<ULevelUpInfo> LevelUpInfo;
@@ -58,8 +73,18 @@ private:
 	UFUNCTION()
 	void OnRep_Level(int32 OldLevel);
 
-	UPROPERTY(EditDefaultsOnly, ReplicatedUsing = OnRep_Exp)
+	UPROPERTY(EditDefaultsOnly, ReplicatedUsing = OnRep_Exp, meta = (ClampMin = "0"))
 	int32 Exp = 0;
 	UFUNCTION()
 	void OnRep_Exp(int32 OldExp);
+
+	UPROPERTY(EditDefaultsOnly, ReplicatedUsing = OnRep_AttributePoints, meta = (ClampMin = "0"))
+	int32 AttributePoints = 0;
+	UFUNCTION()
+	void OnRep_AttributePoints(int32 OldAttributePoints);
+
+	UPROPERTY(EditDefaultsOnly, ReplicatedUsing = OnRep_SpellPoints, meta = (ClampMin = "0"))
+	int32 SpellPoints = 0;
+	UFUNCTION()
+	void OnRep_SpellPoints(int32 OldAttributePoints);
 };
