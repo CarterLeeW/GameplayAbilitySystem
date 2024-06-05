@@ -11,12 +11,15 @@ void UAttributeMenuWidgetController::BroadcastInitialValues()
 {
 	const UAuraAttributeSet* AS = CastChecked<UAuraAttributeSet>(AttributeSet);
 	check(AttributeInfo);
+	AAuraPlayerState* AuraPS = CastChecked<AAuraPlayerState>(PlayerState);
+	check(AuraPS);
 	
 	for (auto& Pair : AS->TagsToAttributes)
 	{
 		BroadcastAttributeInfo(Pair.Key, Pair.Value);
 	}
-
+	OnPlayerAttributePointsChanged.Broadcast(AuraPS->GetAttributePoints());
+	OnPlayerSpellPointsChanged.Broadcast(AuraPS->GetSpellPoints());
 }
 
 void UAttributeMenuWidgetController::BindCallbacksToDependencies()
