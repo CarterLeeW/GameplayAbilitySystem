@@ -60,7 +60,7 @@ void AAuraCharacter::OnRep_PlayerState()
 	if (!AuraASC->bStartupAbilitiesGiven)
 	{
 		AuraASC->bStartupAbilitiesGiven = true;
-		AuraASC->AbilitiesGivenDelegate.Broadcast(AuraASC);
+		AuraASC->AbilitiesGivenDelegate.Broadcast();
 	}
 }
 
