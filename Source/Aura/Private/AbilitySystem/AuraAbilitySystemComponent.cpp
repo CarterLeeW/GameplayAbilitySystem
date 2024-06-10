@@ -7,6 +7,7 @@
 #include "AbilitySystem/Ability/AuraGameplayAbility.h"
 #include "Interaction/PlayerInterface.h"
 #include "AbilitySystemBlueprintLibrary.h"
+#include "AuraGameplayTagMacros.h"
 
 void UAuraAbilitySystemComponent::AbilityActorInfoSet()
 {
@@ -88,7 +89,7 @@ FGameplayTag UAuraAbilitySystemComponent::GetAbilityTagFromSpec(const FGameplayA
 	{
 		for (FGameplayTag Tag : AbilitySpec.Ability.Get()->AbilityTags)
 		{
-			if (Tag.MatchesTag(FGameplayTag::RequestGameplayTag(FName("Ability"))))
+			if (Tag.MatchesTag(FGameplayTag::RequestGameplayTag(FName(TAG_ABILITY))))
 			{
 				return Tag;
 			}
@@ -101,7 +102,7 @@ FGameplayTag UAuraAbilitySystemComponent::GetInputTagFromSpec(const FGameplayAbi
 {
 	for (FGameplayTag Tag : AbilitySpec.DynamicAbilityTags)
 	{
-		if (Tag.MatchesTag(FGameplayTag::RequestGameplayTag(FName("InputTag"))))
+		if (Tag.MatchesTag(FGameplayTag::RequestGameplayTag(FName(TAG_INPUTTAG))))
 		{
 			return Tag;
 		}
@@ -113,7 +114,7 @@ FGameplayTag UAuraAbilitySystemComponent::GetStatusFromSpec(const FGameplayAbili
 {
 	for (const FGameplayTag& StatusTag : AbilitySpec.DynamicAbilityTags)
 	{
-		if (StatusTag.MatchesTag(FGameplayTag::RequestGameplayTag(FName("Ability.Status"))))
+		if (StatusTag.MatchesTag(FGameplayTag::RequestGameplayTag(FName(TAG_ABILITY_STATUS))))
 		{
 			return StatusTag;
 		}
