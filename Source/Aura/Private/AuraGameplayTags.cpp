@@ -16,6 +16,8 @@
 #define INPUTTAG_PASSIVE "InputTag.Passive"
 #define ABILITY "Ability"
 #define ABILITY_FIRE "Ability.Fire"
+#define ABILITY_STATUS "Ability.Status"
+#define ABILITY_TYPE "Ability.Type"
 #define COOLDOWN_FIRE "Cooldown.Fire"
 #define COMBATSOCKET "CombatSocket"
 #define MONTAGE_ATTACK "Montage.Attack"
@@ -78,7 +80,18 @@ FAuraGameplayTags* FAuraGameplayTags::Get()
 
 	ADD_TAG(Ability_Attack,        ABILITY".Attack", "Tag for attacking gameplay ability");
 	ADD_TAG(Ability_Summon,        ABILITY".Summon", "Tag for summon gameplay ability");
+	ADD_TAG(Ability_HitReact,      ABILITY".HitReact", "Tag for HitReact ability");
+
 	ADD_TAG(Ability_Fire_FireBolt, ABILITY_FIRE".FireBolt", "Tag for firebolt gameplay ability");
+
+	ADD_TAG(Ability_Status_Locked,   ABILITY_STATUS".Locked", "Tag for locked ability");
+	ADD_TAG(Ability_Status_Eligible, ABILITY_STATUS".Eligible", "Tag for Eligible ability");
+	ADD_TAG(Ability_Status_Unlocked, ABILITY_STATUS".Unlocked", "Tag for Unlocked ability");
+	ADD_TAG(Ability_Status_Equipped, ABILITY_STATUS".Equipped", "Tag for Equipped ability");
+
+	ADD_TAG(Ability_Type_Offensive, ABILITY_TYPE".Offensive", "Tag for offensive ability");
+	ADD_TAG(Ability_Type_Passive,   ABILITY_TYPE".Passive",   "Tag for passive ability");
+	ADD_TAG(Ability_Type_None,      ABILITY_TYPE".None",      "Tag for ability with no type category required");
 
 	ADD_TAG(Cooldown_Fire_Firebolt, COOLDOWN_FIRE".FireBolt", "Tag for firebolt GA cooldown");
 
