@@ -6,23 +6,20 @@
 #include "UI/WidgetController/OverlayWidgetController.h"
 #include "UI/WidgetController/AttributeMenuWidgetController.h"
 #include "AbilitySystemComponent.h"
+#include "UI/WidgetController/SpellMenuWidgetController.h"
 
-#define ACCESS_WIDGET_CONTROLLER(WC, WCC, Params) \
+#define ACCESS_AND_RETURN_WIDGET_CONTROLLER(WC, WCC, Params) \
 	if (!WC)\
 	{\
 		WC = NewObject<U##WC>(this, WCC);\
 		WC->SetWidgetControllerParams(Params);\
 		WC->BindCallbacksToDependencies();\
-		return WC;\
 	}\
-	else\
-	{\
-		return WC;\
-	}
+	return WC;
 
 UOverlayWidgetController* AAuraHUD::GetOverlayWidgetController(const FWidgetControllerParams& WCParams)
 {
-	ACCESS_WIDGET_CONTROLLER(OverlayWidgetController, OverlayWidgetControllerClass, WCParams);
+	ACCESS_AND_RETURN_WIDGET_CONTROLLER(OverlayWidgetController, OverlayWidgetControllerClass, WCParams);
 }
 
 void AAuraHUD::InitOverlay(APlayerController* PC, APlayerState* PS, UAbilitySystemComponent* ASC, UAttributeSet* AS)
@@ -44,5 +41,10 @@ void AAuraHUD::InitOverlay(APlayerController* PC, APlayerState* PS, UAbilitySyst
 
 UAttributeMenuWidgetController* AAuraHUD::GetAttributeMenuWidgetController(const FWidgetControllerParams& WCParams)
 {
-	ACCESS_WIDGET_CONTROLLER(AttributeMenuWidgetController, AttributeMenuWidgetControllerClass, WCParams);
+	ACCESS_AND_RETURN_WIDGET_CONTROLLER(AttributeMenuWidgetController, AttributeMenuWidgetControllerClass, WCParams);
+}
+
+USpellMenuWidgetController* AAuraHUD::GetSpellMenuWidgetController(const FWidgetControllerParams& WCParams)
+{
+	ACCESS_AND_RETURN_WIDGET_CONTROLLER(SpellMenuWidgetController, SpellMenuWidgetControllerClass, WCParams);
 }

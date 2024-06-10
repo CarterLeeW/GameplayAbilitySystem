@@ -13,6 +13,7 @@ class UAttributeSet;
 class UOverlayWidgetController;
 class UAttributeMenuWidgetController;
 struct FWidgetControllerParams;
+class USpellMenuWidgetController;
 
 /**
  * 
@@ -31,7 +32,8 @@ public:
 
 	// Attribute Menu
 	UAttributeMenuWidgetController* GetAttributeMenuWidgetController(const FWidgetControllerParams& WCParams);
-
+	// Spell Menu
+	USpellMenuWidgetController* GetSpellMenuWidgetController(const FWidgetControllerParams& WCParams);
 protected:
 
 private:
@@ -48,5 +50,11 @@ private:
 	TObjectPtr<UAttributeMenuWidgetController> AttributeMenuWidgetController;
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<UAttributeMenuWidgetController> AttributeMenuWidgetControllerClass;
+
+	// Spell Menu
+	UPROPERTY()
+	TObjectPtr<USpellMenuWidgetController> SpellMenuWidgetController;
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<USpellMenuWidgetController> SpellMenuWidgetControllerClass;
 
 };
