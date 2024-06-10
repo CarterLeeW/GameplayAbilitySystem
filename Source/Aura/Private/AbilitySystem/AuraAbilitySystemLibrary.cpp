@@ -11,6 +11,7 @@
 #include "AbilitySystemComponent.h"
 #include "Interaction/CombatInterface.h"
 #include "UI/WidgetController/SpellMenuWidgetController.h"
+#include "AbilitySystem/Data/AbilityInfo.h"
 
 bool UAuraAbilitySystemLibrary::MakeWidgetControllerParams(const UObject* WorldContextObject, FWidgetControllerParams& OutWCParams, AAuraHUD*& OutAuraHUD)
 {
@@ -158,6 +159,14 @@ bool UAuraAbilitySystemLibrary::IsNotFriend(AActor* FirstActor, AActor* SecondAc
 	const bool bAreFriends = (bFirstIsPlayer && bSecondIsPlayer) || (bFirstIsEnemy && bSecondIsEnemy);
 
 	return !bAreFriends;
+}
+
+UAbilityInfo* UAuraAbilitySystemLibrary::GetAbilityInfo(const UObject* WorldContextObject)
+{
+	const AAuraGameModeBase* AuraGM = Cast<AAuraGameModeBase>(UGameplayStatics::GetGameMode(WorldContextObject));
+	if (!AuraGM) return nullptr;
+
+	return AuraGM->AbilityInfo;
 }
 
 int32 UAuraAbilitySystemLibrary::GetExpRewardForCharacterClassAndLevel(const UObject* WorldContextObject, ECharacterClass CharacterClass, int32 CharacterLevel)

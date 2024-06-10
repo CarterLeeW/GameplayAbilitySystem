@@ -13,6 +13,7 @@ class UAttributeMenuWidgetController;
 class USpellMenuWidgetController;
 struct FWidgetControllerParams;
 class AAuraHUD;
+class UAbilityInfo;
 
 /**
  * 
@@ -88,4 +89,6 @@ public:
 
 	static int32 GetExpRewardForCharacterClassAndLevel(const UObject* WorldContextObject, ECharacterClass CharacterClass, int32 CharacterLevel);
 
+	UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|CharacterClassDefaults", meta = (WorldContext = "WorldContextObject"))
+	static UAbilityInfo* GetAbilityInfo(const UObject* WorldContextObject);
 };

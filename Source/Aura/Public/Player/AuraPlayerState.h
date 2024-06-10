@@ -68,22 +68,22 @@ protected:
 	TObjectPtr<UAttributeSet> AttributeSet;
 
 private:
-	UPROPERTY(EditDefaultsOnly, ReplicatedUsing = OnRep_Level, meta = (ClampMin = "1"))
+	UPROPERTY(EditDefaultsOnly, ReplicatedUsing = OnRep_Level, meta = (ClampMin = "1", UIMin = "1"))
 	int32 Level = 1;
 	UFUNCTION()
 	void OnRep_Level(int32 OldLevel);
 
-	UPROPERTY(EditDefaultsOnly, ReplicatedUsing = OnRep_Exp, meta = (ClampMin = "0"))
+	UPROPERTY(EditDefaultsOnly, ReplicatedUsing = OnRep_Exp, meta = (ClampMin = "0", UIMin = "0"))
 	int32 Exp = 0;
 	UFUNCTION()
 	void OnRep_Exp(int32 OldExp);
 
-	UPROPERTY(EditDefaultsOnly, ReplicatedUsing = OnRep_AttributePoints, meta = (ClampMin = "0"))
+	UPROPERTY(EditDefaultsOnly, ReplicatedUsing = OnRep_AttributePoints, meta = (ClampMin = "0", UIMin = "0"))
 	int32 AttributePoints = 0;
 	UFUNCTION()
 	void OnRep_AttributePoints(int32 OldAttributePoints);
 
-	UPROPERTY(EditDefaultsOnly, ReplicatedUsing = OnRep_SpellPoints, meta = (ClampMin = "0"))
+	UPROPERTY(EditDefaultsOnly, ReplicatedUsing = OnRep_SpellPoints, meta = (ClampMin = "0", UIMin = "0"))
 	int32 SpellPoints = 0;
 	UFUNCTION()
 	void OnRep_SpellPoints(int32 OldAttributePoints);
