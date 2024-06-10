@@ -13,6 +13,7 @@
 #define ATTRIBUTES_META "Attributes.Meta"
 #define DAMAGE "Damage"
 #define INPUTTAG "InputTag"
+#define INPUTTAG_PASSIVE "InputTag.Passive"
 #define ABILITY "Ability"
 #define ABILITY_FIRE "Ability.Fire"
 #define COOLDOWN_FIRE "Cooldown.Fire"
@@ -64,12 +65,14 @@ FAuraGameplayTags* FAuraGameplayTags::Get()
 	MAP_DAM_TO_RES(Lightning);
 	MAP_DAM_TO_RES(Physical);
 
-	ADD_TAG(InputTag_LMB, INPUTTAG".LMB", "Input Tag for Left Mouse Button");
-	ADD_TAG(InputTag_RMB, INPUTTAG".RMB", "Input Tag for Right Mouse Button");
-	ADD_TAG(InputTag_1,   INPUTTAG".1",   "Input Tag for 1 Key Button");
-	ADD_TAG(InputTag_2,   INPUTTAG".2",   "Input Tag for 2 Key Button");
-	ADD_TAG(InputTag_3,   INPUTTAG".3",   "Input Tag for 3 Key Button");
-	ADD_TAG(InputTag_4,   INPUTTAG".4",   "Input Tag for 4 Key Button");
+	ADD_TAG(InputTag_LMB,       INPUTTAG".LMB",       "Input Tag for Left Mouse Button");
+	ADD_TAG(InputTag_RMB,       INPUTTAG".RMB",       "Input Tag for Right Mouse Button");
+	ADD_TAG(InputTag_1,         INPUTTAG".1",         "Input Tag for 1 Key Button");
+	ADD_TAG(InputTag_2,         INPUTTAG".2",         "Input Tag for 2 Key Button");
+	ADD_TAG(InputTag_3,         INPUTTAG".3",         "Input Tag for 3 Key Button");
+	ADD_TAG(InputTag_4,         INPUTTAG".4",         "Input Tag for 4 Key Button");
+	ADD_TAG(InputTag_Passive_1, INPUTTAG_PASSIVE".1", "Input Tag for Passive 1");
+	ADD_TAG(InputTag_Passive_2, INPUTTAG_PASSIVE".2", "Input Tag for Passive 2");
 
 	ADD_TAG(Effects_HitReact, "Effects.HitReact", "Handles what happens when a pawn is hit with an object or spell");
 
