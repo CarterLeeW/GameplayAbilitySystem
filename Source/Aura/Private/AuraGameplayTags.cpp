@@ -71,6 +71,8 @@ FAuraGameplayTags* FAuraGameplayTags::Get()
 
 	ADD_TAG(Ability_Fire_FireBolt, TAG_ABILITY_FIRE".FireBolt", "Tag for firebolt gameplay ability");
 
+	ADD_TAG(Ability_Lightning_Electrocute, TAG_ABILITY_LIGHTNING".Electrocute", "Electrocute gameplay ability");
+
 	ADD_TAG(Ability_Status_Locked,   TAG_ABILITY_STATUS".Locked", "Tag for locked ability");
 	ADD_TAG(Ability_Status_Eligible, TAG_ABILITY_STATUS".Eligible", "Tag for Eligible ability");
 	ADD_TAG(Ability_Status_Unlocked, TAG_ABILITY_STATUS".Unlocked", "Tag for Unlocked ability");

@@ -69,6 +69,7 @@ public:
 	FGameplayTag Ability_HitReact;
 
 	FGameplayTag Ability_Fire_FireBolt;
+	FGameplayTag Ability_Lightning_Electrocute;
 
 	FGameplayTag Ability_Status_Locked;
 	FGameplayTag Ability_Status_Eligible;
