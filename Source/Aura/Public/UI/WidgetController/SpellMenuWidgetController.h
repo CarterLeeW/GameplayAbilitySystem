@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "UI/WidgetController/AuraWidgetController.h"
+#include "AuraGlobalDelegates.h"
 #include "SpellMenuWidgetController.generated.h"
 
 /**
@@ -17,4 +18,7 @@ class AURA_API USpellMenuWidgetController : public UAuraWidgetController
 public:
 	virtual void BroadcastInitialValues() override;
 	virtual void BindCallbacksToDependencies() override;
+
+	UPROPERTY(BlueprintAssignable, Category = "GAS|PlayerStats")
+	FPlayerStatChangedSignature OnPlayerSpellPointsChanged;
 };
