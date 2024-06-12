@@ -164,6 +164,7 @@ void UAuraAbilitySystemComponent::UpdateAbilityStatus(int32 Level)
 			AbilitySpec.DynamicAbilityTags.AddTag(FAuraGameplayTags::Get()->Ability_Status_Eligible);
 			GiveAbility(AbilitySpec);
 			MarkAbilitySpecDirty(AbilitySpec);
+			Client_UpdateAbilityStatus(Info.AbilityTag, FAuraGameplayTags::Get()->Ability_Status_Eligible);
 		}
 	}
 }
@@ -180,6 +181,11 @@ void UAuraAbilitySystemComponent::Server_UpgradeAttribute_Implementation(const F
 	{
 		IPlayerInterface::Execute_AddToAttributePoints(GetAvatarActor(), -1);
 	}
+}
+
+void UAuraAbilitySystemComponent::Client_UpdateAbilityStatus_Implementation(const FGameplayTag& AbilityTag, const FGameplayTag& StatusTag)
+{
+	OnAbilityStatusChanged.Broadcast(AbilityTag, StatusTag);
 }
 
 void UAuraAbilitySystemComponent::OnRep_ActivateAbilities()
