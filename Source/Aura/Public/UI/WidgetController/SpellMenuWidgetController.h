@@ -21,4 +21,7 @@ public:
 
 	UPROPERTY(BlueprintAssignable, Category = "GAS|PlayerStats")
 	FPlayerStatChangedSignature OnPlayerSpellPointsChanged;
+
+	UFUNCTION(BlueprintCallable)
+	void SpendSpellPointButtonPressed(const FGameplayTag& AbilityTag);
 };
