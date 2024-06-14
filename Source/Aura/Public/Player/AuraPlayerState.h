@@ -86,5 +86,5 @@ private:
 	UPROPERTY(EditDefaultsOnly, ReplicatedUsing = OnRep_SpellPoints, meta = (ClampMin = "0", UIMin = "0"))
 	int32 SpellPoints = 0;
 	UFUNCTION()
-	void OnRep_SpellPoints(int32 OldAttributePoints);
+	void OnRep_SpellPoints(int32 OldSpellPoints);
 };

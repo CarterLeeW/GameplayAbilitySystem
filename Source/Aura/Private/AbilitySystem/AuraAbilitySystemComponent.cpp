@@ -171,6 +171,11 @@ void UAuraAbilitySystemComponent::UpdateAbilityStatus(int32 Level)
 
 void UAuraAbilitySystemComponent::Server_SpendSpellPoint_Implementation(const FGameplayTag& AbilityTag)
 {
+	// No points to spend, should only be the case if something goes wrong with the UI
+	if ((GetAvatarActor()->Implements<UPlayerInterface>()) && (IPlayerInterface::Execute_GetSpellPoints(GetAvatarActor()) <= 0))
+	{
+		UE_LOG(LogAura, Error, TEXT("Attempting to spend SpellPoints when none are available"));
+	}
 	if (FGameplayAbilitySpec* AbilitySpec = GetSpecFromAbilityTag(AbilityTag))
 	{
 		FGameplayTag StatusTag = GetStatusTagFromSpec(*AbilitySpec);
