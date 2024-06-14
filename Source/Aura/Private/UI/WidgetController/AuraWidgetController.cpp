@@ -28,7 +28,7 @@ void UAuraWidgetController::BindCallbacksToDependencies()
 
 }
 
-void UAuraWidgetController::BroadCastAbilityInfo()
+void UAuraWidgetController::BroadcastAbilityInfo()
 {
 	FForEachAbility BroadcastDelegate;
 	BroadcastDelegate.BindLambda(

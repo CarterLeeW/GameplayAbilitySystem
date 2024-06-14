@@ -36,11 +36,11 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
 	If abilities are not set, then we must bind this function to the delegate */
 	if (GetAuraASC()->bStartupAbilitiesGiven)
 	{
-		BroadCastAbilityInfo();
+		BroadcastAbilityInfo();
 	}
 	else
 	{
-		GetAuraASC()->AbilitiesGivenDelegate.AddUObject(this, &UAuraWidgetController::BroadCastAbilityInfo);
+		GetAuraASC()->AbilitiesGivenDelegate.AddUObject(this, &UAuraWidgetController::BroadcastAbilityInfo);
 	}
 
 	// Capture tags from EffectApplied in Ability System Component

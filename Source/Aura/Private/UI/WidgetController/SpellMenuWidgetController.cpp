@@ -5,10 +5,11 @@
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "AbilitySystem/Data/AbilityInfo.h"
 #include "Player/AuraPlayerState.h"
+#include "AbilitySystem/Ability/AuraGameplayAbility.h"
 
 void USpellMenuWidgetController::BroadcastInitialValues()
 {
-	BroadCastAbilityInfo();
+	BroadcastAbilityInfo();
 	OnPlayerSpellPointsChanged.Broadcast(GetAuraPS()->GetSpellPoints());
 }
 
@@ -34,4 +35,13 @@ void USpellMenuWidgetController::BindCallbacksToDependencies()
 void USpellMenuWidgetController::SpendSpellPointButtonPressed(const FGameplayTag& AbilityTag)
 {
 	GetAuraASC()->Server_SpendSpellPoint(AbilityTag);
+}
+
+void USpellMenuWidgetController::GetDescriptionsByAbilityTag(const FGameplayTag& AbilityTag, FString& OutDescription, FString& OutNextLevelDescription)
+{
+	if (!GetAuraASC()->GetDescriptionsByAbilityTag(AbilityTag, OutDescription, OutNextLevelDescription))
+	{
+		OutDescription = UAuraGameplayAbility::GetLockedDescription(AbilityInfo->FindAbilityInfoForTag(AbilityTag).LevelRequirement);
+		OutNextLevelDescription = FString();
+	}
 }

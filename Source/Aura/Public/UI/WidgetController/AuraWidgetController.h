@@ -59,7 +59,7 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = "GAS|Ability")
 	FAbilityInfoSignature AbilityInfoDelegate;
 
-	void BroadCastAbilityInfo();
+	void BroadcastAbilityInfo();
 protected:
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Data")
 	TObjectPtr<UAbilityInfo> AbilityInfo;
