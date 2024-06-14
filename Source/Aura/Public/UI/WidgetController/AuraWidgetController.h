@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
+#include "AuraGlobalDelegates.h"
 #include "AuraWidgetController.generated.h"
 
 class UAbilitySystemComponent;
@@ -58,6 +59,9 @@ public:
 
 	UPROPERTY(BlueprintAssignable, Category = "GAS|Ability")
 	FAbilityInfoSignature AbilityInfoDelegate;
+
+	UPROPERTY(BlueprintAssignable, Category = "GAS|PlayerStats")
+	FPlayerStatChangedSignature OnPlayerLevelChanged;
 
 	void BroadcastAbilityInfo();
 protected:

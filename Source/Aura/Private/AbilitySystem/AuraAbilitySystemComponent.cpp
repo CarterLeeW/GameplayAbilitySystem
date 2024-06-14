@@ -171,12 +171,13 @@ void UAuraAbilitySystemComponent::UpdateAbilityStatus(int32 Level)
 
 bool UAuraAbilitySystemComponent::GetDescriptionsByAbilityTag(const FGameplayTag& AbilityTag, FString& OutDescription, FString& OutNextLevelDescription)
 {
+	const auto abilities = GetActivatableAbilities();
 	if (const FGameplayAbilitySpec* AbilitySpec = GetSpecFromAbilityTag(AbilityTag))
 	{
 		if (UAuraGameplayAbility* AuraAbility = Cast<UAuraGameplayAbility>(AbilitySpec->Ability))
 		{
 			OutDescription = AuraAbility->GetDescription(AbilitySpec->Level);
-			OutNextLevelDescription = AuraAbility->GetNextLevelDescription(AbilitySpec->Level+1);
+			OutNextLevelDescription = AuraAbility->GetNextLevelDescription(AbilitySpec->Level);
 			return true;
 		}
 	}

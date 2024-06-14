@@ -66,9 +66,6 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = "GAS|PlayerStats")
 	FPlayerStatChangedSignature OnPlayerExpChanged;
 
-	UPROPERTY(BlueprintAssignable, Category = "GAS|PlayerStats")
-	FPlayerStatChangedSignature OnPlayerLevelChanged;
-
 protected:
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Data")
 	TObjectPtr<UDataTable> MessageWidgetDataTable;

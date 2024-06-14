@@ -30,6 +30,9 @@ void USpellMenuWidgetController::BindCallbacksToDependencies()
 	GetAuraPS()->OnSpellPointsChangedDelegate.AddLambda(
 		[this](int32 NewSpellPoints) { OnPlayerSpellPointsChanged.Broadcast(NewSpellPoints); }
 	);
+	GetAuraPS()->OnLevelChangedDelegate.AddLambda(
+		[this](int32 NewLevel) { OnPlayerLevelChanged.Broadcast(NewLevel); }
+	);
 }
 
 void USpellMenuWidgetController::SpendSpellPointButtonPressed(const FGameplayTag& AbilityTag)
