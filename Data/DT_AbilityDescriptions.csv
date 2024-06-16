@@ -1,0 +1,2 @@
+---,AbilityTag,Description
+FireBolt,"(TagName=""Ability.Fire.FireBolt"")","<Title>FIRE BOLT</>\n\n<Default>Launches %d %s of fire, exploding on impact and dealing </><Damage>%d</> <Default>fire damage with a chance to burn</>\n\n<Default>Level: %d</>"
