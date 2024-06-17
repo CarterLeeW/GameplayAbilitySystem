@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "AbilitySystem/Ability/AuraGameplayAbility.h"
+#include "AuraAbilityTypes.h"
 #include "AuraDamageGameplayAbility.generated.h"
 
 /**
@@ -17,6 +18,8 @@ class AURA_API UAuraDamageGameplayAbility : public UAuraGameplayAbility
 public:
 	UFUNCTION(BlueprintCallable)
 	void CauseDamage(AActor* TargetActor);
+
+	FDamageEffectParams MakeDamageEffectParamsFromClassDefaults(AActor* TargetActor = nullptr) const;
 	
 protected:
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
@@ -31,7 +34,7 @@ protected:
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Damage")
 	float DebuffDamage = 5.f;
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Damage")
-	float DebuffTickPeriod = 1.f;
+	float DebuffPeriod = 1.f;
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Damage")
 	float DebuffDuration = 5.f;
 };
