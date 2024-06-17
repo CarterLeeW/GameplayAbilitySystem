@@ -65,9 +65,10 @@ FAuraGameplayTags* FAuraGameplayTags::Get()
 
 	ADD_TAG(Effects_HitReact, "Effects.HitReact", "Handles what happens when a pawn is hit with an object or spell");
 
-	ADD_TAG(Ability_Attack,        TAG_ABILITY".Attack", "Tag for attacking gameplay ability");
-	ADD_TAG(Ability_Summon,        TAG_ABILITY".Summon", "Tag for summon gameplay ability");
+	ADD_TAG(Ability_Attack,        TAG_ABILITY".Attack",   "Tag for attacking gameplay ability");
+	ADD_TAG(Ability_Summon,        TAG_ABILITY".Summon",   "Tag for summon gameplay ability");
 	ADD_TAG(Ability_HitReact,      TAG_ABILITY".HitReact", "Tag for HitReact ability");
+	ADD_TAG(Ability_None,          TAG_ABILITY".None",     "Null ability tag");
 
 	ADD_TAG(Ability_Fire_FireBolt, TAG_ABILITY_FIRE".FireBolt", "Tag for firebolt gameplay ability");
 

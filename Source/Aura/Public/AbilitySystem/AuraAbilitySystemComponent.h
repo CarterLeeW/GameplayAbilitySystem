@@ -10,6 +10,7 @@ DECLARE_MULTICAST_DELEGATE_OneParam(FEffectAssetTagsSignature, const FGameplayTa
 DECLARE_MULTICAST_DELEGATE(FAbilitiesGiven);
 DECLARE_DELEGATE_OneParam(FForEachAbility, const FGameplayAbilitySpec&);
 DECLARE_MULTICAST_DELEGATE_ThreeParams(FAbilityStatusChanged, const FGameplayTag& /*AbilityTag*/, const FGameplayTag& /*StatusTag*/, int32 /*AbilityLevel*/);
+DECLARE_MULTICAST_DELEGATE_FourParams(FAbilityEquipped, const FGameplayTag& /*AbilityTag*/, const FGameplayTag& /*Status*/, const FGameplayTag& /*Slot*/, const FGameplayTag& /*PrevSlot*/);
 
 /**
  * 
@@ -21,12 +22,11 @@ class AURA_API UAuraAbilitySystemComponent : public UAbilitySystemComponent
 	
 public:
 	void AbilityActorInfoSet();
-	// Delegate
+	/* Delegates */
 	FEffectAssetTagsSignature EffectAssetTagsDelegate;
-	// Delegate
 	FAbilitiesGiven AbilitiesGivenDelegate;
-	// Delegate
 	FAbilityStatusChanged OnAbilityStatusChanged;
+	FAbilityEquipped OnAbilityEquipped;
 
 	bool bStartupAbilitiesGiven = false;
 
@@ -38,7 +38,12 @@ public:
 	static FGameplayTag GetAbilityTagFromSpec(const FGameplayAbilitySpec& AbilitySpec);
 	static FGameplayTag GetInputTagFromSpec(const FGameplayAbilitySpec& AbilitySpec);
 	static FGameplayTag GetStatusTagFromSpec(const FGameplayAbilitySpec& AbilitySpec);
+	FGameplayTag GetStatusFromAbilityTag(const FGameplayTag& AbilityTag);
+	FGameplayTag GetInputTagFromAbilityTag(const FGameplayTag& AbilityTag);
 	FGameplayAbilitySpec* GetSpecFromAbilityTag(const FGameplayTag& AbilityTag);
+	void ClearSlot(FGameplayAbilitySpec* Spec);
+	void ClearAbilitiesInSlot(const FGameplayTag& Slot);
+	static bool AbilityHasSlot(const FGameplayAbilitySpec* Spec, const FGameplayTag& Slot);
 	void UpgradeAttribute(const FGameplayTag& AttributeTag);
 	void UpdateAbilityStatus(int32 Level);
 	UFUNCTION(BlueprintCallable)
@@ -48,10 +53,14 @@ public:
 	void Server_UpgradeAttribute(const FGameplayTag& AttributeTag);
 	UFUNCTION(Server, Reliable)
 	void Server_SpendSpellPoint(const FGameplayTag& AbilityTag);
+	UFUNCTION(Server, Reliable)
+	void Server_EquipAbility(const FGameplayTag& AbilityTag, const FGameplayTag& Slot);
 protected:
 	UFUNCTION(Client, Reliable)
 	void ClientEffectApplied(UAbilitySystemComponent* AbilitySystemComponent, const FGameplayEffectSpec& EffectSpec, FActiveGameplayEffectHandle ActiveEffectHandle);
 	UFUNCTION(Client, Reliable)
 	void Client_UpdateAbilityStatus(const FGameplayTag& AbilityTag, const FGameplayTag& StatusTag, int32 AbilityLevel);
+	UFUNCTION(Client, Reliable)
+	void Client_EquipAbility(const FGameplayTag& AbilityTag, const FGameplayTag& Status, const FGameplayTag& Slot, const FGameplayTag& PrevSlot);
 	virtual void OnRep_ActivateAbilities() override;
 };

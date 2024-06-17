@@ -8,19 +8,6 @@
 #include "GameplayTagContainer.h"
 #include "SpellMenuWidgetController.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FWaitForEquipSelectionSignature, const FGameplayTag&, AbilityType);
-
-USTRUCT(BlueprintType)
-struct FSelectedAbility
-{
-	GENERATED_BODY()
-
-	UPROPERTY(BlueprintReadWrite)
-	FGameplayTag Ability = FGameplayTag();
-	UPROPERTY(BlueprintReadWrite)
-	FGameplayTag Status = FGameplayTag();
-};
-
 /**
  * 
  */
@@ -36,19 +23,19 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = "GAS|PlayerStats")
 	FPlayerStatChangedSignature OnPlayerSpellPointsChanged;
 
-	UPROPERTY(BlueprintAssignable, Category = "Gas|Ability")
-	FWaitForEquipSelectionSignature WaitForEquip;
-
 	UFUNCTION(BlueprintCallable)
 	void SpendSpellPointButtonPressed(const FGameplayTag& AbilityTag);
 	UFUNCTION(BlueprintCallable)
 	void GetDescriptionsByAbilityTag(const FGameplayTag& AbilityTag, FString& OutDescription, FString& OutNextLevelDescription);
 	UFUNCTION(BlueprintCallable)
-	void EquipButtonPressed();
-
+	void EquipButtonPressed(const FGameplayTag& AbilityTag);
+	UFUNCTION(BlueprintCallable)
+	void SpellRowGlobePressed(const FGameplayTag& AbilityTag, const FGameplayTag& SlotTag, const FGameplayTag& AbilityType);
+	void OnAbilityEquipped(const FGameplayTag& AbilityTag, const FGameplayTag& Status, const FGameplayTag& Slot, const FGameplayTag& PrevSlot);
+protected:
 	UPROPERTY(BlueprintReadWrite)
-	FSelectedAbility SelectedAbility;
+	bool bWaitingForEquipSelection;
 
 private:
-	bool bWaitingForEquipSelection = false;
+	FGameplayTag SelectedSlot;
 };
