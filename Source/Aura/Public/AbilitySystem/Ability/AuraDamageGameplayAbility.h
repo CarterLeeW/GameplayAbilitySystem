@@ -26,4 +26,12 @@ protected:
 	FGameplayTag DamageType;
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Damage")
 	FScalableFloat Damage;
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Damage")
+	float DebuffChance = 20.f;
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Damage")
+	float DebuffDamage = 5.f;
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Damage")
+	float DebuffTickPeriod = 1.f;
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Damage")
+	float DebuffDuration = 5.f;
 };

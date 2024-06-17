@@ -53,6 +53,11 @@ FAuraGameplayTags* FAuraGameplayTags::Get()
 	ADD_TAG(Debuff_Physical, TAG_DEBUFF".Physical", "Physical damage debuff");
 	ADD_TAG(Debuff_Stun,     TAG_DEBUFF".Stun",     "Stun damage debuff");
 
+	ADD_TAG(Debuff_Chance,   TAG_DEBUFF".Chance",   "Chance to apply debuff");
+	ADD_TAG(Debuff_Damage,   TAG_DEBUFF".Damage",   "Damage per tick");
+	ADD_TAG(Debuff_Duration, TAG_DEBUFF".Duration", "Duration of debuff");
+	ADD_TAG(Debuff_Period,   TAG_DEBUFF".Period",   "Period of debuff tick");
+
 
 	// Map of damage types to resistances, must be updated each time a resistance or damage is added
 	GameplayTags->DamageTypesToResistances.Add(GameplayTags->Damage_Arcane, GameplayTags->Attributes_Resistance_Arcane);
