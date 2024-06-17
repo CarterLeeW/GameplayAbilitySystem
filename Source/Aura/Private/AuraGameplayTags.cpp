@@ -7,7 +7,6 @@
 #include "AuraGameplayTagMacros.h"
 
 #define ADD_TAG(tag, name, comment) GameplayTags->tag = UGameplayTagsManager::Get().AddNativeGameplayTag(FName(name), FString(comment))
-#define MAP_DAM_TO_RES(type) GameplayTags->DamageTypesToResistances.Add(GameplayTags->Damage_##type, GameplayTags->Attributes_Resistance_##type);
 
 FAuraGameplayTags* FAuraGameplayTags::GameplayTags = nullptr;
 
@@ -48,11 +47,24 @@ FAuraGameplayTags* FAuraGameplayTags::Get()
 	ADD_TAG(Damage_Fire,      TAG_DAMAGE".Fire",      "Fire Damage Type");
 	ADD_TAG(Damage_Lightning, TAG_DAMAGE".Lightning", "Lightning Damage Type");
 	ADD_TAG(Damage_Physical,  TAG_DAMAGE".Physical",  "Physical Damage Type");
+
+	ADD_TAG(Debuff_Arcane,   TAG_DEBUFF".Arcane",   "Arcane damage debuff");
+	ADD_TAG(Debuff_Burn,     TAG_DEBUFF".Burn",     "Burn damage debuff");
+	ADD_TAG(Debuff_Physical, TAG_DEBUFF".Physical", "Physical damage debuff");
+	ADD_TAG(Debuff_Stun,     TAG_DEBUFF".Stun",     "Stun damage debuff");
+
+
 	// Map of damage types to resistances, must be updated each time a resistance or damage is added
-	MAP_DAM_TO_RES(Arcane);
-	MAP_DAM_TO_RES(Fire);
-	MAP_DAM_TO_RES(Lightning);
-	MAP_DAM_TO_RES(Physical);
+	GameplayTags->DamageTypesToResistances.Add(GameplayTags->Damage_Arcane, GameplayTags->Attributes_Resistance_Arcane);
+	GameplayTags->DamageTypesToResistances.Add(GameplayTags->Damage_Fire, GameplayTags->Attributes_Resistance_Fire);
+	GameplayTags->DamageTypesToResistances.Add(GameplayTags->Damage_Lightning, GameplayTags->Attributes_Resistance_Lightning);
+	GameplayTags->DamageTypesToResistances.Add(GameplayTags->Damage_Physical, GameplayTags->Attributes_Resistance_Physical);
+
+	// Map of damage types to debuffs, must be updated each time a debuff or damage is added
+	GameplayTags->DamageTypesToDebuffs.Add(GameplayTags->Damage_Arcane, GameplayTags->Debuff_Arcane);
+	GameplayTags->DamageTypesToDebuffs.Add(GameplayTags->Damage_Fire, GameplayTags->Debuff_Burn);
+	GameplayTags->DamageTypesToDebuffs.Add(GameplayTags->Damage_Physical, GameplayTags->Debuff_Physical);
+	GameplayTags->DamageTypesToDebuffs.Add(GameplayTags->Damage_Lightning, GameplayTags->Debuff_Stun);
 
 	ADD_TAG(InputTag_LMB,       TAG_INPUTTAG".LMB",       "Input Tag for Left Mouse Button");
 	ADD_TAG(InputTag_RMB,       TAG_INPUTTAG".RMB",       "Input Tag for Right Mouse Button");

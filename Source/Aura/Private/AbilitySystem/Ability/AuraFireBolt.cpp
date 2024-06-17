@@ -6,14 +6,13 @@
 #include "AbilitySystemBlueprintLibrary.h"
 #include "Interaction/CombatInterface.h"
 #include "AbilitySystemComponent.h"
-#include "AuraGameplayTags.h"
 
 FString UAuraFireBolt::GetDescription(int32 Level) const
 {
 	const float ManaCost = FMath::Abs(GetManaCost(Level));
 	const float Cooldown = GetCooldown(Level);
 	const FString Bolts = NumProjectiles == 1 ? TEXT("bolt") : TEXT("bolts");
-	const float FireDamage = GetDamageByDamageType(Level, FAuraGameplayTags::Get()->Damage_Fire);
+	const float FireDamage = Damage.GetValueAtLevel(Level);
 	return FString::Printf(TEXT(
 		// Title
 		"<Title>FIRE BOLT</>\n\n"
@@ -33,7 +32,7 @@ FString UAuraFireBolt::GetNextLevelDescription(int32 Level) const
 	const float ManaCost = FMath::Abs(GetManaCost(Level+1));
 	const float Cooldown = GetCooldown(Level+1);
 	const FString Bolts = NumProjectiles + 1 == 1 ? TEXT("bolt") : TEXT("bolts");
-	const float FireDamage = GetDamageByDamageType(Level+1, FAuraGameplayTags::Get()->Damage_Fire);
+	const float FireDamage = Damage.GetValueAtLevel(Level+1);
 	return FString::Printf(TEXT(
 	// Title
 	"<Title>NEXT LEVEL</>\n\n"

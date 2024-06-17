@@ -23,7 +23,7 @@ protected:
 	TSubclassOf<UGameplayEffect> DamageEffectClass;
 
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Damage")
-	TMap<FGameplayTag, FScalableFloat> DamageTypes;
-
-	float GetDamageByDamageType(float InLevel, const FGameplayTag& DamageType) const;
+	FGameplayTag DamageType;
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Damage")
+	FScalableFloat Damage;
 };

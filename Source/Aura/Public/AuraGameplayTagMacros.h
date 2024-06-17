@@ -6,6 +6,7 @@
 #define TAG_ATTRIBUTES_RESISTANCE "Attributes.Resistance"
 #define TAG_ATTRIBUTES_META "Attributes.Meta"
 #define TAG_DAMAGE "Damage"
+#define TAG_DEBUFF "Debuff"
 #define TAG_INPUTTAG "InputTag"
 #define TAG_INPUTTAG_PASSIVE "InputTag.Passive"
 #define TAG_ABILITY "Ability"

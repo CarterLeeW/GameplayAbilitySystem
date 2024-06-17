@@ -49,7 +49,14 @@ public:
 	FGameplayTag Damage_Lightning;
 	FGameplayTag Damage_Physical;
 
+	// Debuff Types
+	FGameplayTag Debuff_Arcane;
+	FGameplayTag Debuff_Burn;
+	FGameplayTag Debuff_Physical;
+	FGameplayTag Debuff_Stun;
+
 	TMap<FGameplayTag, FGameplayTag> DamageTypesToResistances;
+	TMap<FGameplayTag, FGameplayTag> DamageTypesToDebuffs;
 
 	// Input Tags
 	FGameplayTag InputTag_LMB;
