@@ -31,7 +31,7 @@ public:
 	void EquipButtonPressed(const FGameplayTag& AbilityTag);
 	UFUNCTION(BlueprintCallable)
 	void SpellRowGlobePressed(const FGameplayTag& AbilityTag, const FGameplayTag& SlotTag, const FGameplayTag& AbilityType);
-	void OnAbilityEquipped(const FGameplayTag& AbilityTag, const FGameplayTag& Status, const FGameplayTag& Slot, const FGameplayTag& PrevSlot);
+	virtual void OnAbilityEquipped(const FGameplayTag& AbilityTag, const FGameplayTag& Status, const FGameplayTag& Slot, const FGameplayTag& PrevSlot) override;
 protected:
 	UPROPERTY(BlueprintReadWrite)
 	bool bWaitingForEquipSelection;

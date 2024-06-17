@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
 #include "AuraGlobalDelegates.h"
+#include "GameplayTagContainer.h"
 #include "AuraWidgetController.generated.h"
 
 class UAbilitySystemComponent;
@@ -56,6 +57,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 	virtual void BroadcastInitialValues();
 	virtual void BindCallbacksToDependencies();
+	virtual void OnAbilityEquipped(const FGameplayTag& AbilityTag, const FGameplayTag& Status, const FGameplayTag& Slot, const FGameplayTag& PrevSlot);
 
 	UPROPERTY(BlueprintAssignable, Category = "GAS|Ability")
 	FAbilityInfoSignature AbilityInfoDelegate;

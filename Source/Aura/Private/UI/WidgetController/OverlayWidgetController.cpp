@@ -5,6 +5,8 @@
 #include "AbilitySystem/AuraAttributeSet.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "Player/AuraPlayerState.h"
+#include "AuraGameplayTags.h"
+#include "AbilitySystem/Data/AbilityInfo.h"
 
 
 #define BIND_ATTRIBUTE_CALLBACK( AttributeName ) \
@@ -43,6 +45,8 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
 		GetAuraASC()->AbilitiesGivenDelegate.AddUObject(this, &UAuraWidgetController::BroadcastAbilityInfo);
 	}
 
+	GetAuraASC()->OnAbilityEquipped.AddUObject(this, &UOverlayWidgetController::OnAbilityEquipped);
+
 	// Capture tags from EffectApplied in Ability System Component
 	GetAuraASC()->EffectAssetTagsDelegate.AddLambda(
 		[this](const FGameplayTagContainer& AssetTags) 
@@ -69,4 +73,22 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
 	GetAuraPS()->OnLevelChangedDelegate.AddLambda(
 		[this](int32 NewLevel) { OnPlayerLevelChanged.Broadcast(NewLevel); }
 	);
+}
+
+void UOverlayWidgetController::OnAbilityEquipped(const FGameplayTag& AbilityTag, const FGameplayTag& Status, const FGameplayTag& Slot, const FGameplayTag& PrevSlot)
+{
+	const FAuraGameplayTags* Tags = FAuraGameplayTags::Get();
+
+	FAuraAbilityInfo LastSlotInfo;
+	LastSlotInfo.StatusTag = Tags->Ability_Status_Unlocked;
+	LastSlotInfo.InputTag = PrevSlot;
+	LastSlotInfo.AbilityTag = Tags->Ability_None;
+	// Broadcast empty info if PrevSlot is a valid slot. Only if equipping an already-equipped spell
+	AbilityInfoDelegate.Broadcast(LastSlotInfo);
+
+	FAuraAbilityInfo Info = AbilityInfo->FindAbilityInfoForTag(AbilityTag);
+	Info.StatusTag = Status;
+	Info.InputTag = Slot;
+	// Fill in new ability information
+	AbilityInfoDelegate.Broadcast(Info);
 }

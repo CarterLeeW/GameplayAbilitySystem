@@ -28,6 +28,10 @@ void UAuraWidgetController::BindCallbacksToDependencies()
 
 }
 
+void UAuraWidgetController::OnAbilityEquipped(const FGameplayTag& AbilityTag, const FGameplayTag& Status, const FGameplayTag& Slot, const FGameplayTag& PrevSlot)
+{
+}
+
 void UAuraWidgetController::BroadcastAbilityInfo()
 {
 	FForEachAbility BroadcastDelegate;
