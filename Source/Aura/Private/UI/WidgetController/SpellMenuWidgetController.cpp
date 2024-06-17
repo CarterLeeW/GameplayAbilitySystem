@@ -48,3 +48,13 @@ void USpellMenuWidgetController::GetDescriptionsByAbilityTag(const FGameplayTag&
 		OutNextLevelDescription = FString();
 	}
 }
+
+void USpellMenuWidgetController::EquipButtonPressed()
+{
+	const FGameplayTag AbilityType = AbilityInfo->FindAbilityInfoForTag(SelectedAbility.Ability).AbilityType;
+	if (AbilityType.IsValid())
+	{
+		WaitForEquip.Broadcast(AbilityType);
+		bWaitingForEquipSelection = true;
+	}
+}
