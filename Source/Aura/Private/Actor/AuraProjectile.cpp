@@ -53,14 +53,11 @@ void AAuraProjectile::Destroyed()
 
 void AAuraProjectile::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	AActor* ProjectileInstigatorActor = this->GetInstigator<AActor>();
-	// This ensures the effect causer does not hit itself
-	if (ProjectileInstigatorActor && ProjectileInstigatorActor == OtherActor)
-	{
-		return;
-	}
+	const AActor* SourceAvatarActor = DamageEffectParams.SourceAbilitySystemComponent->GetAvatarActor();
+	if (SourceAvatarActor == OtherActor) return; // Do not hit yourself
+
 	// This disables friendly fire
-	if (ProjectileInstigatorActor && !UAuraAbilitySystemLibrary::IsNotFriend(ProjectileInstigatorActor, OtherActor))
+	if (SourceAvatarActor && !UAuraAbilitySystemLibrary::IsNotFriend(SourceAvatarActor, OtherActor))
 	{
 		return;
 	}
@@ -75,7 +72,8 @@ void AAuraProjectile::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, 
 		// Apply any gameplay effects
 		if (UAbilitySystemComponent* TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(OtherActor))
 		{
-			TargetASC->ApplyGameplayEffectSpecToSelf(*DamageEffectSpecHandle.Data.Get());
+			DamageEffectParams.TargetAbilitySystemComponent = TargetASC; // This is the first time TargetASC is valid
+			UAuraAbilitySystemLibrary::ApplyDamageEffect(DamageEffectParams);
 		}
 		Destroy();
 	}
