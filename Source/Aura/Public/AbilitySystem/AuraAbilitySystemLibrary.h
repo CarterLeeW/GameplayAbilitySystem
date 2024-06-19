@@ -45,25 +45,6 @@ public:
 	static UCharacterClassInfo* GetCharacterClassInfo(const UObject* WorldContextObject);
 
 	UFUNCTION(BlueprintPure, Category = "AuraAbilitySystemLibrary|GameplayEffects")
-	static bool IsBlockedHit(const FGameplayEffectContextHandle& EffectContextHandle)
-	{
-		if (const FAuraGameplayEffectContext* AuraEffectContext = static_cast<const FAuraGameplayEffectContext*>(EffectContextHandle.Get()))
-		{
-			return AuraEffectContext->IsBlockedHit();
-		}
-		return false;
-	}
-
-	UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|GameplayEffects")
-	static void SetIsBlockedHit(UPARAM(ref) FGameplayEffectContextHandle& EffectContextHandle, bool bInIsBlockedHit)
-	{
-		if (FAuraGameplayEffectContext* AuraEffectContext = static_cast<FAuraGameplayEffectContext*>(EffectContextHandle.Get()))
-		{
-			AuraEffectContext->SetIsBlockedHit(bInIsBlockedHit);
-		}
-	}
-
-	UFUNCTION(BlueprintPure, Category = "AuraAbilitySystemLibrary|GameplayEffects")
 	static bool IsCriticalHit(const FGameplayEffectContextHandle& EffectContextHandle)
 	{
 		if (const FAuraGameplayEffectContext* AuraEffectContext = static_cast<const FAuraGameplayEffectContext*>(EffectContextHandle.Get()))
@@ -72,7 +53,63 @@ public:
 		}
 		return false;
 	}
-
+	UFUNCTION(BlueprintPure, Category = "AuraAbilitySystemLibrary|GameplayEffects")
+	static bool IsBlockedHit(const FGameplayEffectContextHandle& EffectContextHandle)
+	{
+		if (const FAuraGameplayEffectContext* AuraEffectContext = static_cast<const FAuraGameplayEffectContext*>(EffectContextHandle.Get()))
+		{
+			return AuraEffectContext->IsBlockedHit();
+		}
+		return false;
+	}
+	UFUNCTION(BlueprintPure, Category = "AuraAbilitySystemLibrary|GameplayEffects")
+	static bool IsSuccessfulDebuff(const FGameplayEffectContextHandle& EffectContextHandle)
+	{
+		if (const FAuraGameplayEffectContext* AuraEffectContext = static_cast<const FAuraGameplayEffectContext*>(EffectContextHandle.Get()))
+		{
+			return AuraEffectContext->IsSuccessfullDebuff();
+		}
+		return false;
+	}
+	UFUNCTION(BlueprintPure, Category = "AuraAbilitySystemLibrary|GameplayEffects")
+	static float GetDebuffDamage(const FGameplayEffectContextHandle& EffectContextHandle)
+	{
+		if (const FAuraGameplayEffectContext* AuraEffectContext = static_cast<const FAuraGameplayEffectContext*>(EffectContextHandle.Get()))
+		{
+			return AuraEffectContext->GetDebuffDamage();
+		}
+		return 0.f;
+	}
+	UFUNCTION(BlueprintPure, Category = "AuraAbilitySystemLibrary|GameplayEffects")
+	static float GetDebuffDuration(const FGameplayEffectContextHandle& EffectContextHandle)
+	{
+		if (const FAuraGameplayEffectContext* AuraEffectContext = static_cast<const FAuraGameplayEffectContext*>(EffectContextHandle.Get()))
+		{
+			return AuraEffectContext->GetDebuffDuration();
+		}
+		return 0.f;
+	}
+	UFUNCTION(BlueprintPure, Category = "AuraAbilitySystemLibrary|GameplayEffects")
+	static float GetDebuffTickPeriod(const FGameplayEffectContextHandle& EffectContextHandle)
+	{
+		if (const FAuraGameplayEffectContext* AuraEffectContext = static_cast<const FAuraGameplayEffectContext*>(EffectContextHandle.Get()))
+		{
+			return AuraEffectContext->GetDebuffTickPeriod();
+		}
+		return 0.f;
+	}
+	UFUNCTION(BlueprintPure, Category = "AuraAbilitySystemLibrary|GameplayEffects")
+	static FGameplayTag GetDamageType(const FGameplayEffectContextHandle& EffectContextHandle)
+	{
+		if (const FAuraGameplayEffectContext* AuraEffectContext = static_cast<const FAuraGameplayEffectContext*>(EffectContextHandle.Get()))
+		{
+			if (AuraEffectContext->GetDamageType().IsValid())
+			{
+				return *AuraEffectContext->GetDamageType();
+			}
+		}
+		return FGameplayTag();
+	}
 	UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|GameplayEffects")
 	static void SetIsCriticalHit(UPARAM(ref) FGameplayEffectContextHandle& EffectContextHandle, bool bInIsCriticalHit)
 	{
@@ -81,7 +118,46 @@ public:
 			AuraEffectContext->SetIsCriticalHit(bInIsCriticalHit);
 		}
 	}
-
+	UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|GameplayEffects")
+	static void SetIsBlockedHit(UPARAM(ref) FGameplayEffectContextHandle& EffectContextHandle, bool bInIsBlockedHit)
+	{
+		if (FAuraGameplayEffectContext* AuraEffectContext = static_cast<FAuraGameplayEffectContext*>(EffectContextHandle.Get()))
+		{
+			AuraEffectContext->SetIsBlockedHit(bInIsBlockedHit);
+		}
+	}
+	UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|GameplayEffects")
+	static void SetIsSuccessfulDebuff(UPARAM(ref) FGameplayEffectContextHandle& EffectContextHandle, bool bInIsSuccessfulDebuff)
+	{
+		if (FAuraGameplayEffectContext* AuraEffectContext = static_cast<FAuraGameplayEffectContext*>(EffectContextHandle.Get()))
+		{
+			AuraEffectContext->SetIsSuccessfulDebuff(bInIsSuccessfulDebuff);
+		}
+	}
+	UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|GameplayEffects")
+	static void SetDebuffDamage(UPARAM(ref) FGameplayEffectContextHandle& EffectContextHandle, float InDebuffDamage)
+	{
+		if (FAuraGameplayEffectContext* AuraEffectContext = static_cast<FAuraGameplayEffectContext*>(EffectContextHandle.Get()))
+		{
+			AuraEffectContext->SetDebuffDamage(InDebuffDamage);
+		}
+	}
+	UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|GameplayEffects")
+	static void SetDebuffDuration(UPARAM(ref) FGameplayEffectContextHandle& EffectContextHandle, float InDebuffDuration)
+	{
+		if (FAuraGameplayEffectContext* AuraEffectContext = static_cast<FAuraGameplayEffectContext*>(EffectContextHandle.Get()))
+		{
+			AuraEffectContext->SetDebuffDuration(InDebuffDuration);
+		}
+	}
+	UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|GameplayEffects")
+	static void SetDebuffTickPeriod(UPARAM(ref) FGameplayEffectContextHandle& EffectContextHandle, float InDebuffTickPeriod)
+	{
+		if (FAuraGameplayEffectContext* AuraEffectContext = static_cast<FAuraGameplayEffectContext*>(EffectContextHandle.Get()))
+		{
+			AuraEffectContext->SetDebuffTickPeriod(InDebuffTickPeriod);
+		}
+	}
 	UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|GameplayMechanics", meta = (WorldContext = "WorldContextObject"))
 	static void GetLivePlayersWithinRadius(const UObject* WorldContextObject, const TArray<AActor*>& ActorsToIgnore, float Radius, const FVector& SphereOrigin, TArray<AActor*>& OutOverlappingActors);
 
