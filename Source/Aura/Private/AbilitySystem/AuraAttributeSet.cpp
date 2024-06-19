@@ -293,26 +293,40 @@ void UAuraAttributeSet::HandleIncomingDamage(const FEffectProperties& Properties
 			SendExpEvent(Properties);
 		}
 		// Show damage widget
-		if (Properties.SourceCharacter != Properties.TargetCharacter)
+		ShowDamageWidget(Properties, LocalIncomingDamage);
+		HandleDebuffs(Properties);
+	}
+}
+
+void UAuraAttributeSet::HandleDebuffs(const FEffectProperties& Properties)
+{
+	if (UAuraAbilitySystemLibrary::IsSuccessfulDebuff(Properties.EffectContextHandle))
+	{
+		
+	}
+}
+
+void UAuraAttributeSet::ShowDamageWidget(const FEffectProperties& Properties, const float LocalIncomingDamage)
+{
+	if (Properties.SourceCharacter != Properties.TargetCharacter)
+	{
+		if (AAuraPlayerController* SPC = Cast<AAuraPlayerController>(Properties.SourceCharacter->Controller))
 		{
-			if (AAuraPlayerController* SPC = Cast<AAuraPlayerController>(Properties.SourceCharacter->Controller))
-			{
-				SPC->ShowDamageNumber(
-					Properties.TargetCharacter,
-					LocalIncomingDamage,
-					UAuraAbilitySystemLibrary::IsBlockedHit(Properties.EffectContextHandle),
-					UAuraAbilitySystemLibrary::IsCriticalHit(Properties.EffectContextHandle)
-				);
-			}
-			else if (AAuraPlayerController* TPC = Cast<AAuraPlayerController>(Properties.TargetCharacter->Controller))
-			{
-				TPC->ShowDamageNumber(
-					Properties.TargetCharacter,
-					LocalIncomingDamage,
-					UAuraAbilitySystemLibrary::IsBlockedHit(Properties.EffectContextHandle),
-					UAuraAbilitySystemLibrary::IsCriticalHit(Properties.EffectContextHandle)
-				);
-			}
+			SPC->ShowDamageNumber(
+				Properties.TargetCharacter,
+				LocalIncomingDamage,
+				UAuraAbilitySystemLibrary::IsBlockedHit(Properties.EffectContextHandle),
+				UAuraAbilitySystemLibrary::IsCriticalHit(Properties.EffectContextHandle)
+			);
+		}
+		else if (AAuraPlayerController* TPC = Cast<AAuraPlayerController>(Properties.TargetCharacter->Controller))
+		{
+			TPC->ShowDamageNumber(
+				Properties.TargetCharacter,
+				LocalIncomingDamage,
+				UAuraAbilitySystemLibrary::IsBlockedHit(Properties.EffectContextHandle),
+				UAuraAbilitySystemLibrary::IsCriticalHit(Properties.EffectContextHandle)
+			);
 		}
 	}
 }

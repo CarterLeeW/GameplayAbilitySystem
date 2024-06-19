@@ -90,11 +90,11 @@ public:
 		return 0.f;
 	}
 	UFUNCTION(BlueprintPure, Category = "AuraAbilitySystemLibrary|GameplayEffects")
-	static float GetDebuffTickPeriod(const FGameplayEffectContextHandle& EffectContextHandle)
+	static float GetDebuffPeriod(const FGameplayEffectContextHandle& EffectContextHandle)
 	{
 		if (const FAuraGameplayEffectContext* AuraEffectContext = static_cast<const FAuraGameplayEffectContext*>(EffectContextHandle.Get()))
 		{
-			return AuraEffectContext->GetDebuffTickPeriod();
+			return AuraEffectContext->GetDebuffPeriod();
 		}
 		return 0.f;
 	}
@@ -151,11 +151,19 @@ public:
 		}
 	}
 	UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|GameplayEffects")
-	static void SetDebuffTickPeriod(UPARAM(ref) FGameplayEffectContextHandle& EffectContextHandle, float InDebuffTickPeriod)
+	static void SetDebuffPeriod(UPARAM(ref) FGameplayEffectContextHandle& EffectContextHandle, float InDebuffTickPeriod)
 	{
 		if (FAuraGameplayEffectContext* AuraEffectContext = static_cast<FAuraGameplayEffectContext*>(EffectContextHandle.Get()))
 		{
-			AuraEffectContext->SetDebuffTickPeriod(InDebuffTickPeriod);
+			AuraEffectContext->SetDebuffPeriod(InDebuffTickPeriod);
+		}
+	}
+	UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|GameplayEffects")
+	static void SetDamageType(UPARAM(ref) FGameplayEffectContextHandle& EffectContextHandle, const FGameplayTag& InDamageType)
+	{
+		if (FAuraGameplayEffectContext* AuraEffectContext = static_cast<FAuraGameplayEffectContext*>(EffectContextHandle.Get()))
+		{
+			AuraEffectContext->SetDamageType(MakeShared<FGameplayTag>(InDamageType));
 		}
 	}
 	UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|GameplayMechanics", meta = (WorldContext = "WorldContextObject"))

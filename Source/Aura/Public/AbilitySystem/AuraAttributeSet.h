@@ -230,6 +230,8 @@ protected:
 private:
 	void SetEffectProperties(const FGameplayEffectModCallbackData& Data, FEffectProperties& Properties) const;
 	void HandleIncomingDamage(const FEffectProperties& Properties);
+	void HandleDebuffs(const FEffectProperties& Properties);
+	void ShowDamageWidget(const FEffectProperties& Properties, const float LocalIncomingDamage);
 	void HandleIncomingExp(const FEffectProperties& Properties);
 
 	void SendExpEvent(const FEffectProperties& Properties);

@@ -57,14 +57,15 @@ public:
 	bool IsSuccessfullDebuff() const { return bIsSuccessfulDebuff; }
 	float GetDebuffDamage() const { return DebuffDamage; }
 	float GetDebuffDuration() const { return DebuffDuration; }
-	float GetDebuffTickPeriod() const { return DebuffTickPeriod; }
+	float GetDebuffPeriod() const { return DebuffTickPeriod; }
 	TSharedPtr<FGameplayTag> GetDamageType() const { return DamageType; }
 	void SetIsCriticalHit(bool bInIsCriticalHit) { bIsCriticalHit = bInIsCriticalHit; }
 	void SetIsBlockedHit(bool bInIsBlockedHit) { bIsBlockedHit = bInIsBlockedHit; }
 	void SetIsSuccessfulDebuff(bool bInIsSucessfulDebuff) { bIsSuccessfulDebuff = bInIsSucessfulDebuff; }
 	void SetDebuffDamage(float InDebuffDamage) { DebuffDamage = InDebuffDamage; }
 	void SetDebuffDuration(float InDebuffDuration) { DebuffDuration = InDebuffDuration; }
-	void SetDebuffTickPeriod(float InDebuffTickPeriod) { DebuffTickPeriod = InDebuffTickPeriod; }
+	void SetDebuffPeriod(float InDebuffTickPeriod) { DebuffTickPeriod = InDebuffTickPeriod; }
+	void SetDamageType(TSharedPtr<FGameplayTag> InDamageType) { DamageType = InDamageType; }
 
 	virtual UScriptStruct* GetScriptStruct() const override
 	{
