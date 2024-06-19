@@ -90,6 +90,8 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 {
 	const UAbilitySystemComponent* SourceASC = ExecutionParams.GetSourceAbilitySystemComponent();
 	const UAbilitySystemComponent* TargetASC = ExecutionParams.GetTargetAbilitySystemComponent();
+	const FAuraGameplayTags* Tags = FAuraGameplayTags::Get();
+
 
 	AActor* SourceAvatar = SourceASC ? SourceASC->GetAvatarActor() : nullptr;
 	AActor* TargetAvatar = TargetASC ? TargetASC->GetAvatarActor() : nullptr;
@@ -129,10 +131,28 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	* 6. Perform calculations on Damage using Source's CriticalHitDamage
 	*/
 
+	// Debuff
+	for (const TPair<FGameplayTag, FGameplayTag>& Pair : Tags->DamageTypesToDebuffs)
+	{
+		const FGameplayTag& DamageType = Pair.Key;
+		const FGameplayTag& DebuffType = Pair.Value;
+		const float TypeDamage = Spec.GetSetByCallerMagnitude(DamageType, false, -1.f);
+		if (TypeDamage >= 0.f)
+		{
+			// Determine if there was a successful debuff
+			const float SourceDebuffChance = Spec.GetSetByCallerMagnitude(Tags->Debuff_Chance, false, -1.f);
+			const bool bDebuff = FMath::RandRange(0.f, 100.f) < SourceDebuffChance;
+			if (bDebuff)
+			{
+				// TODO: Apply debuff
+			}
+		}
+	}
+
 	// 1.
 	// Get Damage types set by Caller Magnitude and check resistances
 	float Damage = 0.f;
-	for (const auto& Pair : FAuraGameplayTags::Get()->DamageTypesToResistances)
+	for (const TPair<FGameplayTag, FGameplayTag>& Pair : Tags->DamageTypesToResistances)
 	{
 		const FGameplayTag& DamageTypeTag = Pair.Key;
 		const FGameplayTag& ResistanceTag = Pair.Value;
