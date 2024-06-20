@@ -14,6 +14,7 @@
 #include "AuraLogChannels.h"
 #include "Interaction/PlayerInterface.h"
 #include "AuraAbilityTypes.h"
+#include "GameplayEffectComponents/TargetTagsGameplayEffectComponent.h"
 
 #define MAP_TAG_TO_ATTRIBUTE(Type, Attr) TagsToAttributes.Add(GameplayTags->Attributes_##Type##_##Attr, Get##Attr##Attribute());
 UAuraAttributeSet::UAuraAttributeSet()
@@ -327,7 +328,12 @@ void UAuraAttributeSet::HandleDebuffs(const FEffectProperties& Properties)
 	Effect->DurationPolicy = EGameplayEffectDurationType::HasDuration;
 	Effect->Period = DebuffPeriod;
 	Effect->DurationMagnitude = FScalableFloat(DebuffDuration);
-	Effect->InheritableOwnedTagsContainer.AddTag(Tags->DamageTypesToDebuffs[DamageType]);
+	//Effect->InheritableOwnedTagsContainer.AddTag(Tags->DamageTypesToDebuffs[DamageType]); // Deprecated!!!
+	/* This is the correct way for 5.3 using UTargetTagsGameplayEffectComponent */
+	UTargetTagsGameplayEffectComponent& TargetTags = Effect->AddComponent<UTargetTagsGameplayEffectComponent>();
+	FInheritedTagContainer GrantedTags;
+	GrantedTags.Added.AddTag(Tags->DamageTypesToDebuffs[DamageType]);
+	TargetTags.SetAndApplyTargetTagChanges(GrantedTags);
 
 	Effect->StackingType = EGameplayEffectStackingType::AggregateBySource;
 	Effect->StackLimitCount = 1;
