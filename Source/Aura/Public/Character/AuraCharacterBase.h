@@ -37,6 +37,8 @@ public:
 	virtual int32 GetMinionCount_Implementation() const override { return MinionCount; }
 	virtual void IncrementMinionCount_Implementation(int32 Amount) override { MinionCount += Amount; }
 	virtual ECharacterClass GetCharacterClass_Implementation() const override { return CharacterClass; }
+	virtual FOnASCRegistered GetOnASCRegistered() override { return OnASCRegistered; }
+	virtual FOnDeath GetOnDeathDelegate() override { return OnDeath; }
 	/* End CombatInterface */
 	UPROPERTY(EditAnywhere, Category = "Combat")
 	TArray<FTaggedMontage> AttackMontages;
@@ -45,6 +47,9 @@ public:
 
 	UFUNCTION(NetMulticast, Reliable)
 	virtual void MulticastHandleDeath();
+
+	FOnASCRegistered OnASCRegistered;
+	FOnDeath OnDeath;
 protected:
 	virtual void BeginPlay() override;
 
