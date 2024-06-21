@@ -34,14 +34,14 @@ UAnimMontage* AAuraCharacterBase::GetHitReactMontage_Implementation() const
 }
 
 /** Handles death on server */
-void AAuraCharacterBase::Die()
+void AAuraCharacterBase::Die(const FVector& DeathImpulse)
 {
 	Weapon->DetachFromComponent(FDetachmentTransformRules(EDetachmentRule::KeepWorld, true));
-	MulticastHandleDeath();
+	MulticastHandleDeath(DeathImpulse);
 }
 
 /** Handles what happens on both client and server */
-void AAuraCharacterBase::MulticastHandleDeath_Implementation()
+void AAuraCharacterBase::MulticastHandleDeath_Implementation(const FVector& DeathImpulse)
 {
 	// Death sound
 	UGameplayStatics::PlaySoundAtLocation(this, DeathSound, GetActorLocation(), GetActorRotation());
@@ -55,9 +55,12 @@ void AAuraCharacterBase::MulticastHandleDeath_Implementation()
 	GetMesh()->SetEnableGravity(true);
 	GetMesh()->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
 	GetMesh()->SetCollisionResponseToChannel(ECC_WorldStatic, ECR_Block);
+	if (!DeathImpulse.IsZero())
+	{
+		GetMesh()->AddImpulse(DeathImpulse);
+	}
 
-	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-	// TODO: Maybe set an impulse to fling target in a direction?
+	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision); // they just fall through floor
 	Dissolve();
 	bDead = true;
 	OnDeath.Broadcast(this);

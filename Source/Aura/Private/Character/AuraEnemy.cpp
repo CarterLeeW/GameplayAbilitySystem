@@ -65,7 +65,7 @@ void AAuraEnemy::UnHighlightActor()
 	Weapon->SetRenderCustomDepth(false);
 }
 
-void AAuraEnemy::Die()
+void AAuraEnemy::Die(const FVector& DeathImpulse)
 {
 	SetLifeSpan(LifeSpan);
 	if (AuraAIController)
@@ -73,7 +73,10 @@ void AAuraEnemy::Die()
 		AuraAIController->GetBlackboardComponent()->SetValueAsBool(FName("IsDead"), true);
 	}
 
-	Super::Die();
+	Weapon->DetachFromComponent(FDetachmentTransformRules(EDetachmentRule::KeepWorld, true));
+	HealthBar->SetVisibility(false);
+
+	MulticastHandleDeath(DeathImpulse);
 }
 
 void AAuraEnemy::BeginPlay()

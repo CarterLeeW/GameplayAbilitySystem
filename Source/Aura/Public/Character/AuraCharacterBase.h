@@ -28,7 +28,7 @@ public:
 
 	/* CombatInterface */
 	virtual UAnimMontage* GetHitReactMontage_Implementation() const override;
-	virtual void Die() override;
+	virtual void Die(const FVector& DeathImpulse = FVector::ZeroVector) override;
 	virtual bool IsDead_Implementation() const override { return bDead; }
 	virtual AActor* GetAvatar_Implementation() override { return this; }
 	virtual FVector GetCombatSocketLocation_Implementation(const FGameplayTag& SocketTag) const override;
@@ -47,7 +47,7 @@ public:
 	void MinionHasDied(AActor* DestroyedActor);
 
 	UFUNCTION(NetMulticast, Reliable)
-	virtual void MulticastHandleDeath();
+	virtual void MulticastHandleDeath(const FVector& DeathImpulse = FVector::ZeroVector);
 
 	FOnASCRegistered OnASCRegistered;
 	FOnDeath OnDeath;
