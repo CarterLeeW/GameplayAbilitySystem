@@ -37,4 +37,6 @@ protected:
 	float DebuffPeriod = 1.f;
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Damage")
 	float DebuffDuration = 5.f;
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Damage")
+	float DeathImpulseMagnitude = 0.f;
 };

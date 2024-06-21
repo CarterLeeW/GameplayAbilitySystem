@@ -43,6 +43,8 @@ struct FDamageEffectParams
 
 	UPROPERTY()
 	float DebuffPeriod = 1.f;
+	UPROPERTY()
+	float DeathImpulseMagnitude = 0.f;
 
 };
 
