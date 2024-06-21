@@ -27,5 +27,6 @@ protected:
 	UPROPERTY(BlueprintReadOnly, EditAnywhere)
 	TSubclassOf<AAuraProjectile> ProjectileClass;
 
-	int32 NumProjectiles = 1;
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, meta = (ClampMin = "1", UIMin = "1", ClampMax = "5", UIMax = "5"))
+	FScalableFloat NumProjectiles = 1.f;
 };
