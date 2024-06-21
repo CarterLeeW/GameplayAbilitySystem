@@ -74,7 +74,6 @@ void AAuraEnemy::Die(const FVector& DeathImpulse)
 	}
 
 	Weapon->DetachFromComponent(FDetachmentTransformRules(EDetachmentRule::KeepWorld, true));
-	HealthBar->SetVisibility(false);
 
 	MulticastHandleDeath(DeathImpulse);
 }

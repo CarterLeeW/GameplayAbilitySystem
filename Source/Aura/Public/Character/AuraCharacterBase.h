@@ -50,6 +50,7 @@ public:
 	virtual void MulticastHandleDeath(const FVector& DeathImpulse = FVector::ZeroVector);
 
 	FOnASCRegistered OnASCRegistered;
+	UPROPERTY(BlueprintAssignable)
 	FOnDeath OnDeath;
 protected:
 	virtual void BeginPlay() override;

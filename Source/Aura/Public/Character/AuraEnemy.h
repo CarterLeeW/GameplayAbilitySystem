@@ -53,7 +53,7 @@ protected:
 	virtual void InitAbilityActorInfo() override;
 	virtual void InitializeDefaultAttributes() const override;
 	// Components
-	UPROPERTY(VisibleAnywhere, Category = "Combat")
+	UPROPERTY(BlueprintReadOnly, VisibleAnywhere, Category = "Combat")
 	TObjectPtr<UWidgetComponent> HealthBar;
 	UPROPERTY(EditDefaultsOnly, Category = "AI")
 	TObjectPtr<UBehaviorTree> BehaviorTree;

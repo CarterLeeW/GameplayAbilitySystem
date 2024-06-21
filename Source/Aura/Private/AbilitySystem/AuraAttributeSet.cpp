@@ -294,10 +294,8 @@ void UAuraAttributeSet::HandleIncomingDamage(const FEffectProperties& Properties
 			TagContainer.AddTag(FAuraGameplayTags::Get()->Effects_HitReact);
 			Properties.TargetASC->TryActivateAbilitiesByTag(TagContainer);
 		}
-		else // is fatal
+		else if (bFatal) // is fatal
 		{
-			// TODO: Use death impulse
-
 			if (ICombatInterface* CombatInterface = Cast<ICombatInterface>(Properties.TargetAvatarActor))
 			{
 				CombatInterface->Die(UAuraAbilitySystemLibrary::GetDeathImpulse(Properties.EffectContextHandle));
@@ -336,6 +334,7 @@ void UAuraAttributeSet::HandleDebuffs(const FEffectProperties& Properties)
 	UTargetTagsGameplayEffectComponent& TargetTags = Effect->AddComponent<UTargetTagsGameplayEffectComponent>();
 	FInheritedTagContainer GrantedTags;
 	GrantedTags.Added.AddTag(Tags->DamageTypesToDebuffs[DamageType]);
+	//GrantedTags.Added.AddTag()
 	TargetTags.SetAndApplyTargetTagChanges(GrantedTags);
 
 	Effect->StackingType = EGameplayEffectStackingType::AggregateBySource;
