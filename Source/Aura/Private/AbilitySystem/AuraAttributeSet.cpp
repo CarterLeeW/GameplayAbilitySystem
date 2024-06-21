@@ -328,6 +328,7 @@ void UAuraAttributeSet::HandleDebuffs(const FEffectProperties& Properties)
 	Effect->DurationPolicy = EGameplayEffectDurationType::HasDuration;
 	Effect->Period = DebuffPeriod;
 	Effect->DurationMagnitude = FScalableFloat(DebuffDuration);
+	Effect->bExecutePeriodicEffectOnApplication = false;
 	//Effect->InheritableOwnedTagsContainer.AddTag(Tags->DamageTypesToDebuffs[DamageType]); // Deprecated!!!
 	/* This is the correct way for 5.3 using UTargetTagsGameplayEffectComponent */
 	UTargetTagsGameplayEffectComponent& TargetTags = Effect->AddComponent<UTargetTagsGameplayEffectComponent>();
