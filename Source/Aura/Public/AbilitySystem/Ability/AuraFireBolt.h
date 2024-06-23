@@ -21,6 +21,6 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Projectile")
 	void SpawnProjectiles(const FVector& ProjectileTargetLocation, const FGameplayTag& SocketTag, const AActor* HomingTarget = nullptr);
 
-	UPROPERTY(EditDefaultsOnly, Category = "Projectile")
+	UPROPERTY(EditDefaultsOnly, Category = "Projectile", meta = (ClampMin = "30", UIMin = "30", ClampMax = "270", UIMax = "270"))
 	float SpawnSpread = 90.f;
 };

@@ -83,8 +83,16 @@ void UAuraFireBolt::SpawnProjectiles(const FVector& ProjectileTargetLocation, co
 			FTransform SpawnTransform;
 			SpawnTransform.SetLocation(ChosenSpawnLocation);
 			SpawnTransform.SetRotation(Rotation.Quaternion());
-
-			UKismetSystemLibrary::DrawDebugArrow(GetAvatarActorFromActorInfo(), ChosenSpawnLocation, ChosenSpawnLocation + Rotation.Vector() * 100.f, 5, FLinearColor::Blue, 2.f, 5.f);
+			//UKismetSystemLibrary::DrawDebugArrow(GetAvatarActorFromActorInfo(), ChosenSpawnLocation, ChosenSpawnLocation + Rotation.Vector() * 100.f, 5, FLinearColor::Blue, 2.f, 5.f);
+			AAuraProjectile* Projectile = GetWorld()->SpawnActorDeferred<AAuraProjectile>(
+				ProjectileClass,
+				SpawnTransform,
+				GetOwningActorFromActorInfo(),
+				Cast<APawn>(GetOwningActorFromActorInfo()),
+				ESpawnActorCollisionHandlingMethod::AlwaysSpawn
+			);
+			Projectile->DamageEffectParams = MakeDamageEffectParamsFromClassDefaults();
+			Projectile->FinishSpawning(SpawnTransform);
 		}
 		
 		
