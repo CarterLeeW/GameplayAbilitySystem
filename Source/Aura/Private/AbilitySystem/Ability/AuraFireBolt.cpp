@@ -7,6 +7,8 @@
 #include "Interaction/CombatInterface.h"
 #include "AbilitySystemComponent.h"
 #include "Kismet/KismetSystemLibrary.h"
+#include "AbilitySystem/AuraAbilitySystemLibrary.h"
+#include "GameFramework/ProjectileMovementComponent.h"
 
 FString UAuraFireBolt::GetDescription(int32 Level) const
 {
@@ -48,7 +50,7 @@ FString UAuraFireBolt::GetNextLevelDescription(int32 Level) const
 	Level, ManaCost, Cooldown, NumProjectiles.AsInteger(Level + 1), * Bolts, FMath::RoundToInt(FireDamage));
 }
 
-void UAuraFireBolt::SpawnProjectiles(const FVector& ProjectileTargetLocation, const FGameplayTag& SocketTag, const AActor* HomingTarget)
+void UAuraFireBolt::SpawnProjectiles(const FVector& ProjectileTargetLocation, const FGameplayTag& SocketTag, const AActor* HomingTarget, float PitchOverride)
 {
 	const bool bIsServer = GetAvatarActorFromActorInfo()->HasAuthority();
 	if (!bIsServer) return;
@@ -78,7 +80,7 @@ void UAuraFireBolt::SpawnProjectiles(const FVector& ProjectileTargetLocation, co
 			}
 			FVector ChosenSpawnLocation = SocketLocation + Direction;
 			FRotator Rotation = Direction.Rotation();
-			//Rotation.Pitch = 0.f;
+			Rotation.Pitch += PitchOverride;
 
 			FTransform SpawnTransform;
 			SpawnTransform.SetLocation(ChosenSpawnLocation);
@@ -92,6 +94,18 @@ void UAuraFireBolt::SpawnProjectiles(const FVector& ProjectileTargetLocation, co
 				ESpawnActorCollisionHandlingMethod::AlwaysSpawn
 			);
 			Projectile->DamageEffectParams = MakeDamageEffectParamsFromClassDefaults();
+			if (HomingTarget && HomingTarget->Implements<UCombatInterface>())
+			{
+				Projectile->ProjectileMovement->HomingTargetComponent = HomingTarget->GetRootComponent();
+			}
+			else
+			{
+				Projectile->HomingTargetSceneComponent = NewObject<USceneComponent>(USceneComponent::StaticClass());
+				Projectile->HomingTargetSceneComponent->SetWorldLocation(ProjectileTargetLocation);
+				Projectile->ProjectileMovement->HomingTargetComponent = Projectile->HomingTargetSceneComponent;
+			}
+			Projectile->ProjectileMovement->HomingAccelerationMagnitude = FMath::FRandRange(HomingAccelerationMin, HomingAccelerationMax);
+			Projectile->ProjectileMovement->bIsHomingProjectile = bShouldBeHoming;
 			Projectile->FinishSpawning(SpawnTransform);
 		}
 		
