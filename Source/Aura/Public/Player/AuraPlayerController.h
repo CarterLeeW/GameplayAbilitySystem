@@ -15,6 +15,7 @@ class UAuraInputConfig;
 class UAuraAbilitySystemComponent;
 class USplineComponent;
 class UDamageTextComponent;
+class UNiagaraSystem;
 
 /**
  * 
@@ -36,6 +37,9 @@ public:
 protected:
 	virtual void BeginPlay() override;
 	virtual void SetupInputComponent() override;
+
+	UPROPERTY(EditAnywhere, Category = "Input")
+	TObjectPtr<UNiagaraSystem> ClickNiagaraSystem;
 
 private:
 	UPROPERTY(EditAnywhere, Category = "Input")
