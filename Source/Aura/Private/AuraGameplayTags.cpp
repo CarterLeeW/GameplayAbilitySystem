@@ -112,5 +112,10 @@ FAuraGameplayTags* FAuraGameplayTags::Get()
 	ADD_TAG(Montage_Attack_3, TAG_MONTAGE_ATTACK".3", "Third montage attack tag");
 	ADD_TAG(Montage_Attack_4, TAG_MONTAGE_ATTACK".4", "Fourth montage attack tag");
 
+	ADD_TAG(Player_Block_CursorTrace,   TAG_PLAYER_BLOCK".CursorTrace",   "Block cursor trace");
+	ADD_TAG(Player_Block_InputHeld,     TAG_PLAYER_BLOCK".InputHeld",     "Block callback for InputHeld");
+	ADD_TAG(Player_Block_InputPressed,  TAG_PLAYER_BLOCK".InputPressed",  "Block callback for InputPressed");
+	ADD_TAG(Player_Block_InputReleased, TAG_PLAYER_BLOCK".InputReleased", "Block callback for InputReleased");
+
 	return GameplayTags;
 }

@@ -17,3 +17,4 @@
 #define TAG_COOLDOWN_FIRE "Cooldown.Fire"
 #define TAG_COMBATSOCKET "CombatSocket"
 #define TAG_MONTAGE_ATTACK "Montage.Attack"
+#define TAG_PLAYER_BLOCK "Player.Block"
