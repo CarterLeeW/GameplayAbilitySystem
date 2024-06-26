@@ -40,6 +40,8 @@ public:
 	virtual ECharacterClass GetCharacterClass_Implementation() const override { return CharacterClass; }
 	virtual FOnASCRegistered GetOnASCRegistered() override { return OnASCRegistered; }
 	virtual FOnDeath GetOnDeathDelegate() override { return OnDeath; }
+	virtual USkeletalMeshComponent* GetWeapon_Implementation() const override { return Weapon; }
+	virtual FName GetWeaponTipSocketName_Implementation() const override { return WeaponTipSocketName; }
 	/* End CombatInterface */
 	UPROPERTY(EditAnywhere, Category = "Combat")
 	TArray<FTaggedMontage> AttackMontages;
