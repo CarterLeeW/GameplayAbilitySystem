@@ -18,6 +18,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void CacheMouseDataInfo(const FHitResult& HitResult);
 
+	UFUNCTION(BlueprintCallable)
+	void TraceFirstTarget() ;
+
 protected:
 
 	UPROPERTY(BlueprintReadWrite, Category = "Beam")
