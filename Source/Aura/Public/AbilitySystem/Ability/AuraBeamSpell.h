@@ -19,7 +19,10 @@ public:
 	void CacheMouseDataInfo(const FHitResult& HitResult);
 
 	UFUNCTION(BlueprintCallable)
-	void TraceFirstTarget() ;
+	void TraceFirstTarget();
+	
+	UFUNCTION(BlueprintCallable)
+	void StoreAdditionalTargets(TArray<AActor*>& OutAdditionalTargets);
 
 protected:
 
@@ -34,4 +37,10 @@ protected:
 
 	UPROPERTY(BlueprintReadWrite, Category = "Beam")
 	TObjectPtr<ACharacter> OwnerCharacter;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Beam", meta = (ClampMin = "1", UIMin = "1"))
+	FScalableFloat ChainRadius = 850.f;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Beam", meta = (ClampMin = "1", UIMin = "1", ClampMax = "10", UIMax = "10"))
+	FScalableFloat MaxShockTargets = 5.f;
 };
