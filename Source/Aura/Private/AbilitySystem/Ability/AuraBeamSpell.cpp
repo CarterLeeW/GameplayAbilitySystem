@@ -52,7 +52,7 @@ void UAuraBeamSpell::TraceFirstTarget()
 	}
 }
 
-void UAuraBeamSpell::StoreAdditionalTargets(TArray<AActor*>& OutAdditionalTargets)
+void UAuraBeamSpell::StoreAdditionalTargets(bool bIncludeFriendlyActors, TArray<AActor*>& OutAdditionalTargets)
 {
 	TArray<AActor*> ActorsToIgnore;
 	ActorsToIgnore.Add(GetAvatarActorFromActorInfo());
@@ -66,6 +66,13 @@ void UAuraBeamSpell::StoreAdditionalTargets(TArray<AActor*>& OutAdditionalTarget
 		MouseHitActor->GetActorLocation(),
 		OverlappingActors
 	);
+	if (!bIncludeFriendlyActors)            // Do not chain on friendly targets
+	{
+		OverlappingActors.RemoveAll([this](const AActor* Target)
+			{
+				return !UAuraAbilitySystemLibrary::IsNotFriend(GetAvatarActorFromActorInfo(), Target);
+			});
+	}
 	int32 NumAdditionalTargets = MaxShockTargets.AsInteger(GetAbilityLevel());
 
 	OutAdditionalTargets = UAuraAbilitySystemLibrary::GetClosestTargets(MaxShockTargets.AsInteger(GetAbilityLevel()), OverlappingActors, MouseHitActor->GetActorLocation());

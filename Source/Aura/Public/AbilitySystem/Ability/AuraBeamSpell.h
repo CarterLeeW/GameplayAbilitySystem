@@ -22,7 +22,7 @@ public:
 	void TraceFirstTarget();
 	
 	UFUNCTION(BlueprintCallable)
-	void StoreAdditionalTargets(TArray<AActor*>& OutAdditionalTargets);
+	void StoreAdditionalTargets(bool bIncludeFriendlyActors, TArray<AActor*>& OutAdditionalTargets);
 
 protected:
 
