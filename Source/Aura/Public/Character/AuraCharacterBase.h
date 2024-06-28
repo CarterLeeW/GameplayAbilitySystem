@@ -29,6 +29,7 @@ public:
 	/* CombatInterface */
 	virtual UAnimMontage* GetHitReactMontage_Implementation() const override;
 	virtual void Die(const FVector& DeathImpulse = FVector::ZeroVector) override;
+	virtual FOnDeath& GetOnDeathDelegate() override { return OnDeath; }
 	virtual bool IsDead_Implementation() const override { return bDead; }
 	virtual AActor* GetAvatar_Implementation() override { return this; }
 	virtual FVector GetCombatSocketLocation_Implementation(const FGameplayTag& SocketTag) const override;
@@ -39,7 +40,6 @@ public:
 	virtual void IncrementMinionCount_Implementation(int32 Amount) override { MinionCount += Amount; }
 	virtual ECharacterClass GetCharacterClass_Implementation() const override { return CharacterClass; }
 	virtual FOnASCRegistered GetOnASCRegistered() override { return OnASCRegistered; }
-	virtual FOnDeath GetOnDeathDelegate() override { return OnDeath; }
 	virtual USkeletalMeshComponent* GetWeapon_Implementation() const override { return Weapon; }
 	virtual FName GetWeaponTipSocketName_Implementation() const override { return WeaponTipSocketName; }
 	/* End CombatInterface */
