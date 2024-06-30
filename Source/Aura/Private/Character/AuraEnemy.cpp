@@ -78,6 +78,16 @@ void AAuraEnemy::Die(const FVector& DeathImpulse)
 	MulticastHandleDeath(DeathImpulse);
 }
 
+void AAuraEnemy::StunTagChanged(const FGameplayTag CallbackTag, int32 NewCount)
+{
+	Super::StunTagChanged(CallbackTag, NewCount);
+
+	if (AuraAIController && AuraAIController->GetBlackboardComponent())
+	{
+		AuraAIController->GetBlackboardComponent()->SetValueAsBool(FName("Stunned"), bIsStunned);
+	}
+}
+
 void AAuraEnemy::BeginPlay()
 {
 	Super::BeginPlay();
@@ -129,6 +139,9 @@ void AAuraEnemy::BindCallbacksToDependencies()
 	AbilitySystemComponent->RegisterGameplayTagEvent(FAuraGameplayTags::Get()->Effects_HitReact, EGameplayTagEventType::NewOrRemoved)
 		.AddUObject(
 		this, &AAuraEnemy::HitReactTagChanged
+	);
+	AbilitySystemComponent->RegisterGameplayTagEvent(FAuraGameplayTags::Get()->Debuff_Stun, EGameplayTagEventType::NewOrRemoved)
+		.AddUObject(this, &AAuraEnemy::StunTagChanged
 	);
 }
 

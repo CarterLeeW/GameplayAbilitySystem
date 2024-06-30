@@ -304,10 +304,10 @@ void UAuraAttributeSet::HandleIncomingDamage(const FEffectProperties& Properties
 		}
 		// Show damage widget
 		ShowDamageWidget(Properties, LocalIncomingDamage);
-		if (UAuraAbilitySystemLibrary::IsSuccessfulDebuff(Properties.EffectContextHandle))
-		{
-			HandleDebuffs(Properties);
-		}
+	}
+	if (UAuraAbilitySystemLibrary::IsSuccessfulDebuff(Properties.EffectContextHandle))
+	{
+		HandleDebuffs(Properties);
 	}
 }
 
@@ -333,11 +333,20 @@ void UAuraAttributeSet::HandleDebuffs(const FEffectProperties& Properties)
 	/* This is the correct way for 5.3 using UTargetTagsGameplayEffectComponent */
 	UTargetTagsGameplayEffectComponent& TargetTags = Effect->AddComponent<UTargetTagsGameplayEffectComponent>();
 	FInheritedTagContainer GrantedTags;
-	GrantedTags.Added.AddTag(Tags->DamageTypesToDebuffs[DamageType]);
+	const FGameplayTag DebuffTag = Tags->DamageTypesToDebuffs[DamageType];
+	GrantedTags.Added.AddTag(DebuffTag);
+	// Block input if stunned
+	if (DebuffTag.MatchesTagExact(Tags->Debuff_Stun))
+	{
+		GrantedTags.Added.AddTag(Tags->Player_Block_InputHeld);
+		GrantedTags.Added.AddTag(Tags->Player_Block_InputPressed);
+		GrantedTags.Added.AddTag(Tags->Player_Block_InputReleased);
+		GrantedTags.Added.AddTag(Tags->Player_Block_CursorTrace);
+	}
 	//GrantedTags.Added.AddTag()
 	TargetTags.SetAndApplyTargetTagChanges(GrantedTags);
 
-	Effect->StackingType = EGameplayEffectStackingType::AggregateBySource;
+	Effect->StackingType = EGameplayEffectStackingType::AggregateByTarget;
 	Effect->StackLimitCount = 1;
 
 	// First modifier

@@ -16,6 +16,8 @@ class UGameplayAbility;
 class UNiagaraSystem;
 class UDebuffNiagaraComponent;
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnStunTagChanged, bool, bIsStunned);
+
 UCLASS(Abstract)
 class AURA_API AAuraCharacterBase : public ACharacter, public IAbilitySystemInterface, public ICombatInterface
 {
@@ -23,6 +25,7 @@ class AURA_API AAuraCharacterBase : public ACharacter, public IAbilitySystemInte
 
 public:
 	AAuraCharacterBase();
+
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	UAttributeSet* GetAttributeSet() const { return AttributeSet; }
 
@@ -54,6 +57,16 @@ public:
 	FOnASCRegistered OnASCRegistered;
 	UPROPERTY(BlueprintAssignable)
 	FOnDeath OnDeath;
+
+	UPROPERTY(ReplicatedUsing=OnRep_Stunned, BlueprintReadOnly)
+	bool bIsStunned = false;
+	UFUNCTION()
+	virtual void OnRep_Stunned();
+
+	virtual void StunTagChanged(const FGameplayTag CallbackTag, int32 NewCount);
+	
+	UPROPERTY(BlueprintAssignable)
+	FOnStunTagChanged OnStunTagChanged;
 protected:
 	virtual void BeginPlay() override;
 
@@ -75,6 +88,8 @@ protected:
 	TObjectPtr<UNiagaraSystem> BloodEffect;
 	UPROPERTY(EditAnywhere, Category = "Combat")
 	TObjectPtr<USoundBase> DeathSound;
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Combat")
+	float BaseWalkSpeed = 250.f;
 
 	/* Minions */
 	int32 MinionCount = 0;
