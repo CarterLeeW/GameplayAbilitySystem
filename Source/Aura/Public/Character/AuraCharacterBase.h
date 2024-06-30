@@ -42,7 +42,7 @@ public:
 	virtual int32 GetMinionCount_Implementation() const override { return MinionCount; }
 	virtual void IncrementMinionCount_Implementation(int32 Amount) override { MinionCount += Amount; }
 	virtual ECharacterClass GetCharacterClass_Implementation() const override { return CharacterClass; }
-	virtual FOnASCRegistered GetOnASCRegistered() override { return OnASCRegistered; }
+	virtual FOnASCRegistered& GetOnASCRegistered() override { return OnASCRegistered; }
 	virtual USkeletalMeshComponent* GetWeapon_Implementation() const override { return Weapon; }
 	virtual FName GetWeaponTipSocketName_Implementation() const override { return WeaponTipSocketName; }
 	/* End CombatInterface */
@@ -72,8 +72,10 @@ protected:
 
 	bool bDead = false;
 
-	UPROPERTY(VisibleAnywhere, Category = "Combat")
+	UPROPERTY(VisibleAnywhere, Category = "Combat|Debuff")
 	TObjectPtr<UDebuffNiagaraComponent> BurnDebuffComponent;
+	UPROPERTY(VisibleAnywhere, Category = "Combat|Debuff")
+	TObjectPtr<UDebuffNiagaraComponent> StunDebuffComponent;
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Combat")
 	TObjectPtr<USkeletalMeshComponent> Weapon;
 	UPROPERTY(EditAnywhere, Category = "Combat")
