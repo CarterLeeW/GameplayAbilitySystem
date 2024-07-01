@@ -62,6 +62,10 @@ public:
 	bool bIsStunned = false;
 	UFUNCTION()
 	virtual void OnRep_Stunned();
+	UPROPERTY(ReplicatedUsing = OnRep_Burned, BlueprintReadOnly)
+	bool bIsBurned = false;
+	UFUNCTION()
+	virtual void OnRep_Burned();
 
 	virtual void StunTagChanged(const FGameplayTag CallbackTag, int32 NewCount);
 	

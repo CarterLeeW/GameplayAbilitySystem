@@ -39,6 +39,7 @@ void AAuraCharacterBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& O
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
 	DOREPLIFETIME(AAuraCharacterBase, bIsStunned);
+	DOREPLIFETIME(AAuraCharacterBase, bIsBurned);
 }
 
 UAnimMontage* AAuraCharacterBase::GetHitReactMontage_Implementation() const
@@ -89,7 +90,11 @@ void AAuraCharacterBase::MinionHasDied(AActor* DestroyedActor)
 
 void AAuraCharacterBase::OnRep_Stunned()
 {
+	OnStunTagChanged.Broadcast(bIsStunned);
+}
 
+void AAuraCharacterBase::OnRep_Burned()
+{
 }
 
 void AAuraCharacterBase::StunTagChanged(const FGameplayTag CallbackTag, int32 NewCount)
