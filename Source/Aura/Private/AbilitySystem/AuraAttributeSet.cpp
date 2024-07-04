@@ -290,9 +290,12 @@ void UAuraAttributeSet::HandleIncomingDamage(const FEffectProperties& Properties
 		const bool bFatal = NewHealth <= 0.f;
 		if (!bFatal) // not fatal - Play HitReaction ability
 		{
-			FGameplayTagContainer TagContainer;
-			TagContainer.AddTag(FAuraGameplayTags::Get()->Effects_HitReact);
-			Properties.TargetASC->TryActivateAbilitiesByTag(TagContainer);
+			if (Properties.TargetCharacter->Implements<UCombatInterface>() && !ICombatInterface::Execute_IsBeingShocked(Properties.TargetCharacter))
+			{
+				FGameplayTagContainer TagContainer;
+				TagContainer.AddTag(FAuraGameplayTags::Get()->Effects_HitReact);
+				Properties.TargetASC->TryActivateAbilitiesByTag(TagContainer);
+			}
 		}
 		else if (bFatal) // is fatal
 		{

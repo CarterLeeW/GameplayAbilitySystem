@@ -45,6 +45,8 @@ public:
 	virtual FOnASCRegistered& GetOnASCRegistered() override { return OnASCRegistered; }
 	virtual USkeletalMeshComponent* GetWeapon_Implementation() const override { return Weapon; }
 	virtual FName GetWeaponTipSocketName_Implementation() const override { return WeaponTipSocketName; }
+	virtual bool IsBeingShocked_Implementation() const override { return bIsBeingShocked; }
+	virtual void SetIsBeingShocked_Implementation(bool bInShock) override { bIsBeingShocked = bInShock; }
 	/* End CombatInterface */
 	UPROPERTY(EditAnywhere, Category = "Combat")
 	TArray<FTaggedMontage> AttackMontages;
@@ -58,6 +60,7 @@ public:
 	UPROPERTY(BlueprintAssignable)
 	FOnDeath OnDeath;
 
+	/* Status effects */
 	UPROPERTY(ReplicatedUsing=OnRep_Stunned, BlueprintReadOnly)
 	bool bIsStunned = false;
 	UFUNCTION()
@@ -66,6 +69,8 @@ public:
 	bool bIsBurned = false;
 	UFUNCTION()
 	virtual void OnRep_Burned();
+	UPROPERTY(Replicated, BlueprintReadOnly)
+	bool bIsBeingShocked = false;
 
 	virtual void StunTagChanged(const FGameplayTag CallbackTag, int32 NewCount);
 	
