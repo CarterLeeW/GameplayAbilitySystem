@@ -85,6 +85,10 @@ public:
 	FGameplayTag Ability_Fire_FireBolt;
 	FGameplayTag Ability_Lightning_Electrocute;
 
+	FGameplayTag Ability_Passive_HaloOfProtection;
+	FGameplayTag Ability_Passive_LifeSiphon;
+	FGameplayTag Ability_Passive_ManaSiphon;
+
 	FGameplayTag Ability_Status_Locked;
 	FGameplayTag Ability_Status_Eligible;
 	FGameplayTag Ability_Status_Unlocked;

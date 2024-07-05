@@ -87,9 +87,12 @@ FAuraGameplayTags* FAuraGameplayTags::Get()
 	ADD_TAG(Ability_HitReact,      TAG_ABILITY".HitReact", "Tag for HitReact ability");
 	ADD_TAG(Ability_None,          TAG_ABILITY".None",     "Null ability tag");
 
-	ADD_TAG(Ability_Fire_FireBolt, TAG_ABILITY_FIRE".FireBolt", "Tag for firebolt gameplay ability");
-
+	ADD_TAG(Ability_Fire_FireBolt,         TAG_ABILITY_FIRE".FireBolt",         "Tag for firebolt gameplay ability");
 	ADD_TAG(Ability_Lightning_Electrocute, TAG_ABILITY_LIGHTNING".Electrocute", "Electrocute gameplay ability");
+
+	ADD_TAG(Ability_Passive_HaloOfProtection, TAG_ABILITY_PASSIVE".HaloOfProtection", "Halo of Protection Passive Ability");
+	ADD_TAG(Ability_Passive_LifeSiphon,       TAG_ABILITY_PASSIVE".LifeSiphon",       "Life Siphon Passive Ability");
+	ADD_TAG(Ability_Passive_ManaSiphon,       TAG_ABILITY_PASSIVE".ManaSiphon",       "Mana Siphon Passive Ability");
 
 	ADD_TAG(Ability_Status_Locked,   TAG_ABILITY_STATUS".Locked", "Tag for locked ability");
 	ADD_TAG(Ability_Status_Eligible, TAG_ABILITY_STATUS".Eligible", "Tag for Eligible ability");
