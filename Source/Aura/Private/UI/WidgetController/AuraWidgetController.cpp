@@ -39,7 +39,7 @@ void UAuraWidgetController::BroadcastAbilityInfo()
 		[this](const FGameplayAbilitySpec& AbilitySpec)
 		{
 			FAuraAbilityInfo Info = AbilityInfo->FindAbilityInfoForTag(UAuraAbilitySystemComponent::GetAbilityTagFromSpec(AbilitySpec));
-			Info.InputTag = UAuraAbilitySystemComponent::GetInputTagFromSpec(AbilitySpec);
+			Info.InputTag = UAuraAbilitySystemComponent::GetSlotFromSpec(AbilitySpec);
 			Info.StatusTag = UAuraAbilitySystemComponent::GetStatusTagFromSpec(AbilitySpec);
 			AbilityInfoDelegate.Broadcast(Info);
 		}

@@ -58,7 +58,7 @@ void USpellMenuWidgetController::EquipButtonPressed(const FGameplayTag& AbilityT
 	// Is selected, therefore has InputTag
 	if (SelectedStatus.MatchesTagExact(FAuraGameplayTags::Get()->Ability_Status_Equipped))
 	{
-		SelectedSlot = GetAuraASC()->GetInputTagFromAbilityTag(AbilityTag);
+		SelectedSlot = GetAuraASC()->GetSlotFromAbilityTag(AbilityTag);
 	}
 }
 
