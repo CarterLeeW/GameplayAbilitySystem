@@ -11,7 +11,8 @@ DECLARE_MULTICAST_DELEGATE(FAbilitiesGiven);
 DECLARE_DELEGATE_OneParam(FForEachAbility, const FGameplayAbilitySpec&);
 DECLARE_MULTICAST_DELEGATE_ThreeParams(FAbilityStatusChanged, const FGameplayTag& /*AbilityTag*/, const FGameplayTag& /*StatusTag*/, int32 /*AbilityLevel*/);
 DECLARE_MULTICAST_DELEGATE_FourParams(FAbilityEquipped, const FGameplayTag& /*AbilityTag*/, const FGameplayTag& /*Status*/, const FGameplayTag& /*Slot*/, const FGameplayTag& /*PrevSlot*/);
-DECLARE_MULTICAST_DELEGATE_OneParam(FDeactivatePassiveAbility, const FGameplayTag& /* AbilityTag */);
+DECLARE_MULTICAST_DELEGATE_OneParam(FDeactivatePassiveAbility, const FGameplayTag& /*AbilityTag*/);
+DECLARE_MULTICAST_DELEGATE_TwoParams(FActivatePassiveEffect, const FGameplayTag& /*AbilityTag*/, bool bActivate /*bActivate*/);
 
 /**
  * 
@@ -29,6 +30,7 @@ public:
 	FAbilityStatusChanged OnAbilityStatusChanged;
 	FAbilityEquipped OnAbilityEquipped;
 	FDeactivatePassiveAbility DeactivatePassiveAbility;
+	FActivatePassiveEffect ActivatePassiveEffect;
 
 	bool bStartupAbilitiesGiven = false;
 
@@ -50,15 +52,18 @@ public:
 	bool IsPassiveAbility(const FGameplayAbilitySpec& Spec) const;
 	static void AssignSlotToAbility(FGameplayAbilitySpec& Spec, const FGameplayTag& Slot);
 
+	UFUNCTION(NetMulticast, Unreliable)
+	void Multicast_ActivatePassiveEffect(const FGameplayTag& AbilityTag, bool bActivate);
+
 	static void ClearSlot(FGameplayAbilitySpec* Spec);
 	void ClearAbilitiesInSlot(const FGameplayTag& Slot);
 	static bool AbilityHasSlot(const FGameplayAbilitySpec* Spec, const FGameplayTag& Slot);
 	static bool AbilityHasAnySlot(const FGameplayAbilitySpec* Spec);
 	void UpgradeAttribute(const FGameplayTag& AttributeTag);
 	void UpdateAbilityStatus(int32 Level);
+
 	UFUNCTION(BlueprintCallable)
 	bool GetDescriptionsByAbilityTag(const FGameplayTag& AbilityTag, FString& OutDescription, FString& OutNextLevelDescription);
-
 	UFUNCTION(Server, Reliable)
 	void Server_UpgradeAttribute(const FGameplayTag& AttributeTag);
 	UFUNCTION(Server, Reliable)
