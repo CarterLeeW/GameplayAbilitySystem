@@ -11,6 +11,7 @@
 #define TAG_INPUTTAG_PASSIVE "InputTag.Passive"
 #define TAG_ABILITY "Ability"
 #define TAG_ABILITY_PASSIVE "Ability.Passive"
+#define TAG_ABILITY_ARCANE "Ability.Arcane"
 #define TAG_ABILITY_FIRE "Ability.Fire"
 #define TAG_ABILITY_LIGHTNING "Ability.Lightning"
 #define TAG_ABILITY_STATUS "Ability.Status"

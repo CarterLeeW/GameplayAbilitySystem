@@ -87,6 +87,7 @@ FAuraGameplayTags* FAuraGameplayTags::Get()
 	ADD_TAG(Ability_HitReact,      TAG_ABILITY".HitReact", "Tag for HitReact ability");
 	ADD_TAG(Ability_None,          TAG_ABILITY".None",     "Null ability tag");
 
+	ADD_TAG(Ability_Arcane_ArcaneShards,   TAG_ABILITY_ARCANE".ArcaneShards",   "ArcaneShards gameplay ability");
 	ADD_TAG(Ability_Fire_FireBolt,         TAG_ABILITY_FIRE".FireBolt",         "Tag for firebolt gameplay ability");
 	ADD_TAG(Ability_Lightning_Electrocute, TAG_ABILITY_LIGHTNING".Electrocute", "Electrocute gameplay ability");
 

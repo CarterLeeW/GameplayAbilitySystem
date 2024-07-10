@@ -82,6 +82,7 @@ public:
 	FGameplayTag Ability_HitReact;
 	FGameplayTag Ability_None;
 
+	FGameplayTag Ability_Arcane_ArcaneShards;
 	FGameplayTag Ability_Fire_FireBolt;
 	FGameplayTag Ability_Lightning_Electrocute;
 
