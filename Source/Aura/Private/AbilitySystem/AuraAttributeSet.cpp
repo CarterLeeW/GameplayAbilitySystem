@@ -365,7 +365,7 @@ void UAuraAttributeSet::HandleDebuffs(const FEffectProperties& Properties)
 		if (FAuraGameplayEffectContext* AuraContext = static_cast<FAuraGameplayEffectContext*>(EffectContext.Get()))
 		{
 			TSharedPtr<FGameplayTag> DebuffDamageType = MakeShareable(new FGameplayTag(DamageType));
-			AuraContext->SetDamageType(DebuffDamageType);
+			AuraContext->DamageType = DebuffDamageType;
 			Properties.TargetASC->ApplyGameplayEffectSpecToSelf(*MutableSpec);
 		}
 	}

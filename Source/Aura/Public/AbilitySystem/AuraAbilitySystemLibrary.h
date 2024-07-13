@@ -49,7 +49,7 @@ public:
 	{
 		if (const FAuraGameplayEffectContext* AuraEffectContext = static_cast<const FAuraGameplayEffectContext*>(EffectContextHandle.Get()))
 		{
-			return AuraEffectContext->IsCriticalHit();
+			return AuraEffectContext->bIsCriticalHit;
 		}
 		return false;
 	}
@@ -58,7 +58,7 @@ public:
 	{
 		if (const FAuraGameplayEffectContext* AuraEffectContext = static_cast<const FAuraGameplayEffectContext*>(EffectContextHandle.Get()))
 		{
-			return AuraEffectContext->IsBlockedHit();
+			return AuraEffectContext->bIsBlockedHit;
 		}
 		return false;
 	}
@@ -67,7 +67,7 @@ public:
 	{
 		if (const FAuraGameplayEffectContext* AuraEffectContext = static_cast<const FAuraGameplayEffectContext*>(EffectContextHandle.Get()))
 		{
-			return AuraEffectContext->IsSuccessfullDebuff();
+			return AuraEffectContext->bIsSuccessfulDebuff;
 		}
 		return false;
 	}
@@ -76,7 +76,7 @@ public:
 	{
 		if (const FAuraGameplayEffectContext* AuraEffectContext = static_cast<const FAuraGameplayEffectContext*>(EffectContextHandle.Get()))
 		{
-			return AuraEffectContext->GetDebuffDamage();
+			return AuraEffectContext->DebuffDamage;
 		}
 		return 0.f;
 	}
@@ -85,7 +85,7 @@ public:
 	{
 		if (const FAuraGameplayEffectContext* AuraEffectContext = static_cast<const FAuraGameplayEffectContext*>(EffectContextHandle.Get()))
 		{
-			return AuraEffectContext->GetDebuffDuration();
+			return AuraEffectContext->DebuffDuration;
 		}
 		return 0.f;
 	}
@@ -94,7 +94,7 @@ public:
 	{
 		if (const FAuraGameplayEffectContext* AuraEffectContext = static_cast<const FAuraGameplayEffectContext*>(EffectContextHandle.Get()))
 		{
-			return AuraEffectContext->GetDebuffPeriod();
+			return AuraEffectContext->DebuffPeriod;
 		}
 		return 0.f;
 	}
@@ -103,9 +103,9 @@ public:
 	{
 		if (const FAuraGameplayEffectContext* AuraEffectContext = static_cast<const FAuraGameplayEffectContext*>(EffectContextHandle.Get()))
 		{
-			if (AuraEffectContext->GetDamageType().IsValid())
+			if (AuraEffectContext->DamageType.IsValid())
 			{
-				return *AuraEffectContext->GetDamageType();
+				return *AuraEffectContext->DamageType;
 			}
 		}
 		return FGameplayTag();
@@ -115,7 +115,7 @@ public:
 	{
 		if (const FAuraGameplayEffectContext* AuraEffectContext = static_cast<const FAuraGameplayEffectContext*>(EffectContextHandle.Get()))
 		{
-			return AuraEffectContext->GetDeathImpulse();
+			return AuraEffectContext->DeathImpulse;
 		}
 		return FVector::ZeroVector;
 	}
@@ -124,7 +124,7 @@ public:
 	{
 		if (FAuraGameplayEffectContext* AuraEffectContext = static_cast<FAuraGameplayEffectContext*>(EffectContextHandle.Get()))
 		{
-			AuraEffectContext->SetIsCriticalHit(bInIsCriticalHit);
+			AuraEffectContext->bIsCriticalHit = bInIsCriticalHit;
 		}
 	}
 	UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|GameplayEffects")
@@ -132,7 +132,7 @@ public:
 	{
 		if (FAuraGameplayEffectContext* AuraEffectContext = static_cast<FAuraGameplayEffectContext*>(EffectContextHandle.Get()))
 		{
-			AuraEffectContext->SetIsBlockedHit(bInIsBlockedHit);
+			AuraEffectContext->bIsBlockedHit = bInIsBlockedHit;
 		}
 	}
 	UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|GameplayEffects")
@@ -140,7 +140,7 @@ public:
 	{
 		if (FAuraGameplayEffectContext* AuraEffectContext = static_cast<FAuraGameplayEffectContext*>(EffectContextHandle.Get()))
 		{
-			AuraEffectContext->SetIsSuccessfulDebuff(bInIsSuccessfulDebuff);
+			AuraEffectContext->bIsSuccessfulDebuff = bInIsSuccessfulDebuff;
 		}
 	}
 	UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|GameplayEffects")
@@ -148,7 +148,7 @@ public:
 	{
 		if (FAuraGameplayEffectContext* AuraEffectContext = static_cast<FAuraGameplayEffectContext*>(EffectContextHandle.Get()))
 		{
-			AuraEffectContext->SetDebuffDamage(InDebuffDamage);
+			AuraEffectContext->DebuffDamage = InDebuffDamage;
 		}
 	}
 	UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|GameplayEffects")
@@ -156,15 +156,15 @@ public:
 	{
 		if (FAuraGameplayEffectContext* AuraEffectContext = static_cast<FAuraGameplayEffectContext*>(EffectContextHandle.Get()))
 		{
-			AuraEffectContext->SetDebuffDuration(InDebuffDuration);
+			AuraEffectContext->DebuffDuration = InDebuffDuration;
 		}
 	}
 	UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|GameplayEffects")
-	static void SetDebuffPeriod(UPARAM(ref) FGameplayEffectContextHandle& EffectContextHandle, float InDebuffTickPeriod)
+	static void SetDebuffPeriod(UPARAM(ref) FGameplayEffectContextHandle& EffectContextHandle, float InDebuffPeriod)
 	{
 		if (FAuraGameplayEffectContext* AuraEffectContext = static_cast<FAuraGameplayEffectContext*>(EffectContextHandle.Get()))
 		{
-			AuraEffectContext->SetDebuffPeriod(InDebuffTickPeriod);
+			AuraEffectContext->DebuffPeriod = InDebuffPeriod;
 		}
 	}
 	UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|GameplayEffects")
@@ -172,7 +172,7 @@ public:
 	{
 		if (FAuraGameplayEffectContext* AuraEffectContext = static_cast<FAuraGameplayEffectContext*>(EffectContextHandle.Get()))
 		{
-			AuraEffectContext->SetDamageType(MakeShared<FGameplayTag>(InDamageType));
+			AuraEffectContext->DamageType = MakeShared<FGameplayTag>(InDamageType);
 		}
 	}
 	UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|GameplayEffects")
@@ -180,7 +180,7 @@ public:
 	{
 		if (FAuraGameplayEffectContext* AuraEffectContext = static_cast<FAuraGameplayEffectContext*>(EffectContextHandle.Get()))
 		{
-			AuraEffectContext->SetDeathImpulse(InDeathImpulse);
+			AuraEffectContext->DeathImpulse = InDeathImpulse;
 		}
 	}
 	UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|GameplayMechanics", meta = (WorldContext = "WorldContextObject"))
