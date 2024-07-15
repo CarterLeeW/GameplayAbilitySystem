@@ -272,4 +272,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Damage")
 	static FGameplayEffectContextHandle ApplyDamageEffect(const FDamageEffectParams& Params);
+
+	UFUNCTION(BlueprintPure, BlueprintCallable, Category = "Math")
+	static float GetValueAtLevel_Float(int32 Level, const FScalableFloat& Value) { return Value.GetValueAtLevel(Level); }
+	UFUNCTION(BlueprintPure, BlueprintCallable, Category = "Math")
+	static int32 GetValueAtLevel_Int32(int32 Level, const FScalableFloat& Value) { return Value.AsInteger(Level); }
 };
