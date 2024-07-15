@@ -56,7 +56,4 @@ protected:
 	
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Damage")
 	float RadialDamageOuterRadius = 0.f;
-	
-	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Damage")
-	FVector RadialDamageOrigin = FVector::ZeroVector;
 };

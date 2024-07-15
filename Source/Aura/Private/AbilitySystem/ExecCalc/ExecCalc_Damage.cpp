@@ -166,13 +166,14 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 		const FGameplayEffectAttributeCaptureDefinition CaptureDef = AuraDamageStatics().TagsToCaptureDefs[ResistanceTag];
 
 		float DamageTypeValue = Spec.GetSetByCallerMagnitude(Pair.Key, false, 0.f);
+		if (DamageTypeValue <= 0.f) continue;
 
 		float Resistance = 0.f;
 		ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(CaptureDef, EvaluationParameters, Resistance);
 		Resistance = FMath::Clamp(Resistance, 0.f, 100.f);
 
 		DamageTypeValue *= (100.f - Resistance) / 100.f;
-		Damage += DamageTypeValue;
+		
 
 		// Check for radial damage
 		if (UAuraAbilitySystemLibrary::IsRadialDamage(EffectContextHandle))
@@ -203,9 +204,11 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 				1.f,
 				UDamageType::StaticClass(),
 				TArray<AActor*>(),
-				SourceAvatar
+				SourceAvatar,
+				nullptr
 			);
 		}
+		Damage += DamageTypeValue;
 	}
 
 	// Capture BlockChance on Target, and determine if there was a successful block
