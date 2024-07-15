@@ -121,7 +121,7 @@ public:
 		return FVector::ZeroVector;
 	}
 	UFUNCTION(BlueprintPure, Category = "AuraAbilitySystemLibrary|GameplayEffects")
-	static bool GetIsRadialDamage(const FGameplayEffectContextHandle& EffectContextHandle)
+	static bool IsRadialDamage(const FGameplayEffectContextHandle& EffectContextHandle)
 	{
 		if (const FAuraGameplayEffectContext* AuraEffectContext = static_cast<const FAuraGameplayEffectContext*>(EffectContextHandle.Get()))
 		{
