@@ -29,11 +29,11 @@ public:
 
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	UAttributeSet* GetAttributeSet() const { return AttributeSet; }
+	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
 
 	/* CombatInterface */
 	virtual UAnimMontage* GetHitReactMontage_Implementation() const override;
 	virtual void Die(const FVector& DeathImpulse = FVector::ZeroVector) override;
-	virtual FOnDeath& GetOnDeathDelegate() override { return OnDeath; }
 	virtual bool IsDead_Implementation() const override { return bDead; }
 	virtual AActor* GetAvatar_Implementation() override { return this; }
 	virtual FVector GetCombatSocketLocation_Implementation(const FGameplayTag& SocketTag) const override;
@@ -43,11 +43,13 @@ public:
 	virtual int32 GetMinionCount_Implementation() const override { return MinionCount; }
 	virtual void IncrementMinionCount_Implementation(int32 Amount) override { MinionCount += Amount; }
 	virtual ECharacterClass GetCharacterClass_Implementation() const override { return CharacterClass; }
-	virtual FOnASCRegistered& GetOnASCRegistered() override { return OnASCRegistered; }
 	virtual USkeletalMeshComponent* GetWeapon_Implementation() const override { return Weapon; }
 	virtual FName GetWeaponTipSocketName_Implementation() const override { return WeaponTipSocketName; }
 	virtual bool IsBeingShocked_Implementation() const override { return bIsBeingShocked; }
 	virtual void SetIsBeingShocked_Implementation(bool bInShock) override { bIsBeingShocked = bInShock; }
+	virtual FOnASCRegistered& GetOnASCRegistered() override { return OnASCRegistered; }
+	virtual FOnDeath& GetOnDeathDelegate() override { return OnDeath; }
+	virtual FOnDamage& GetOnDamageSignature() override { return OnDamage; }
 	/* End CombatInterface */
 	UPROPERTY(EditAnywhere, Category = "Combat")
 	TArray<FTaggedMontage> AttackMontages;
@@ -60,6 +62,7 @@ public:
 	FOnASCRegistered OnASCRegistered;
 	UPROPERTY(BlueprintAssignable)
 	FOnDeath OnDeath;
+	FOnDamage OnDamage;
 
 	/* Status effects */
 	UPROPERTY(ReplicatedUsing=OnRep_Stunned, BlueprintReadOnly)

@@ -8,6 +8,7 @@
 #include "AbilitySystem/AuraAbilitySystemLibrary.h"
 #include "Interaction/CombatInterface.h"
 #include "AuraAbilityTypes.h"
+#include "Kismet/GameplayStatics.h"
 
 #define DEFINE_ATTRIBUTE_CAPTUREDEF_LOCAL(set, prop, targetsource, bcapture) \
 { \
@@ -93,17 +94,17 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	const FAuraGameplayTags* Tags = FAuraGameplayTags::Get();
 
 
-	AActor* SourceAvatar = SourceASC ? SourceASC->GetAvatarActor() : nullptr;
-	AActor* TargetAvatar = TargetASC ? TargetASC->GetAvatarActor() : nullptr;
+	AActor* SourceAvatar = SourceASC ? SourceASC->GetAvatarActor() : nullptr; // dealing damage
+	AActor* TargetAvatar = TargetASC ? TargetASC->GetAvatarActor() : nullptr; // receiving damage
 
 	int32 SourcePlayerLevel = 1;
-	if (SourceAvatar->Implements<UCombatInterface>())
+	if (SourceAvatar && SourceAvatar->Implements<UCombatInterface>())
 	{
 		SourcePlayerLevel = ICombatInterface::Execute_GetPlayerLevel(SourceAvatar);
 	}
 
 	int32 TargetPlayerLevel = 1;
-	if (TargetAvatar->Implements<UCombatInterface>())
+	if (TargetAvatar && TargetAvatar->Implements<UCombatInterface>())
 	{
 		TargetPlayerLevel = ICombatInterface::Execute_GetPlayerLevel(TargetAvatar);
 	}
@@ -176,7 +177,34 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 		// Check for radial damage
 		if (UAuraAbilitySystemLibrary::IsRadialDamage(EffectContextHandle))
 		{
+			// 1. override TakeDamage in AuraCharacterBase
+			// 2. Create delegate OnDamageDelegate, broadcast damage recieved in TakeDamage
+			// 3. Bind lambda to OnDamageDelegate on the victim here
+			// 4. Call UGameplayStatics::ApplyRadialDamageWithFalloff to cause damage 
+			// (TakeDamage will be called, which will broadcast OnDamageDelegate)
+			// 5. In lambda, set DamageTypeValue to the damage recieved from the broadcast
 
+			if (ICombatInterface* CI = Cast<ICombatInterface>(TargetAvatar))
+			{
+				CI->GetOnDamageSignature().AddLambda(
+					[&](float DamageAmount)
+					{
+						DamageTypeValue = DamageAmount;
+					}
+				);
+			}
+			UGameplayStatics::ApplyRadialDamageWithFalloff(
+				TargetAvatar,
+				DamageTypeValue,
+				0.f,
+				UAuraAbilitySystemLibrary::GetRadialDamageOrigin(EffectContextHandle),
+				UAuraAbilitySystemLibrary::GetRadialDamageInnerRadius(EffectContextHandle),
+				UAuraAbilitySystemLibrary::GetRadialDamageOuterRadius(EffectContextHandle),
+				1.f,
+				UDamageType::StaticClass(),
+				TArray<AActor*>(),
+				SourceAvatar
+			);
 		}
 	}
 
