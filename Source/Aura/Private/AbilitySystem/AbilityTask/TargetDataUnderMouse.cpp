@@ -38,7 +38,14 @@ void UTargetDataUnderMouse::SendMouseCursorData()
 	AAuraPlayerController* AuraPC = Cast<AAuraPlayerController>(Ability->GetCurrentActorInfo()->PlayerController.Get());
 	//FHitResult HR = AuraPC->GetCursorHitResult();
 	FHitResult HR;
-	AuraPC->GetHitResultUnderCursor(ECC_Target, false, HR);
+	if (AuraPC->GetMagicCircle())
+	{
+		AuraPC->GetHitResultUnderCursor(ECC_Visibility, false, HR);
+	}
+	else
+	{
+		AuraPC->GetHitResultUnderCursor(ECC_Target, false, HR);
+	}
 
 	FGameplayAbilityTargetDataHandle DataHandle;
 	FGameplayAbilityTargetData_SingleTargetHit* Data = new FGameplayAbilityTargetData_SingleTargetHit();

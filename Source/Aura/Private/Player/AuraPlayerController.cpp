@@ -141,7 +141,14 @@ void AAuraPlayerController::CursorTrace()
 		ThisTargetActor = nullptr;
 		return;
 	}
-	GetHitResultUnderCursor(ECC_CursorVis, false, CursorHit);
+	if (MagicCircle)
+	{
+		GetHitResultUnderCursor(ECC_Visibility, false, CursorHit);
+	}
+	else
+	{
+		GetHitResultUnderCursor(ECC_CursorVis, false, CursorHit);
+	}
 	if (!CursorHit.bBlockingHit) return;
 
 	LastTargetActor = ThisTargetActor;

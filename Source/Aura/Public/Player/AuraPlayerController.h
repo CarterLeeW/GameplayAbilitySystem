@@ -39,6 +39,7 @@ public:
 	void ShowMagicCircle(UMaterialInterface* DecalMaterial = nullptr);
 	UFUNCTION(BlueprintCallable)
 	void HideMagicCircle();
+	AMagicCircle* GetMagicCircle() const { return MagicCircle; }
 
 protected:
 	virtual void BeginPlay() override;
