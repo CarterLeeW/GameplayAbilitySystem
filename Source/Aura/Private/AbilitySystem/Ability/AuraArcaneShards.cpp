@@ -37,8 +37,8 @@ FString UAuraArcaneShards::GetNextLevelDescription(int32 Level) const
 		"<Small>Mana Cost: </><ManaCost>%.1f</>\n"
 		"<Small>Cooldown: </><Cooldown>%.1f</>\n"
 		// Description
-		"<Default>Spawns %d arcane shards from the ground, dealing damage up to </>"
+		"<Default>Spawns %d arcane shards from the ground, dealing up to </>"
 		"<Damage>%d </>"
-		"<Default>arcane damage to enemies within a radius of %.1f meters</>\n\n"),
+		"<Default>arcane damage per shard to enemies within a radius of %.1f meters</>\n\n"),
 		Level+1, ManaCost, Cooldown, NumShards.AsInteger(Level+1), FMath::RoundToInt(SpellDamage), SpellRadius);
 }
