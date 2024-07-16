@@ -5,6 +5,7 @@
 #include "Player/AuraPlayerController.h"
 #include "AbilitySystemComponent.h"
 #include "Aura/Aura.h"
+#include "Actor/MagicCircle.h"
 
 UTargetDataUnderMouse* UTargetDataUnderMouse::CreateTargetDataUnderMouse(UGameplayAbility* OwningAbility)
 {
@@ -38,7 +39,7 @@ void UTargetDataUnderMouse::SendMouseCursorData()
 	AAuraPlayerController* AuraPC = Cast<AAuraPlayerController>(Ability->GetCurrentActorInfo()->PlayerController.Get());
 	//FHitResult HR = AuraPC->GetCursorHitResult();
 	FHitResult HR;
-	if (AuraPC->GetMagicCircle())
+	if (IsValid(AuraPC->GetMagicCircle()))
 	{
 		AuraPC->GetHitResultUnderCursor(ECC_Visibility, false, HR);
 	}
