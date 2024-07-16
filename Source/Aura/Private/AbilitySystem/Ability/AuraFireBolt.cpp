@@ -47,7 +47,7 @@ FString UAuraFireBolt::GetNextLevelDescription(int32 Level) const
 	"<Default>Launches %d %s of fire, exploding on impact and dealing </>"
 	"<Damage>%d </>"
 	"<Default>fire damage with a chance to burn</>\n\n"),
-	Level, ManaCost, Cooldown, NumProjectiles.AsInteger(Level + 1), * Bolts, FMath::RoundToInt(FireDamage));
+	Level+1, ManaCost, Cooldown, NumProjectiles.AsInteger(Level + 1), * Bolts, FMath::RoundToInt(FireDamage));
 }
 
 void UAuraFireBolt::SpawnProjectiles(const FVector& ProjectileTargetLocation, const FGameplayTag& SocketTag, const AActor* HomingTarget, float PitchOverride)

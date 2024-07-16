@@ -31,7 +31,7 @@ FString UAuraArcaneShards::GetNextLevelDescription(int32 Level) const
 	const float SpellRadius = RadialDamageOuterRadius / 100.f;
 	return FString::Printf(TEXT(
 		// Title
-		"<Title>ARCANE SHARDS</>\n\n"
+		"<Title>NEXT LEVEL</>\n\n"
 		// Details
 		"<Default>Level: %d</>\n"
 		"<Small>Mana Cost: </><ManaCost>%.1f</>\n"
@@ -40,5 +40,5 @@ FString UAuraArcaneShards::GetNextLevelDescription(int32 Level) const
 		"<Default>Spawns %d arcane shards from the ground, dealing damage up to </>"
 		"<Damage>%d </>"
 		"<Default>arcane damage to enemies within a radius of %.1f meters</>\n\n"),
-		Level, ManaCost, Cooldown, NumShards.AsInteger(Level+1), FMath::RoundToInt(SpellDamage), SpellRadius);
+		Level+1, ManaCost, Cooldown, NumShards.AsInteger(Level+1), FMath::RoundToInt(SpellDamage), SpellRadius);
 }

@@ -49,4 +49,7 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Beam", meta = (ClampMin = "1", UIMin = "1", ClampMax = "10", UIMax = "10"))
 	FScalableFloat MaxShockTargets = 5.f;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Damage", meta = (ClampMin = ".0001", UIMin = ".0001", ClampMax = "10", UIMax = "10"))
+	float DamagePeriod = 0.1f;
 };
