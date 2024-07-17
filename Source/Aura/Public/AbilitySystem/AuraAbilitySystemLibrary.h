@@ -270,11 +270,14 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|CharacterClassDefaults", meta = (WorldContext = "WorldContextObject"))
 	static UAbilityInfo* GetAbilityInfo(const UObject* WorldContextObject);
 
-	UFUNCTION(BlueprintCallable, Category = "Damage")
+	UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|GameplayMechanics")
+	static TArray<FRotator> EvenlySpacedRotators(const FVector& Forward, const FVector& Axis, float Spread, int32 NumRotators);
+
+	UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|Damage")
 	static FGameplayEffectContextHandle ApplyDamageEffect(const FDamageEffectParams& Params);
 
-	UFUNCTION(BlueprintPure, BlueprintCallable, Category = "Math")
+	UFUNCTION(BlueprintPure, BlueprintCallable, Category = "AuraAbilitySystemLibrary|Math")
 	static float GetValueAtLevel_Float(int32 Level, const FScalableFloat& Value) { return Value.GetValueAtLevel(Level); }
-	UFUNCTION(BlueprintPure, BlueprintCallable, Category = "Math")
+	UFUNCTION(BlueprintPure, BlueprintCallable, Category = "AuraAbilitySystemLibrary|Math")
 	static int32 GetValueAtLevel_Int32(int32 Level, const FScalableFloat& Value) { return Value.AsInteger(Level); }
 };
