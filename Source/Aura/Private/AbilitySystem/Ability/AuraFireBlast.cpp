@@ -40,3 +40,8 @@ FString UAuraFireBlast::GetNextLevelDescription(int32 Level) const
 		"<Default>fire damage with a chance to burn</>\n\n"),
 		Level + 1, ManaCost, Cooldown, NumFireBalls, FMath::RoundToInt(FireDamage));
 }
+
+TArray<AAuraFireBall*> UAuraFireBlast::SpawnFireBalls()
+{
+	return TArray<AAuraFireBall*>();
+}
