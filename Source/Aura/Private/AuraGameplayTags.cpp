@@ -89,6 +89,7 @@ FAuraGameplayTags* FAuraGameplayTags::Get()
 
 	ADD_TAG(Ability_Arcane_ArcaneShards,   TAG_ABILITY_ARCANE".ArcaneShards",   "ArcaneShards gameplay ability");
 	ADD_TAG(Ability_Fire_FireBolt,         TAG_ABILITY_FIRE".FireBolt",         "Tag for firebolt gameplay ability");
+	ADD_TAG(Ability_Fire_FireBlast, TAG_ABILITY_FIRE".FireBlast", "Tag for fireblast gameplay ability");
 	ADD_TAG(Ability_Lightning_Electrocute, TAG_ABILITY_LIGHTNING".Electrocute", "Electrocute gameplay ability");
 
 	ADD_TAG(Ability_Passive_HaloOfProtection, TAG_ABILITY_PASSIVE".HaloOfProtection", "Halo of Protection Passive Ability");
