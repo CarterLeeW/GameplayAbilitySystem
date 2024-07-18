@@ -19,7 +19,7 @@ class AURA_API AAuraProjectile : public AActor
 public:
 	AAuraProjectile();
 
-	UPROPERTY(VisibleAnywhere)
+	UPROPERTY(BlueprintReadOnly, VisibleAnywhere)
 	TObjectPtr<UProjectileMovementComponent> ProjectileMovement;
 
 	UPROPERTY(BlueprintReadWrite, meta = (ExposeOnSpawn = "true"))
@@ -33,6 +33,10 @@ protected:
 	virtual void Destroyed() override;
 	virtual void OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
+	UFUNCTION(BlueprintCallable)
+	void SpawnEffects();
+	UPROPERTY(BlueprintReadWrite)
+	bool bHit = false;
 private:
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<USphereComponent> Sphere;
@@ -43,10 +47,8 @@ private:
 	UPROPERTY(EditAnywhere)
 	TObjectPtr<USoundBase> ImpactSound;
 
-	bool bHit = false;
 
 	UPROPERTY(EditDefaultsOnly)
 	float LifeSpan = 15.f;
 
-	void SpawnEffects();
 };
