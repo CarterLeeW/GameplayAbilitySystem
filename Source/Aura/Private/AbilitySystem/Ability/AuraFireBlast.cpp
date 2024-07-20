@@ -65,10 +65,6 @@ TArray<AAuraFireBall*> UAuraFireBlast::SpawnFireBalls()
 			ESpawnActorCollisionHandlingMethod::AlwaysSpawn
 			);
 		FireBall->DamageEffectParams = MakeDamageEffectParamsFromClassDefaults();
-
-		FireBall->ExplosiveDamageEffectParams = MakeDamageEffectParamsFromClassDefaults();
-
-
 		FireBalls.Add(FireBall);
 		FireBall->FinishSpawning(SpawnTransform);
 	}
