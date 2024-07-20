@@ -38,9 +38,9 @@ protected:
 	void SpawnEffects();
 	UPROPERTY(BlueprintReadWrite)
 	bool bHit = false;
-private:
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<USphereComponent> Sphere;
+private:
 
 	UPROPERTY(EditAnywhere)
 	TObjectPtr<UNiagaraSystem> ImpactEffect;

@@ -4,6 +4,55 @@
 #include "AbilitySystemComponent.h"
 #include "AbilitySystem/AuraAbilitySystemLibrary.h"
 #include "AbilitySystemBlueprintLibrary.h"
+#include "Components/SphereComponent.h"
+#include "AuraAbilityTypes.h"
+
+void AAuraFireBall::Tick(float DeltaSeconds)
+{
+	if (bIsReturning && IsValid(GetOwner()) && HasAuthority())
+	{
+		const bool bIsWithinExplodingDistance = (FVector::Distance(GetOwner()->GetActorLocation(), GetActorLocation())) <= DistanceToOwnerBeforeExploding;
+		if (bIsWithinExplodingDistance)
+		{
+			SpawnExplosionEffects();
+			ExplodeAndDealDamage();
+		}
+	}
+}
+
+void AAuraFireBall::ExplodeAndDealDamage()
+{
+	TArray<AActor*> ActorsToIgnore;
+	ActorsToIgnore.Add(GetOwner());
+	TArray<AActor*> ActorsToDamage;
+	UAuraAbilitySystemLibrary::GetLivePlayersWithinRadius(
+		this,
+		ActorsToIgnore,
+		DamageEffectParams.RadialDamageOuterRadius,
+		GetActorLocation(),
+		ActorsToDamage
+	);
+	// Remove friendly actors | friendly fire off
+	if (!bDamageFriendlyCharacters)
+	{
+		ActorsToDamage.RemoveAll([this](const AActor* Target)
+			{
+				return !UAuraAbilitySystemLibrary::IsNotFriend(GetOwner(), Target);
+			});
+	}
+
+	for (AActor* Actor : ActorsToDamage)
+	{
+		if (UAbilitySystemComponent* ASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(Actor))
+		{
+			// Apply gameplay effects here, now that ASC is valid
+			DamageEffectParams.TargetAbilitySystemComponent = ASC;
+			DamageEffectParams.RadialDamageOrigin = GetActorLocation();
+			UAuraAbilitySystemLibrary::ApplyDamageEffect(DamageEffectParams);
+		}
+	}
+	Destroy();
+}
 
 void AAuraFireBall::BeginPlay()
 {
@@ -29,12 +78,11 @@ void AAuraFireBall::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AA
 
 	if (HasAuthority())
 	{
-		// Apply any gameplay effects
-		if (UAbilitySystemComponent* TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(OtherActor))
+		if (!bHit)
 		{
-			DamageEffectParams.DeathImpulse = GetActorForwardVector() * DamageEffectParams.DeathImpulseMagnitude;
-			DamageEffectParams.TargetAbilitySystemComponent = TargetASC; // This is the first time TargetASC is valid
-			UAuraAbilitySystemLibrary::ApplyDamageEffect(DamageEffectParams);
+			SpawnExplosionEffects();
+			ExplodeAndDealDamage();
 		}
+		bHit = true;
 	}
 }
