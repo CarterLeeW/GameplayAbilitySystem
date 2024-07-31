@@ -7,7 +7,7 @@
 #include "Game/LoadScreenSaveGame.h"
 #include "MVVM_LoadSlot.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FSetWidgetSwitcherIndex, int32, WidgetSwitcherIndex);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FSetWidgetSwitcherIndex, ESaveSlotStatus, WidgetSwitcherIndex);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FEnableSelectSlotButton, bool, bEnable);
 
 /**
@@ -35,7 +35,7 @@ public:
 	int32 SlotIndex;
 
 	UPROPERTY()
-	TEnumAsByte<ESaveSlotStatus> SlotStatus = ESSS_Vacant;
+	ESaveSlotStatus  SlotStatus = ESaveSlotStatus::ESSS_Vacant;
 
 private:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, FieldNotify, Setter, Getter, meta = (AllowPrivateAccess="true"))
