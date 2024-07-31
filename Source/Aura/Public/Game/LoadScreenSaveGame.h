@@ -6,6 +6,14 @@
 #include "GameFramework/SaveGame.h"
 #include "LoadScreenSaveGame.generated.h"
 
+UENUM(BlueprintType)
+enum ESaveSlotStatus
+{
+	ESSS_Vacant,
+	ESSS_EnterName,
+	ESSS_Taken
+};
+
 /**
  * 
  */
@@ -22,4 +30,7 @@ public:
 	int32 SlotIndex = 0;
 	UPROPERTY()
 	FString PlayerName = FString("Default Name");
+
+	UPROPERTY()
+	TEnumAsByte<ESaveSlotStatus> SaveSlotStatus = ESSS_Vacant;
 };
