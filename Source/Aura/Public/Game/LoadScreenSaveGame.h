@@ -30,6 +30,8 @@ public:
 	int32 SlotIndex = 0;
 	UPROPERTY()
 	FString PlayerName = FString("Default Name");
+	UPROPERTY()
+	FString CurrentMapName = FString("Default Map");
 
 	UPROPERTY()
 	ESaveSlotStatus SaveSlotStatus = ESaveSlotStatus::ESSS_Vacant;
