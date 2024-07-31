@@ -5,6 +5,8 @@
 #include "Blueprint//UserWidget.h"
 #include "UI/Widget/LoadScreenWidget.h"
 #include "UI/ViewModel/MVVM_LoadScreen.h"
+#include "Kismet/GameplayStatics.h"
+#include "Blueprint/WidgetBlueprintLibrary.h"
 
 void ALoadScreenHUD::BeginPlay()
 {
@@ -15,6 +17,9 @@ void ALoadScreenHUD::BeginPlay()
 
 	LoadScreenWidget = CreateWidget<ULoadScreenWidget>(GetWorld(), LoadScreenWidgetClass);
 	LoadScreenWidget->AddToViewport();
+	APlayerController* PC = UGameplayStatics::GetPlayerController(this, 0);
+	UWidgetBlueprintLibrary::SetInputMode_UIOnlyEx(PC, LoadScreenWidget);
+	PC->bShowMouseCursor = true;
 	LoadScreenWidget->BlueprintInitializeWidget();
 
 	LoadScreenViewModel->LoadData();

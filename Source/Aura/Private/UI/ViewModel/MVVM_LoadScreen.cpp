@@ -42,6 +42,8 @@ void UMVVM_LoadScreen::NewGameButtonPressed(int32 Slot)
 
 void UMVVM_LoadScreen::SelectSlotButtonPressed(int32 Slot)
 {
+	// broadcast play and delete delegates
+	SlotSelected.Broadcast();
 	// Disable selected slot's button and enable all others
 	for (const TPair<int32, UMVVM_LoadSlot*>& LoadSlot : LoadSlots)
 	{
