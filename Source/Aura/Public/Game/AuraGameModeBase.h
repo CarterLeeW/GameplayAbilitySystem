@@ -34,4 +34,14 @@ public:
 	static void DeleteSaveSlot(UMVVM_LoadSlot* LoadSlot, int32 SlotIndex);
 	ULoadScreenSaveGame* GetSaveSlotData(const FString& SlotName, int32 SlotIndex);
 
+	/* Maps */
+	UPROPERTY(EditDefaultsOnly)
+	FString StartingMapName;
+	UPROPERTY(EditDefaultsOnly)
+	TSoftObjectPtr<UWorld> StartingMap;
+	UPROPERTY(EditDefaultsOnly)
+	TMap<FString, TSoftObjectPtr<UWorld>> GameMaps;
+
+protected:
+	virtual void BeginPlay() override;
 };

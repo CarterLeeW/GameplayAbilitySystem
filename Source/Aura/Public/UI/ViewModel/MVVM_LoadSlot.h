@@ -27,11 +27,13 @@ public:
 	void InitializeSlot();
 
 	/* Field Notifies */
-	void SetLoadSlotName(FString InLoadSlotName);
-	void SetPlayerName(FString InPlayerName);
+	void SetLoadSlotName(const FString& InLoadSlotName);
+	void SetPlayerName(const FString& InPlayerName);
+	void SetMapName(const FString& InMapName);
 
 	FString GetLoadSlotName() const { return LoadSlotName; }
 	FString GetPlayerName() const { return PlayerName; }
+	FString GetMapName() const { return MapName; }
 
 	UPROPERTY()
 	int32 SlotIndex;
@@ -44,4 +46,6 @@ private:
 	FString LoadSlotName;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, FieldNotify, Setter, Getter, meta = (AllowPrivateAccess = "true"))
 	FString PlayerName;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, FieldNotify, Setter, Getter, meta = (AllowPrivateAccess = "true"))
+	FString MapName;
 };
