@@ -41,6 +41,7 @@ public:
 	TSoftObjectPtr<UWorld> StartingMap;
 	UPROPERTY(EditDefaultsOnly)
 	TMap<FString, TSoftObjectPtr<UWorld>> GameMaps;
+	void TravelToMap(UMVVM_LoadSlot* Slot);
 
 protected:
 	virtual void BeginPlay() override;
