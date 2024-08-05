@@ -7,6 +7,7 @@
 #include "Game/LoadScreenSaveGame.h"
 #include "GameFramework/SaveGame.h"
 #include "GameFramework/PlayerStart.h"
+#include "Game/AuraGameInstance.h"
 
 void AAuraGameModeBase::SaveSlotData(UMVVM_LoadSlot* LoadSlot, int32 SlotIndex)
 {
@@ -46,6 +47,8 @@ ULoadScreenSaveGame* AAuraGameModeBase::GetSaveSlotData(const FString& SlotName,
 
 AActor* AAuraGameModeBase::ChoosePlayerStart_Implementation(AController* Player)
 {
+	UAuraGameInstance* AuraGameInstance = Cast<UAuraGameInstance>(GetGameInstance());
+
 	TArray<AActor*> PSActors;
 	UGameplayStatics::GetAllActorsOfClass(GetWorld(), APlayerStart::StaticClass(), PSActors);
 	if (PSActors.Num() > 0)
@@ -56,7 +59,7 @@ AActor* AAuraGameModeBase::ChoosePlayerStart_Implementation(AController* Player)
 			if (APlayerStart* PlayerStart = Cast<APlayerStart>(PSActor))
 			{
 				// returns first PlayerStart found with tag
-				if (PlayerStart->PlayerStartTag == FName("TheTag"))
+				if (PlayerStart->PlayerStartTag == AuraGameInstance->PlayerStartTag)
 				{
 					SelectedActor = PlayerStart;
 					return SelectedActor;
