@@ -49,7 +49,7 @@ ULoadScreenSaveGame* AAuraGameModeBase::GetSaveSlotData(const FString& SlotName,
 
 AActor* AAuraGameModeBase::ChoosePlayerStart_Implementation(AController* Player)
 {
-	UAuraGameInstance* AuraGameInstance = UAuraGameLibrary::GetAuraGameInstance(this);
+	UAuraGameInstance* AuraGI = UAuraGameLibrary::GetAuraGameInstance(this);
 
 	TArray<AActor*> PSActors;
 	UGameplayStatics::GetAllActorsOfClass(GetWorld(), APlayerStart::StaticClass(), PSActors);
@@ -61,7 +61,7 @@ AActor* AAuraGameModeBase::ChoosePlayerStart_Implementation(AController* Player)
 			if (APlayerStart* PlayerStart = Cast<APlayerStart>(PSActor))
 			{
 				// returns first PlayerStart found with tag
-				if (PlayerStart->PlayerStartTag == AuraGameInstance->PlayerStartTag)
+				if (PlayerStart->PlayerStartTag == AuraGI->PlayerStartTag)
 				{
 					SelectedActor = PlayerStart;
 					return SelectedActor;
@@ -70,6 +70,22 @@ AActor* AAuraGameModeBase::ChoosePlayerStart_Implementation(AController* Player)
 		}
 	}
 	return nullptr;
+}
+
+ULoadScreenSaveGame* AAuraGameModeBase::RetrieveInGameSaveData()
+{
+	return GetSaveSlotData(UAuraGameLibrary::GetAuraGameInstance(this)->LoadSlotName, UAuraGameLibrary::GetAuraGameInstance(this)->LoadSlotIndex);
+}
+
+void AAuraGameModeBase::SaveInGameProgressData(ULoadScreenSaveGame* SaveObject)
+{
+	UAuraGameInstance* AuraGI = UAuraGameLibrary::GetAuraGameInstance(this);
+
+	const FString InGameLoadSlotName = AuraGI->LoadSlotName;
+	const int32 InGameLoadSlotIndex = AuraGI->LoadSlotIndex;
+	AuraGI->PlayerStartTag = SaveObject->PlayerStartTag;
+
+	UGameplayStatics::SaveGameToSlot(SaveObject, InGameLoadSlotName, InGameLoadSlotIndex);
 }
 
 void AAuraGameModeBase::TravelToMap(UMVVM_LoadSlot* Slot)
