@@ -6,6 +6,7 @@
 #include "UI/ViewModel/MVVM_LoadSlot.h"
 #include "Game/LoadScreenSaveGame.h"
 #include "GameFramework/SaveGame.h"
+#include "GameFramework/PlayerStart.h"
 
 void AAuraGameModeBase::SaveSlotData(UMVVM_LoadSlot* LoadSlot, int32 SlotIndex)
 {
@@ -41,6 +42,29 @@ ULoadScreenSaveGame* AAuraGameModeBase::GetSaveSlotData(const FString& SlotName,
 	}
 	ULoadScreenSaveGame* LoadScreenSaveGame = Cast<ULoadScreenSaveGame>(SaveGameObject);
 	return LoadScreenSaveGame;
+}
+
+AActor* AAuraGameModeBase::ChoosePlayerStart_Implementation(AController* Player)
+{
+	TArray<AActor*> PSActors;
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(), APlayerStart::StaticClass(), PSActors);
+	if (PSActors.Num() > 0)
+	{
+		AActor* SelectedActor = PSActors[0];
+		for (AActor* PSActor : PSActors)
+		{
+			if (APlayerStart* PlayerStart = Cast<APlayerStart>(PSActor))
+			{
+				// returns first PlayerStart found with tag
+				if (PlayerStart->PlayerStartTag == FName("TheTag"))
+				{
+					SelectedActor = PlayerStart;
+					return SelectedActor;
+				}
+			}
+		}
+	}
+	return nullptr;
 }
 
 void AAuraGameModeBase::TravelToMap(UMVVM_LoadSlot* Slot)

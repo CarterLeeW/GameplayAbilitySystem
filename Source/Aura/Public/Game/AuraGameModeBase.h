@@ -33,6 +33,7 @@ public:
 	void SaveSlotData(UMVVM_LoadSlot* LoadSlot, int32 SlotIndex);
 	static void DeleteSaveSlot(UMVVM_LoadSlot* LoadSlot, int32 SlotIndex);
 	ULoadScreenSaveGame* GetSaveSlotData(const FString& SlotName, int32 SlotIndex);
+	virtual AActor* ChoosePlayerStart_Implementation(AController* Player) override;
 
 	/* Maps */
 	UPROPERTY(EditDefaultsOnly)
