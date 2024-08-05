@@ -41,6 +41,9 @@ public:
 	UPROPERTY()
 	ESaveSlotStatus  SlotStatus = ESaveSlotStatus::ESSS_Vacant;
 
+	UPROPERTY()
+	FName PlayerStartTag;
+
 private:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, FieldNotify, Setter, Getter, meta = (AllowPrivateAccess="true"))
 	FString LoadSlotName;

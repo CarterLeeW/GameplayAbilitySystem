@@ -35,4 +35,7 @@ public:
 
 	UPROPERTY()
 	ESaveSlotStatus SaveSlotStatus = ESaveSlotStatus::ESSS_Vacant;
+
+	UPROPERTY()
+	FName PlayerStartTag;
 };
