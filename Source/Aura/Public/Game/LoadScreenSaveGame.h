@@ -38,4 +38,22 @@ public:
 
 	UPROPERTY()
 	FName PlayerStartTag;
+
+	/* Player variables */
+	UPROPERTY()
+	int32 PlayerLevel;
+	UPROPERTY()
+	int32 Exp;
+	UPROPERTY()
+	int32 SpellPoints;
+	UPROPERTY()
+	int32 AttributePoints;
+	UPROPERTY()
+	float Strength;
+	UPROPERTY()
+	float Inteligence;
+	UPROPERTY()
+	float Resilience;
+	UPROPERTY()
+	float Vigor;
 };

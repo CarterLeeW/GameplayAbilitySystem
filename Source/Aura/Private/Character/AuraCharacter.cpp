@@ -188,7 +188,20 @@ void AAuraCharacter::SaveProgress_Implementation(const FName& CheckpointTag)
 	{
 		if (ULoadScreenSaveGame* SaveData = AuraGM->RetrieveInGameSaveData())
 		{
+			// Save all persistent data
 			SaveData->PlayerStartTag = CheckpointTag;
+			if (AAuraPlayerState* AuraPS = Cast<AAuraPlayerState>(GetPlayerState()))
+			{
+				SaveData->PlayerLevel = AuraPS->GetPlayerLevel();
+				SaveData->Exp = AuraPS->GetExp();
+				SaveData->AttributePoints = AuraPS->GetAttributePoints();
+				SaveData->SpellPoints = AuraPS->GetSpellPoints();
+			}
+			SaveData->Strength = UAuraAttributeSet::GetStrengthAttribute().GetNumericValue(GetAttributeSet());
+			SaveData->Inteligence = UAuraAttributeSet::GetIntelligenceAttribute().GetNumericValue(GetAttributeSet());
+			SaveData->Resilience = UAuraAttributeSet::GetResilienceAttribute().GetNumericValue(GetAttributeSet());
+			SaveData->Vigor = UAuraAttributeSet::GetVigorAttribute().GetNumericValue(GetAttributeSet());
+
 			AuraGM->SaveInGameProgressData(SaveData);
 		}
 	}
