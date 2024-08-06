@@ -63,7 +63,7 @@ public:
 	FAbilityInfoSignature AbilityInfoDelegate;
 
 	UPROPERTY(BlueprintAssignable, Category = "GAS|PlayerStats")
-	FPlayerStatChangedSignature OnPlayerLevelChanged;
+	FOnPlayerLevelChanged OnPlayerLevelChanged;
 
 	void BroadcastAbilityInfo();
 protected:

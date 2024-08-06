@@ -36,14 +36,14 @@ UAbilitySystemComponent* AAuraPlayerState::GetAbilitySystemComponent() const
 void AAuraPlayerState::SetLevel(int32 InLevel)
 {
 	Level = FMath::Clamp(InLevel, 1, InLevel);
-	OnLevelChangedDelegate.Broadcast(Level);
+	OnLevelChangedDelegate.Broadcast(Level, false);
 }
 
 void AAuraPlayerState::AddToLevel(int32 InLevel)
 {
 	Level += InLevel;
 	Level = FMath::Clamp(Level, 1, Level);
-	OnLevelChangedDelegate.Broadcast(Level);
+	OnLevelChangedDelegate.Broadcast(Level, true);
 }
 
 /* This overwrites the current Exp with the value provided. Use AddToExp to increment value */
@@ -90,7 +90,7 @@ void AAuraPlayerState::AddToSpellPoints(int32 InSpellPoints)
 
 void AAuraPlayerState::OnRep_Level(int32 OldLevel)
 {
-	OnLevelChangedDelegate.Broadcast(Level);
+	OnLevelChangedDelegate.Broadcast(Level, true);
 }
 
 void AAuraPlayerState::OnRep_Exp(int32 OldExp)

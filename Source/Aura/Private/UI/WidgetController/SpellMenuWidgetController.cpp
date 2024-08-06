@@ -34,7 +34,7 @@ void USpellMenuWidgetController::BindCallbacksToDependencies()
 		[this](int32 NewSpellPoints) { OnPlayerSpellPointsChanged.Broadcast(NewSpellPoints); }
 	);
 	GetAuraPS()->OnLevelChangedDelegate.AddLambda(
-		[this](int32 NewLevel) { OnPlayerLevelChanged.Broadcast(NewLevel); }
+		[this](int32 NewLevel, bool bLevelUp) { OnPlayerLevelChanged.Broadcast(NewLevel, bLevelUp); }
 	);
 }
 

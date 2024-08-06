@@ -9,6 +9,9 @@
 UDELEGATE()
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FPlayerStatChangedSignature, int32, StatValue);
 
+UDELEGATE()
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnPlayerLevelChanged, int32, NewLevel, bool, bLevelUp);
+
 /**
  * 
  */

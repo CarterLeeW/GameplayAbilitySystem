@@ -11,7 +11,8 @@ class UAbilitySystemComponent;
 class UAttributeSet;
 class ULevelUpInfo;
 
-DECLARE_MULTICAST_DELEGATE_OneParam(FOnPlayerStatChanged, int32 /*StatValue*/)
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnPlayerStatChanged, int32 /*StatValue*/);
+DECLARE_MULTICAST_DELEGATE_TwoParams(FOnLevelChanged, int32 /*NewLevel*/, bool /*bLevelUp*/);
 
 /**
  * 
@@ -30,7 +31,7 @@ public:
 	// Delegate
 	FOnPlayerStatChanged OnExpChangedDelegate;
 	// Delegate
-	FOnPlayerStatChanged OnLevelChangedDelegate;
+	FOnLevelChanged OnLevelChangedDelegate;
 	// Delegate
 	FOnPlayerStatChanged OnAttributePointsChangedDelegate;
 	// Delegate
