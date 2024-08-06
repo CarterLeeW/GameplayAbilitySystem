@@ -25,6 +25,8 @@ public:
 	virtual void PossessedBy(AController* NewController) override;
 	// End AActor Interface
 
+	void LoadProgress();
+
 	// APawn Interface
 	virtual void OnRep_PlayerState() override;
 	//End APawn Interface
