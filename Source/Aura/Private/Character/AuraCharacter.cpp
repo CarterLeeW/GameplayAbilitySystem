@@ -18,6 +18,7 @@
 #include "Game/LoadScreenSaveGame.h"
 #include "Game/AuraGameModeBase.h"
 #include "AbilitySystem/AuraAbilitySystemLibrary.h"
+#include "AbilitySystem/Data/AbilityInfo.h"
 
 AAuraCharacter::AAuraCharacter()
 {
@@ -232,6 +233,32 @@ void AAuraCharacter::SaveProgress_Implementation(const FName& CheckpointTag)
 			SaveData->Vigor = UAuraAttributeSet::GetVigorAttribute().GetNumericValue(GetAttributeSet());
 
 			SaveData->bFirstTimeLoadIn = false;
+
+			if (HasAuthority())
+			{
+				FForEachAbility SaveAbilityDelegate;
+				UAuraAbilitySystemComponent* AuraASC = Cast<UAuraAbilitySystemComponent>(AbilitySystemComponent);
+				SaveAbilityDelegate.BindLambda(
+					[this, AuraASC, SaveData](const FGameplayAbilitySpec& AbilitySpec)
+					{
+						FSavedAbility SavedAbility;
+						FGameplayTag AbilityTag = AuraASC->GetAbilityTagFromSpec(AbilitySpec);
+						UAbilityInfo* AbilityInfo = UAuraAbilitySystemLibrary::GetAbilityInfo(this);
+						FAuraAbilityInfo Info = AbilityInfo->FindAbilityInfoForTag(AbilityTag);
+
+						SavedAbility.GameplayAbility = Info.Ability;
+						SavedAbility.AbilityLevel = AbilitySpec.Level;
+						SavedAbility.AbilitySlot = AuraASC->GetSlotFromAbilityTag(AbilityTag);
+						SavedAbility.AbilityStatus = AuraASC->GetStatusFromAbilityTag(AbilityTag);
+						SavedAbility.AbilityTag = AbilityTag;
+						SavedAbility.AbilityType = Info.AbilityType;
+
+						SaveData->SavedAbilities.Add(SavedAbility);
+					}
+				);
+				AuraASC->ForEachAbility(SaveAbilityDelegate);
+			}
+
 			AuraGM->SaveInGameProgressData(SaveData);
 		}
 	}
