@@ -44,13 +44,13 @@ public:
 
 	/* Player variables */
 	UPROPERTY()
-	int32 PlayerLevel;
+	int32 PlayerLevel = 1;
 	UPROPERTY()
-	int32 Exp;
+	int32 Exp = 0;
 	UPROPERTY()
-	int32 SpellPoints;
+	int32 SpellPoints = 0;
 	UPROPERTY()
-	int32 AttributePoints;
+	int32 AttributePoints = 0;
 	UPROPERTY()
 	float Strength;
 	UPROPERTY()
