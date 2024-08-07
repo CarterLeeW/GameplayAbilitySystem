@@ -10,6 +10,7 @@
 #include "AuraGameplayTagMacros.h"
 #include "AbilitySystem/AuraAbilitySystemLibrary.h"
 #include "AbilitySystem/Data/AbilityInfo.h"
+#include "Game/LoadScreenSaveGame.h"
 
 void UAuraAbilitySystemComponent::AbilityActorInfoSet()
 {
@@ -51,8 +52,37 @@ void UAuraAbilitySystemComponent::AddCharacterPassiveAbilities(const TArray<TSub
 	for (const auto& AbilityClass : StartupPassiveAbilities)
 	{
 		FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(AbilityClass, 1);
+		AbilitySpec.DynamicAbilityTags.AddTag(FAuraGameplayTags::Get()->Ability_Status_Equipped);
 		GiveAbilityAndActivateOnce(AbilitySpec);
 	}
+}
+
+void UAuraAbilitySystemComponent::AddCharacterAbilitiesFromSaveData(ULoadScreenSaveGame* SaveData)
+{
+	for (const FSavedAbility& Data : SaveData->SavedAbilities)
+	{
+		const TSubclassOf<UGameplayAbility> LoadedAbilityClass = Data.GameplayAbility;
+		FGameplayAbilitySpec LoadedAbilitySpec = FGameplayAbilitySpec(LoadedAbilityClass, Data.AbilityLevel);
+
+		LoadedAbilitySpec.DynamicAbilityTags.AddTag(Data.AbilitySlot);
+		LoadedAbilitySpec.DynamicAbilityTags.AddTag(Data.AbilityStatus);
+		// Offensive Abilities
+		if (Data.AbilityType == FAuraGameplayTags::Get()->Ability_Type_Offensive)
+		{
+			GiveAbility(LoadedAbilitySpec);
+		}
+		// Activate Passive Abilities
+		else if (Data.AbilityType == FAuraGameplayTags::Get()->Ability_Type_Passive)
+		{
+			GiveAbility(LoadedAbilitySpec);
+			if (Data.AbilityStatus == FAuraGameplayTags::Get()->Ability_Status_Equipped)
+			{
+				TryActivateAbility(LoadedAbilitySpec.Handle);
+			}
+		}
+	}
+	bStartupAbilitiesGiven = true;
+	AbilitiesGivenDelegate.Broadcast();
 }
 
 void UAuraAbilitySystemComponent::AbilityInputTagReleased(const FGameplayTag& InputTag)
@@ -359,6 +389,8 @@ void UAuraAbilitySystemComponent::Server_EquipAbility_Implementation(const FGame
 					{
 						Multicast_ActivatePassiveEffect(AbilityTag, true);
 					}
+					AbilitySpec->DynamicAbilityTags.RemoveTag(GetStatusTagFromSpec(*AbilitySpec));
+					AbilitySpec->DynamicAbilityTags.AddTag(Tags->Ability_Status_Equipped);
 				}
 			}
 			AssignSlotToAbility(*AbilitySpec, Slot);

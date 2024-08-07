@@ -63,7 +63,7 @@ void AAuraPlayerState::AddToExp(int32 InExp)
 /* This overwrites the current AttributePoints with the value provided. Use AddToAttributePoints to increment value */
 void AAuraPlayerState::SetAttributePoints(int32 InAttributePoints)
 {
-	AttributePoints = FMath::Clamp(InAttributePoints, 1, InAttributePoints);
+	AttributePoints = FMath::Clamp(InAttributePoints, 0, InAttributePoints);
 	OnAttributePointsChangedDelegate.Broadcast(AttributePoints);
 }
 
@@ -77,7 +77,7 @@ void AAuraPlayerState::AddToAttributePoints(int32 InAttributePoints)
 /* This overwrites the current SpellPoints with the value provided. Use AddToSpellPoints to increment value */
 void AAuraPlayerState::SetSpellPoints(int32 InSpellPoints)
 {
-	SpellPoints = FMath::Clamp(InSpellPoints, 1, InSpellPoints);
+	SpellPoints = FMath::Clamp(InSpellPoints, 0, InSpellPoints);
 	OnSpellPointsChangedDelegate.Broadcast(SpellPoints);
 }
 
