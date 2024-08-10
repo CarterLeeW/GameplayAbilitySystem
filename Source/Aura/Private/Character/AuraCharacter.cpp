@@ -55,6 +55,10 @@ void AAuraCharacter::PossessedBy(AController* NewController)
 	InitAbilityActorInfo();
 	// Load player data from disk
 	LoadProgress();
+	if (AAuraGameModeBase* AuraGM = UAuraGameLibrary::GetAuraGameMode(this))
+	{
+		AuraGM->LoadWorldState(GetWorld());
+	}
 }
 
 void AAuraCharacter::LoadProgress()

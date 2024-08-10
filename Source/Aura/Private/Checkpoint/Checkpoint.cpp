@@ -4,6 +4,8 @@
 #include "Checkpoint/Checkpoint.h"
 #include "Components/SphereComponent.h"
 #include "Interaction/PlayerInterface.h"
+#include "Game/AuraGameModeBase.h"
+#include "Game/AuraGameLibrary.h"
 
 ACheckpoint::ACheckpoint(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
@@ -22,6 +24,14 @@ ACheckpoint::ACheckpoint(const FObjectInitializer& ObjectInitializer)
 	Sphere->SetCollisionResponseToChannel(ECC_Pawn, ECR_Overlap);
 }
 
+void ACheckpoint::LoadActor_Implementation()
+{
+	if (bReached)
+	{
+		HandleGlowEffects();
+	}
+}
+
 void ACheckpoint::BeginPlay()
 {
 	Super::BeginPlay();
@@ -33,7 +43,14 @@ void ACheckpoint::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AAct
 {
 	if (OtherActor->Implements<UPlayerInterface>())
 	{
+		bReached = true;
+		if (AAuraGameModeBase* AuraGM = UAuraGameLibrary::GetAuraGameMode(this))
+		{
+			AuraGM->SaveWorldState(GetWorld());
+		}
+
 		IPlayerInterface::Execute_SaveProgress(OtherActor, PlayerStartTag);
+
 		HandleGlowEffects();
 	}
 }
@@ -41,7 +58,11 @@ void ACheckpoint::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AAct
 void ACheckpoint::HandleGlowEffects()
 {
 	Sphere->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-	UMaterialInstanceDynamic* DynamicMaterialInstance = UMaterialInstanceDynamic::Create(CheckpointMesh->GetMaterial(0), this);
-	CheckpointMesh->SetMaterial(0, DynamicMaterialInstance);
-	CheckpointReached(DynamicMaterialInstance);
+	// NOTE: Only one dynamic material instance should be created. This is important when loading & when this function is called more than once
+	if (!CheckpointMesh->GetMaterial(0)->IsA(UMaterialInstanceDynamic::StaticClass()))
+	{
+		UMaterialInstanceDynamic* DynamicMaterialInstance = UMaterialInstanceDynamic::Create(CheckpointMesh->GetMaterial(0), this);
+		CheckpointMesh->SetMaterial(0, DynamicMaterialInstance);
+		CheckpointReached(DynamicMaterialInstance);
+	}
 }
