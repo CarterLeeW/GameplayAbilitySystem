@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Character/AuraCharacterBase.h"
 #include "Interaction/EnemyInterface.h"
+#include "Interaction/HighlightInterface.h"
 #include "UI/WidgetController/OverlayWidgetController.h"
 #include "AbilitySystem/Data/CharacterClassInfo.h"
 #include "AuraEnemy.generated.h"
@@ -17,7 +18,7 @@ class AAuraAIController;
  * 
  */
 UCLASS()
-class AURA_API AAuraEnemy : public AAuraCharacterBase, public IEnemyInterface
+class AURA_API AAuraEnemy : public AAuraCharacterBase, public IEnemyInterface, public IHighlightInterface
 {
 	GENERATED_BODY()
 	
@@ -26,10 +27,10 @@ public:
 	virtual void PossessedBy(AController* NewController) override;
 	void HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCount);
 
-	// EnemyInterface
+	// HighlightInterface
 	virtual void HighlightActor() override;
 	virtual void UnHighlightActor() override;
-	// End EnemyInterface
+	// End HighlightInterface
 
 	// CombatInterface
 	virtual int32 GetPlayerLevel_Implementation() const override { return Level; };
