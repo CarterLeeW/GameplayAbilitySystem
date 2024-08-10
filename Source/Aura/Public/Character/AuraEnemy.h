@@ -28,8 +28,8 @@ public:
 	void HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCount);
 
 	// HighlightInterface
-	virtual void HighlightActor() override;
-	virtual void UnHighlightActor() override;
+	virtual void HighlightActor_Implementation() override;
+	virtual void UnHighlightActor_Implementation() override;
 	// End HighlightInterface
 
 	// CombatInterface

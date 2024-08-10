@@ -18,6 +18,13 @@ class UDamageTextComponent;
 class UNiagaraSystem;
 class AMagicCircle;
 
+enum class ETargetingStatus : uint8
+{
+	ETS_TargetingEnemy,
+	ETS_TargetingMapEntrance,
+	ETS_NotTargetingEnemy
+};
+
 /**
  * 
  */
@@ -64,9 +71,11 @@ private:
 
 	// Highlighting
 	void CursorTrace();
+	static void HighlightActor(AActor* Actor);
+	static void UnHighlightActor(AActor* Actor);
 	FHitResult CursorHit;
-	IHighlightInterface* LastTargetActor;
-	IHighlightInterface* ThisTargetActor;
+	TObjectPtr<AActor> LastTargetActor;
+	TObjectPtr<AActor> ThisTargetActor;
 
 	void AbilityInputTagPressed(FGameplayTag InputTag);
 	void AbilityInputTagReleased(FGameplayTag InputTag);
@@ -86,7 +95,7 @@ private:
 	float FollowTime = 0.0f;
 	float ShortPressThreshold = 0.5f;
 	bool bAutoRunning = false;
-	bool bTargeting = false;
+	ETargetingStatus TargetingStatus = ETargetingStatus::ETS_NotTargetingEnemy;
 	UPROPERTY(EditDefaultsOnly)
 	float AutoRunAcceptanceRadius = 50.0f;
 	UPROPERTY(VisibleAnywhere)

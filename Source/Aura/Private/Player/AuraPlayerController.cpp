@@ -130,18 +130,14 @@ void AAuraPlayerController::CursorTrace()
 {
 	if (GetASC() && GetASC()->HasMatchingGameplayTag(FAuraGameplayTags::Get()->Player_Block_CursorTrace))
 	{
-		if (LastTargetActor != nullptr)
-		{
-			LastTargetActor->UnHighlightActor();
-		}
-		if (ThisTargetActor != nullptr)
-		{
-			ThisTargetActor->UnHighlightActor();
-		}
+		UnHighlightActor(LastTargetActor);
+		UnHighlightActor(ThisTargetActor);
+
 		LastTargetActor = nullptr;
 		ThisTargetActor = nullptr;
 		return;
 	}
+
 	if (IsValid(MagicCircle))
 	{
 		GetHitResultUnderCursor(ECC_Visibility, false, CursorHit);
@@ -150,21 +146,42 @@ void AAuraPlayerController::CursorTrace()
 	{
 		GetHitResultUnderCursor(ECC_CursorVis, false, CursorHit);
 	}
-	if (!CursorHit.bBlockingHit) return;
 
-	LastTargetActor = ThisTargetActor;
-	ThisTargetActor = Cast<IHighlightInterface>(CursorHit.GetActor());
-
-	if (ThisTargetActor != LastTargetActor)
+	if (CursorHit.bBlockingHit)
 	{
-		if (LastTargetActor != nullptr)
+		LastTargetActor = ThisTargetActor;
+		// Is Highlightable Actor
+		if (IsValid(CursorHit.GetActor()), CursorHit.GetActor()->Implements<UHighlightInterface>())
 		{
-			LastTargetActor->UnHighlightActor();
+			ThisTargetActor = CursorHit.GetActor();
 		}
-		if (ThisTargetActor != nullptr)
+		else
 		{
-			ThisTargetActor->HighlightActor();
+			ThisTargetActor = nullptr;
 		}
+
+		if (ThisTargetActor != LastTargetActor)
+		{
+			HighlightActor(LastTargetActor);
+			UnHighlightActor(ThisTargetActor);
+		}
+	}
+
+}
+
+void AAuraPlayerController::HighlightActor(AActor* Actor)
+{
+	if (IsValid(Actor) && Actor->Implements<UHighlightInterface>())
+	{
+		IHighlightInterface::Execute_HighlightActor(Actor);
+	}
+}
+
+void AAuraPlayerController::UnHighlightActor(AActor* Actor)
+{
+	if (IsValid(Actor) && Actor->Implements<UHighlightInterface>())
+	{
+		IHighlightInterface::Execute_UnHighlightActor(Actor);
 	}
 }
 
@@ -177,7 +194,8 @@ void AAuraPlayerController::AbilityInputTagPressed(FGameplayTag InputTag)
 
 	if (InputTag.MatchesTagExact(FAuraGameplayTags::Get()->InputTag_LMB))
 	{
-		bTargeting = (ThisTargetActor) ? true : false;
+		TargetingStatus = ThisTargetActor->Implements<UHighlightInterface>() ?
+			ETargetingStatus::ETS_TargetingEnemy :ETargetingStatus::ETS_NotTargetingEnemy;
 		bAutoRunning = false;
 	}
 	if (GetASC())
