@@ -22,7 +22,7 @@ enum class ETargetingStatus : uint8
 {
 	ETS_TargetingEnemy,
 	ETS_TargetingMapEntrance,
-	ETS_NotTargetingEnemy
+	ETS_NotTargeting
 };
 
 /**
@@ -95,7 +95,7 @@ private:
 	float FollowTime = 0.0f;
 	float ShortPressThreshold = 0.5f;
 	bool bAutoRunning = false;
-	ETargetingStatus TargetingStatus = ETargetingStatus::ETS_NotTargetingEnemy;
+	ETargetingStatus TargetingStatus = ETargetingStatus::ETS_NotTargeting;
 	UPROPERTY(EditDefaultsOnly)
 	float AutoRunAcceptanceRadius = 50.0f;
 	UPROPERTY(VisibleAnywhere)

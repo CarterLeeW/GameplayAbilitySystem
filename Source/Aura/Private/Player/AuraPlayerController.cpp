@@ -128,6 +128,7 @@ void AAuraPlayerController::Move(const FInputActionValue& InputActionValue)
 
 void AAuraPlayerController::CursorTrace()
 {
+	// Cursor trace blocked
 	if (GetASC() && GetASC()->HasMatchingGameplayTag(FAuraGameplayTags::Get()->Player_Block_CursorTrace))
 	{
 		UnHighlightActor(LastTargetActor);
@@ -151,7 +152,7 @@ void AAuraPlayerController::CursorTrace()
 	{
 		LastTargetActor = ThisTargetActor;
 		// Is Highlightable Actor
-		if (IsValid(CursorHit.GetActor()), CursorHit.GetActor()->Implements<UHighlightInterface>())
+		if (IsValid(CursorHit.GetActor()) && CursorHit.GetActor()->Implements<UHighlightInterface>())
 		{
 			ThisTargetActor = CursorHit.GetActor();
 		}
@@ -162,8 +163,8 @@ void AAuraPlayerController::CursorTrace()
 
 		if (ThisTargetActor != LastTargetActor)
 		{
-			HighlightActor(LastTargetActor);
-			UnHighlightActor(ThisTargetActor);
+			UnHighlightActor(LastTargetActor);
+			HighlightActor(ThisTargetActor);
 		}
 	}
 
@@ -194,8 +195,14 @@ void AAuraPlayerController::AbilityInputTagPressed(FGameplayTag InputTag)
 
 	if (InputTag.MatchesTagExact(FAuraGameplayTags::Get()->InputTag_LMB))
 	{
-		TargetingStatus = ThisTargetActor->Implements<UHighlightInterface>() ?
-			ETargetingStatus::ETS_TargetingEnemy :ETargetingStatus::ETS_NotTargetingEnemy;
+		if (IsValid(ThisTargetActor) && ThisTargetActor->Implements<UEnemyInterface>())
+		{
+			TargetingStatus = ETargetingStatus::ETS_TargetingEnemy;
+		}
+		else
+		{
+			TargetingStatus = ETargetingStatus::ETS_NotTargeting;
+		}
 		bAutoRunning = false;
 	}
 	if (GetASC())
@@ -206,6 +213,7 @@ void AAuraPlayerController::AbilityInputTagPressed(FGameplayTag InputTag)
 
 void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 {
+	// Input blocked
 	if (GetASC() && GetASC()->HasMatchingGameplayTag(FAuraGameplayTags::Get()->Player_Block_InputReleased))
 	{
 		return;
@@ -225,7 +233,7 @@ void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 		GetASC()->AbilityInputTagReleased(InputTag);
 	}
 	const bool bMovementBlocked = GetASC() && !GetASC()->HasMatchingGameplayTag(FAuraGameplayTags::Get()->Player_Block_InputPressed);
-	if (!bTargeting && !bShiftKeyHeld && bMovementBlocked)
+	if (TargetingStatus != ETargetingStatus::ETS_TargetingEnemy && !bShiftKeyHeld && bMovementBlocked)
 	{
 		ClickToMove();
 	}
@@ -252,7 +260,7 @@ void AAuraPlayerController::ClickToMove()
 		UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, ClickNiagaraSystem, CachedDestination);
 	}
 	FollowTime = 0.f;
-	bTargeting = false;
+	TargetingStatus = ETargetingStatus::ETS_NotTargeting;
 }
 
 void AAuraPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
@@ -271,7 +279,7 @@ void AAuraPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
 		return;
 	}
 
-	if (bTargeting || bShiftKeyHeld)
+	if ((TargetingStatus == ETargetingStatus::ETS_TargetingEnemy) || bShiftKeyHeld)
 	{
 		if (GetASC())
 		{
