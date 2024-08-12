@@ -95,6 +95,8 @@ public:
 	FString PlayerName = FString("Default Name");
 	UPROPERTY()
 	FString CurrentMapName = FString("Default Map");
+	UPROPERTY()
+	FString MapAssetName = FString("Default Map Asset Name");
 
 	UPROPERTY()
 	ESaveSlotStatus SaveSlotStatus = ESaveSlotStatus::ESSS_Vacant;
