@@ -174,18 +174,21 @@ void AAuraGameModeBase::LoadWorldState(UWorld* World)
 			{
 				for (FSavedActor SavedActor : SaveGame->GetSavedMapWithMapName(WorldName).SavedActors)
 				{
-					// Should we load the actor's transform?
-					if (ISaveObjectInterface::Execute_ShouldLoadTransform(Actor))
+					if (SavedActor.ActorName == Actor->GetFName())
 					{
-						Actor->SetActorTransform(SavedActor.Transform);
+						// Should we load the actor's transform?
+						if (ISaveObjectInterface::Execute_ShouldLoadTransform(Actor))
+						{
+							Actor->SetActorTransform(SavedActor.Transform);
+						}
+
+						FMemoryReader MemoryReader(SavedActor.Bytes);
+						FObjectAndNameAsStringProxyArchive Archive(MemoryReader, true);
+						Archive.ArIsSaveGame = true;
+						Actor->Serialize(Archive); // converts binary bytes back to variables
+
+						ISaveObjectInterface::Execute_LoadActor(Actor);
 					}
-
-					FMemoryReader MemoryReader(SavedActor.Bytes);
-					FObjectAndNameAsStringProxyArchive Archive(MemoryReader, true);
-					Archive.ArIsSaveGame = true;
-					Actor->Serialize(Archive); // converts binary bytes back to variables
-
-					ISaveObjectInterface::Execute_LoadActor(Actor);
 				}
 			}
 		}
