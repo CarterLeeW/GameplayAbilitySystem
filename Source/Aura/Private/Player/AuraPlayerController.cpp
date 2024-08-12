@@ -232,8 +232,8 @@ void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 	{
 		GetASC()->AbilityInputTagReleased(InputTag);
 	}
-	const bool bMovementBlocked = GetASC() && !GetASC()->HasMatchingGameplayTag(FAuraGameplayTags::Get()->Player_Block_InputPressed);
-	if (TargetingStatus != ETargetingStatus::ETS_TargetingEnemy && !bShiftKeyHeld && bMovementBlocked)
+	const bool bMovementAllowed = GetASC() && !GetASC()->HasMatchingGameplayTag(FAuraGameplayTags::Get()->Player_Block_InputPressed);
+	if (TargetingStatus != ETargetingStatus::ETS_TargetingEnemy && !bShiftKeyHeld && bMovementAllowed)
 	{
 		ClickToMove();
 	}
@@ -244,6 +244,16 @@ void AAuraPlayerController::ClickToMove()
 	const APawn* ControlledPawn = GetPawn();
 	if ((FollowTime <= ShortPressThreshold) && ControlledPawn)
 	{
+		// Override destination for places like checkpoints
+		if (IsValid(ThisTargetActor) && ThisTargetActor->Implements<UHighlightInterface>())
+		{
+			IHighlightInterface::Execute_OverrideMoveToLocation(ThisTargetActor, CachedDestination);
+		}
+		else
+		{
+			UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, ClickNiagaraSystem, CachedDestination);
+		}
+
 		if (UNavigationPath* NavPath = UNavigationSystemV1::FindPathToLocationSynchronously(this, ControlledPawn->GetActorLocation(), CachedDestination))
 		{
 			Spline->ClearSplinePoints();
@@ -257,7 +267,6 @@ void AAuraPlayerController::ClickToMove()
 				bAutoRunning = true;
 			}
 		}
-		UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, ClickNiagaraSystem, CachedDestination);
 	}
 	FollowTime = 0.f;
 	TargetingStatus = ETargetingStatus::ETS_NotTargeting;

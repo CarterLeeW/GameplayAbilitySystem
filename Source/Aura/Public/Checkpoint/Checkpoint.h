@@ -5,6 +5,8 @@
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerStart.h"
 #include "Interaction/SaveObjectInterface.h"
+#include "Interaction/HighlightInterface.h"
+#include "Aura/Aura.h"
 #include "Checkpoint.generated.h"
 
 class USphereComponent;
@@ -13,7 +15,7 @@ class USphereComponent;
  * 
  */
 UCLASS()
-class AURA_API ACheckpoint : public APlayerStart, public ISaveObjectInterface
+class AURA_API ACheckpoint : public APlayerStart, public ISaveObjectInterface, public IHighlightInterface
 {
 	GENERATED_BODY()
 	
@@ -22,6 +24,14 @@ public:
 
 	UPROPERTY(BlueprintReadOnly, SaveGame)
 	bool bReached = false;
+
+	UPROPERTY(EditAnywhere)
+	FCustomDepthStencilColor CustomDepthStencilColor = FCustomDepthStencilColor::ECDSC_Tan;
+	/* Highlight Interface */
+	virtual void HighlightActor_Implementation();
+	virtual void UnHighlightActor_Implementation();
+	virtual void OverrideMoveToLocation_Implementation(FVector& OutDestination) override;
+	/* End Highlight Interface */
 
 	/* SaveObjectInterface */
 	virtual bool ShouldLoadTransform_Implementation() const override { return false; }
@@ -45,4 +55,6 @@ private:
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<USphereComponent> Sphere;
 
+	UPROPERTY(VisibleAnywhere)
+	TObjectPtr<USceneComponent> MoveToComponent;
 };

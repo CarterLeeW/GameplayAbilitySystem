@@ -12,3 +12,11 @@
 #define ECC_OccludingEnvironment ECollisionChannel::ECC_GameTraceChannel3
 #define ECC_Collider ECollisionChannel::ECC_GameTraceChannel4
 #define ECC_Target ECollisionChannel::ECC_GameTraceChannel5
+
+UENUM()
+enum class FCustomDepthStencilColor : uint8
+{
+	ECDSC_Red = 250,
+	ECDSC_Blue = 251,
+	ECDSC_Tan = 252
+};

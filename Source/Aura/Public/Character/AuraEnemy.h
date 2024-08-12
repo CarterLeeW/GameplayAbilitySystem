@@ -8,6 +8,7 @@
 #include "Interaction/HighlightInterface.h"
 #include "UI/WidgetController/OverlayWidgetController.h"
 #include "AbilitySystem/Data/CharacterClassInfo.h"
+#include "Aura/Aura.h"
 #include "AuraEnemy.generated.h"
 
 class UWidgetComponent;
@@ -27,9 +28,12 @@ public:
 	virtual void PossessedBy(AController* NewController) override;
 	void HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCount);
 
+	UPROPERTY(EditAnywhere)
+	FCustomDepthStencilColor CustomDepthStencilColor = FCustomDepthStencilColor::ECDSC_Red;
 	// HighlightInterface
 	virtual void HighlightActor_Implementation() override;
 	virtual void UnHighlightActor_Implementation() override;
+	virtual void OverrideMoveToLocation_Implementation(FVector& OutDestination) override;
 	// End HighlightInterface
 
 	// CombatInterface

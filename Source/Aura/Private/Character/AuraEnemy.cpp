@@ -3,7 +3,7 @@
 
 #include "Character/AuraEnemy.h"
 #include "DrawDebugHelpers.h"
-#include "Aura/Aura.h"
+
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "AbilitySystem/AuraAttributeSet.h"
 #include "Components/WidgetComponent.h"
@@ -18,9 +18,6 @@
 
 AAuraEnemy::AAuraEnemy()
 {
-	GetMesh()->SetCustomDepthStencilValue(CUSTOM_DEPTH_RED);
-	Weapon->SetCustomDepthStencilValue(CUSTOM_DEPTH_RED);
-
 	AbilitySystemComponent = CreateDefaultSubobject<UAuraAbilitySystemComponent>("AbilitySystemComponent");
 	AbilitySystemComponent->SetIsReplicated(true);
 	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Minimal);
@@ -65,6 +62,11 @@ void AAuraEnemy::UnHighlightActor_Implementation()
 	Weapon->SetRenderCustomDepth(false);
 }
 
+void AAuraEnemy::OverrideMoveToLocation_Implementation(FVector& OutDestination)
+{
+	// Do nothing to the destination
+}
+
 void AAuraEnemy::Die(const FVector& DeathImpulse)
 {
 	SetLifeSpan(LifeSpan);
@@ -91,6 +93,12 @@ void AAuraEnemy::StunTagChanged(const FGameplayTag CallbackTag, int32 NewCount)
 void AAuraEnemy::BeginPlay()
 {
 	Super::BeginPlay();
+
+	GetMesh()->SetCustomDepthStencilValue(static_cast<int32>(CustomDepthStencilColor));
+	GetMesh()->MarkRenderStateDirty();
+	Weapon->SetCustomDepthStencilValue(static_cast<int32>(CustomDepthStencilColor));
+	Weapon->MarkRenderStateDirty();
+
 	GetCharacterMovement()->MaxWalkSpeed = BaseWalkSpeed;
 	InitAbilityActorInfo();
 	if (HasAuthority())
