@@ -26,7 +26,7 @@ public:
 	bool bReached = false;
 
 	UPROPERTY(EditAnywhere)
-	FCustomDepthStencilColor CustomDepthStencilColor = FCustomDepthStencilColor::ECDSC_Tan;
+	FCustomDepthStencilColor CustomDepthStencilColor = FCustomDepthStencilColor::Tan;
 	/* Highlight Interface */
 	virtual void HighlightActor_Implementation();
 	virtual void UnHighlightActor_Implementation();

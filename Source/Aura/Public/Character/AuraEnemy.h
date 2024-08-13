@@ -29,13 +29,15 @@ public:
 	void HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCount);
 
 	UPROPERTY(EditAnywhere)
-	FCustomDepthStencilColor CustomDepthStencilColor = FCustomDepthStencilColor::ECDSC_Red;
+	FCustomDepthStencilColor CustomDepthStencilColor = FCustomDepthStencilColor::Red;
 	// HighlightInterface
 	virtual void HighlightActor_Implementation() override;
 	virtual void UnHighlightActor_Implementation() override;
 	virtual void OverrideMoveToLocation_Implementation(FVector& OutDestination) override;
 	// End HighlightInterface
 
+	void SetPlayerLevel(int32 InLevel) { Level = InLevel; }
+	void SetCharacterClass(ECharacterClass InClass) { CharacterClass = InClass; }
 	// CombatInterface
 	virtual int32 GetPlayerLevel_Implementation() const override { return Level; };
 	virtual void Die(const FVector& DeathImpulse = FVector::ZeroVector) override;

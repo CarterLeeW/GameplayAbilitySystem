@@ -12,9 +12,9 @@ class UGameplayAbility;
 UENUM(BlueprintType)
 enum class ESaveSlotStatus : uint8
 {
-	ESSS_Vacant,
-	ESSS_EnterName,
-	ESSS_Taken
+	Vacant,
+	EnterName,
+	Taken
 };
 
 USTRUCT(BlueprintType)
@@ -99,7 +99,7 @@ public:
 	FString MapAssetName = FString("Default Map Asset Name");
 
 	UPROPERTY()
-	ESaveSlotStatus SaveSlotStatus = ESaveSlotStatus::ESSS_Vacant;
+	ESaveSlotStatus SaveSlotStatus = ESaveSlotStatus::Vacant;
 
 	UPROPERTY()
 	FName PlayerStartTag;

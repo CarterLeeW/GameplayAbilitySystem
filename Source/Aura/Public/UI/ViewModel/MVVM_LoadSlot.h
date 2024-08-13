@@ -41,7 +41,7 @@ public:
 	int32 SlotIndex;
 
 	UPROPERTY()
-	ESaveSlotStatus  SlotStatus = ESaveSlotStatus::ESSS_Vacant;
+	ESaveSlotStatus  SlotStatus = ESaveSlotStatus::Vacant;
 
 	UPROPERTY()
 	FName PlayerStartTag;

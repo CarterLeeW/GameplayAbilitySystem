@@ -16,7 +16,7 @@
 UENUM()
 enum class FCustomDepthStencilColor : uint8
 {
-	ECDSC_Red = 250,
-	ECDSC_Blue = 251,
-	ECDSC_Tan = 252
+	Red = 250,
+	Blue = 251,
+	Tan = 252
 };

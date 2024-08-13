@@ -41,7 +41,7 @@ void UMVVM_LoadScreen::NewSlotButtonPressed(int32 Slot, const FString& EnteredNa
 		CurrSlot->SetMapName(AuraGM->StartingMapName);
 		CurrSlot->SetPlayerName(EnteredName);
 		CurrSlot->SetPlayerLevel(1);
-		CurrSlot->SlotStatus = ESaveSlotStatus::ESSS_Taken;
+		CurrSlot->SlotStatus = ESaveSlotStatus::Taken;
 		CurrSlot->PlayerStartTag = AuraGM->DefaultPlayerStartTag;
 		AuraGM->SaveSlotData(LoadSlots[Slot], Slot);
 		LoadSlots[Slot]->InitializeSlot();
@@ -60,7 +60,7 @@ void UMVVM_LoadScreen::NewSlotButtonPressed(int32 Slot, const FString& EnteredNa
 
 void UMVVM_LoadScreen::NewGameButtonPressed(int32 Slot)
 {
-	LoadSlots[Slot]->SetWidgetSwitcherIndex.Broadcast(ESaveSlotStatus::ESSS_EnterName);
+	LoadSlots[Slot]->SetWidgetSwitcherIndex.Broadcast(ESaveSlotStatus::EnterName);
 	LoadSlots[Slot]->EnableSelectSlotButton.Broadcast(true);
 }
 
@@ -88,7 +88,7 @@ void UMVVM_LoadScreen::DeleteButtonPressed()
 	if (IsValid(SelectedSlot))
 	{
 		AAuraGameModeBase::DeleteSaveSlot(SelectedSlot, SelectedSlot->SlotIndex);
-		SelectedSlot->SlotStatus = ESaveSlotStatus::ESSS_Vacant;
+		SelectedSlot->SlotStatus = ESaveSlotStatus::Vacant;
 		SelectedSlot->InitializeSlot();
 	}
 }

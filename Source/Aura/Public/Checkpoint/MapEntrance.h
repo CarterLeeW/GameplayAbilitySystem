@@ -20,7 +20,7 @@ public:
 	AMapEntrance();
 
 	UPROPERTY(EditAnywhere)
-	FCustomDepthStencilColor CustomDepthStencilColor = FCustomDepthStencilColor::ECDSC_Blue;
+	FCustomDepthStencilColor CustomDepthStencilColor = FCustomDepthStencilColor::Blue;
 	/* Highlight Interface */
 	virtual void HighlightActor_Implementation();
 	virtual void UnHighlightActor_Implementation();
