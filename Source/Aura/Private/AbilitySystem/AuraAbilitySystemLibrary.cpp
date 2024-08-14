@@ -15,6 +15,7 @@
 #include "AuraGameplayTags.h"
 #include "AbilitySystemBlueprintLibrary.h"
 #include "Game/LoadScreenSaveGame.h"
+#include "AbilitySystem/Data/LootTiers.h"
 
 bool UAuraAbilitySystemLibrary::MakeWidgetControllerParams(const UObject* WorldContextObject, FWidgetControllerParams& OutWCParams, AAuraHUD*& OutAuraHUD)
 {
@@ -231,6 +232,13 @@ UAbilityInfo* UAuraAbilitySystemLibrary::GetAbilityInfo(const UObject* WorldCont
 	if (!AuraGM) return nullptr;
 
 	return AuraGM->AbilityInfo;
+}
+
+ULootTiers* UAuraAbilitySystemLibrary::GetLootTiers(const UObject* WorldContextObject)
+{
+	const AAuraGameModeBase* AuraGM = Cast<AAuraGameModeBase>(UGameplayStatics::GetGameMode(WorldContextObject));
+	if (!AuraGM) return nullptr;
+	return AuraGM->LootTiers;
 }
 
 /* FIXME: First and last fireballs are spawned in same location in AuraFireBlast GA */

@@ -60,6 +60,9 @@ protected:
 	virtual void BeginPlay() override;
 	virtual void InitAbilityActorInfo() override;
 	virtual void InitializeDefaultAttributes() const override;
+	
+	UFUNCTION(BlueprintImplementableEvent)
+	void SpawnLoot();
 	// Components
 	UPROPERTY(BlueprintReadOnly, VisibleAnywhere, Category = "Combat")
 	TObjectPtr<UWidgetComponent> HealthBar;

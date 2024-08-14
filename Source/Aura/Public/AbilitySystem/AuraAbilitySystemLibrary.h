@@ -16,6 +16,7 @@ struct FWidgetControllerParams;
 class AAuraHUD;
 class UAbilityInfo;
 class ULoadScreenSaveGame;
+class ULootTiers;
 
 /**
  * 
@@ -51,6 +52,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|CharacterClassDefaults", meta = (WorldContext = "WorldContextObject"))
 	static UAbilityInfo* GetAbilityInfo(const UObject* WorldContextObject);
+
+	UFUNCTION(BlueprintPure, Category = "AuraAbilitySystemLibrary|CharacterClassDefaults", meta = (WorldContext = "WorldContextObject"))
+	static ULootTiers* GetLootTiers(const UObject* WorldContextObject);
 
 	/* Begin Effect Context Getters */
 #pragma region EffectContextGetters
@@ -277,7 +281,7 @@ public:
 
 	static int32 GetExpRewardForCharacterClassAndLevel(const UObject* WorldContextObject, ECharacterClass CharacterClass, int32 CharacterLevel);
 
-	UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|GameplayMechanics")
+	UFUNCTION(BlueprintPure, Category = "AuraAbilitySystemLibrary|GameplayMechanics")
 	static TArray<FRotator> EvenlySpacedRotators(const FVector& Forward, const FVector& Axis, float Spread, int32 NumRotators);
 
 	UFUNCTION(BlueprintCallable, Category = "AuraAbilitySystemLibrary|Damage")
