@@ -38,6 +38,7 @@ public:
 	void SaveInGameProgressData(ULoadScreenSaveGame* SaveObject);
 	void SaveWorldState(UWorld* World, const FString& DestinationMapAssetName = FString(""));
 	void LoadWorldState(UWorld* World);
+	void PlayerDied(ACharacter* DeadCharacter);
 
 	/* Maps */
 	UPROPERTY(EditDefaultsOnly)

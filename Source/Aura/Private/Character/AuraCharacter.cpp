@@ -120,6 +120,20 @@ void AAuraCharacter::Die(const FVector& DeathImpulse)
 	Weapon->DetachFromComponent(FDetachmentTransformRules(EDetachmentRule::KeepWorld, true));
 
 	MulticastHandleDeath(DeathImpulse);
+
+	FTimerDelegate DeathTimerDelegate;
+	DeathTimerDelegate.BindLambda(
+		[this]()
+		{
+			if (AAuraGameModeBase* AuraGM = UAuraGameLibrary::GetAuraGameMode(this))
+			{
+				AuraGM->PlayerDied(this);
+			}
+
+		}
+	);
+	GetWorldTimerManager().SetTimer(DeathTimer, DeathTimerDelegate, DeathTime, false);
+	//CameraBoomComponent->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
 }
 
 void AAuraCharacter::AddToExp_Implementation(int32 InExp)

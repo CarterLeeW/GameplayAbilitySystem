@@ -83,6 +83,7 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
+	UPROPERTY(BlueprintReadOnly)
 	bool bDead = false;
 
 	UPROPERTY(VisibleAnywhere, Category = "Combat|Debuff")

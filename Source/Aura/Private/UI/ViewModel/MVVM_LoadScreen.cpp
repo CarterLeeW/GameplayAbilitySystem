@@ -43,12 +43,14 @@ void UMVVM_LoadScreen::NewSlotButtonPressed(int32 Slot, const FString& EnteredNa
 		CurrSlot->SetPlayerLevel(1);
 		CurrSlot->SlotStatus = ESaveSlotStatus::Taken;
 		CurrSlot->PlayerStartTag = AuraGM->DefaultPlayerStartTag;
-		AuraGM->SaveSlotData(LoadSlots[Slot], Slot);
-		LoadSlots[Slot]->InitializeSlot();
+		CurrSlot->MapAssetName = AuraGM->StartingMap.ToSoftObjectPath().GetAssetName();
+
+		AuraGM->SaveSlotData(CurrSlot, Slot);
+		CurrSlot->InitializeSlot();
 
 		UAuraGameInstance* AuraGI = UAuraGameLibrary::GetAuraGameInstance(this);
-		AuraGI->LoadSlotName = LoadSlots[Slot]->GetLoadSlotName();
-		AuraGI->LoadSlotIndex = LoadSlots[Slot]->SlotIndex;
+		AuraGI->LoadSlotName = CurrSlot->GetLoadSlotName();
+		AuraGI->LoadSlotIndex = CurrSlot->SlotIndex;
 		AuraGI->PlayerStartTag = AuraGM->DefaultPlayerStartTag;
 	}
 	else

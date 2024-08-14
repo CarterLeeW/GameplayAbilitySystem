@@ -32,10 +32,12 @@ public:
 	//End APawn Interface
 
 	// CombatInterface
-	//virtual int32 GetPlayerLevel() const override;
 	virtual int32 GetPlayerLevel_Implementation() const override;
 	virtual void Die(const FVector& DeathImpulse = FVector::ZeroVector) override;
 	// End CombatInterface
+	UPROPERTY(EditDefaultsOnly)
+	float DeathTime = 5.f;
+	FTimerHandle DeathTimer;
 
 	// Player Interface
 	virtual void AddToExp_Implementation(int32 InExp) override;
