@@ -4,6 +4,7 @@
 #include "Actor/AuraEffectActor.h"
 #include "AbilitySystemBlueprintLibrary.h"
 #include "AbilitySystemComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 AAuraEffectActor::AAuraEffectActor()
 {
@@ -78,6 +79,10 @@ void AAuraEffectActor::OnOverlap(AActor* TargetActor)
 			ApplyEffectToTarget(TargetActor, EffectClass);
 		}
 	}
+	if (TargetActor->ActorHasTag(FName("Player")))
+	{
+		HandleSoundAndVisuals();
+	}
 }
 
 void AAuraEffectActor::OnEndOverlap(AActor* TargetActor)
@@ -135,4 +140,9 @@ void AAuraEffectActor::OnEndOverlap(AActor* TargetActor)
 			}
 		}
 	}
+}
+
+void AAuraEffectActor::HandleSoundAndVisuals()
+{
+	UGameplayStatics::PlaySound2D(this, PickupSound);
 }

@@ -23,4 +23,5 @@ public:
 
 	UPROPERTY()
 	int32 LoadSlotIndex = 0;
+
 };

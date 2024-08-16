@@ -22,6 +22,7 @@ public:
 	UPROPERTY(BlueprintAssignable)
 	FSlotSelected SlotSelected;
 
+	UFUNCTION(BlueprintCallable)
 	void InitializeLoadSlots();
 	UFUNCTION(BlueprintPure)
 	UMVVM_LoadSlot* GetLoadSlotViewModelByIndex(int32 Index) const;
@@ -36,6 +37,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void PlayButtonPressed();
 
+	UFUNCTION(BlueprintCallable)
 	void LoadData();
 
 	UPROPERTY(EditDefaultsOnly)

@@ -18,17 +18,20 @@ class AURA_API ALoadScreenHUD : public AHUD
 	GENERATED_BODY()
 	
 public:
-	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<UUserWidget> LoadScreenWidgetClass;
+	// Main Menu
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
+	TSubclassOf<UUserWidget> MainMenuWidgetClass;
 
+	// Load Screen
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
+	TSubclassOf<UUserWidget> LoadScreenWidgetClass;
 	UPROPERTY(BlueprintReadOnly)
 	TObjectPtr<ULoadScreenWidget> LoadScreenWidget;
 
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
 	TSubclassOf<UMVVM_LoadScreen> LoadScreenViewModelClass;
-
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(BlueprintReadWrite)
 	TObjectPtr<UMVVM_LoadScreen> LoadScreenViewModel;
 protected:
-	virtual void BeginPlay() override;
+
 };

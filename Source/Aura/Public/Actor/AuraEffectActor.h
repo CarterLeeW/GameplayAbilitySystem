@@ -44,11 +44,15 @@ protected:
 	UFUNCTION(BlueprintCallable)
 	void OnEndOverlap(AActor* TargetActor);
 
+	void HandleSoundAndVisuals();
+
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Applied Effects")
 	bool bDestroyOnEffectApplication = false;
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Applied Effects")
 	bool bApplyEffectsToEnemies = false;
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Sound Effects")
+	TObjectPtr<USoundBase> PickupSound;
 
 	// Instant
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Applied Effects")
