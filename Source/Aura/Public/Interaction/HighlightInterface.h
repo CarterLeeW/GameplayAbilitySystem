@@ -27,6 +27,6 @@ public:
 	void UnHighlightActor();
 
 	/* This really doesn't belong in this interface */
-	UFUNCTION(BlueprintNativeEvent)
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
 	void OverrideMoveToLocation(FVector& OutDestination);
 };
