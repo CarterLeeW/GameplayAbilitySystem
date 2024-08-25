@@ -13,10 +13,6 @@ AAuraEnemySpawnVolume::AAuraEnemySpawnVolume()
 
 	Box = CreateDefaultSubobject<UBoxComponent>("Box");
 	RootComponent = Box;
-	Box->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
-	Box->SetCollisionObjectType(ECC_WorldStatic);
-	Box->SetCollisionResponseToAllChannels(ECR_Ignore);
-	Box->SetCollisionResponseToChannel(ECC_Pawn, ECR_Overlap);
 }
 
 void AAuraEnemySpawnVolume::LoadActor_Implementation()
