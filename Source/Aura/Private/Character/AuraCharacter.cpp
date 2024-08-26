@@ -115,7 +115,7 @@ int32 AAuraCharacter::GetPlayerLevel_Implementation() const
 	return AuraPlayerState->GetPlayerLevel();
 }
 
-void AAuraCharacter::Die(const FVector& DeathImpulse)
+void AAuraCharacter::Die(const AActor* InstigatingActor, const FVector& DeathImpulse)
 {
 	Weapon->DetachFromComponent(FDetachmentTransformRules(EDetachmentRule::KeepWorld, true));
 
@@ -134,6 +134,26 @@ void AAuraCharacter::Die(const FVector& DeathImpulse)
 	);
 	GetWorldTimerManager().SetTimer(DeathTimer, DeathTimerDelegate, DeathTime, false);
 	//CameraBoomComponent->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
+}
+
+float AAuraCharacter::GetMaxHealthValue_Implementation() const
+{
+	return UAuraAttributeSet::GetMaxHealthAttribute().GetNumericValue(AttributeSet);
+}
+
+float AAuraCharacter::GetMaxManaValue_Implementation() const
+{
+	return UAuraAttributeSet::GetMaxManaAttribute().GetNumericValue(AttributeSet);
+}
+
+float AAuraCharacter::GetHealthValue_Implementation() const
+{
+	return UAuraAttributeSet::GetHealthAttribute().GetNumericValue(AttributeSet);
+}
+
+float AAuraCharacter::GetManaValue_Implementation() const
+{
+	return UAuraAttributeSet::GetManaAttribute().GetNumericValue(AttributeSet);;
 }
 
 void AAuraCharacter::AddToExp_Implementation(int32 InExp)

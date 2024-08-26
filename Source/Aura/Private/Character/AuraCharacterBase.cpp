@@ -61,7 +61,7 @@ UAnimMontage* AAuraCharacterBase::GetHitReactMontage_Implementation() const
 }
 
 /** Handles death on server */
-void AAuraCharacterBase::Die(const FVector& DeathImpulse)
+void AAuraCharacterBase::Die(const AActor* InstigatingActor, const FVector& DeathImpulse)
 {
 	Weapon->DetachFromComponent(FDetachmentTransformRules(EDetachmentRule::KeepWorld, true));
 	MulticastHandleDeath(DeathImpulse);

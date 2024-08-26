@@ -67,7 +67,7 @@ void AAuraEnemy::OverrideMoveToLocation_Implementation(FVector& OutDestination)
 	// Do nothing to the destination
 }
 
-void AAuraEnemy::Die(const FVector& DeathImpulse)
+void AAuraEnemy::Die(const AActor* InstigatingActor, const FVector& DeathImpulse)
 {
 	SetLifeSpan(LifeSpan);
 	if (AuraAIController)

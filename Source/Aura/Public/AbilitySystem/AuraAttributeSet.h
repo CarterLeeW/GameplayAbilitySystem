@@ -235,6 +235,7 @@ private:
 	void HandleIncomingExp(const FEffectProperties& Properties);
 
 	void SendExpEvent(const FEffectProperties& Properties);
+	void SendDeathEvent(const FEffectProperties& Properties);
 	bool bTopOffHealth = false;
 	bool bTopOffMana = false;
 };

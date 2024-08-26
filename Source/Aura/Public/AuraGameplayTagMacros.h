@@ -20,3 +20,4 @@
 #define TAG_COMBATSOCKET "CombatSocket"
 #define TAG_MONTAGE_ATTACK "Montage.Attack"
 #define TAG_PLAYER_BLOCK "Player.Block"
+#define TAG_EVENT "Event"

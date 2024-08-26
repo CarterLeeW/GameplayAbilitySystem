@@ -42,6 +42,8 @@ FAuraGameplayTags* FAuraGameplayTags::Get()
 
 	ADD_TAG(Attributes_Meta_IncomingExp, TAG_ATTRIBUTES_META".IncomingExp", "Tag for IncomingExp meta attribute");
 
+	ADD_TAG(Event_ActorDeath, TAG_EVENT".ActorDeath", "Used for events where an actor dies, often for triggering abilities like Life Siphon");
+
 	ADD_TAG(Damage,           TAG_DAMAGE,             "Generic Damage Type");
 	ADD_TAG(Damage_Arcane,    TAG_DAMAGE".Arcane",    "Arcane Damage Type");
 	ADD_TAG(Damage_Fire,      TAG_DAMAGE".Fire",      "Fire Damage Type");

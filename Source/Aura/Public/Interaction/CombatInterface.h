@@ -56,7 +56,7 @@ public:
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	UAnimMontage* GetHitReactMontage() const;
 
-	virtual void Die(const FVector& DeathImpulse = FVector::ZeroVector) = 0;
+	virtual void Die(const AActor* InstigatingActor = nullptr, const FVector& DeathImpulse = FVector::ZeroVector) = 0;
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	bool IsDead() const;
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
@@ -97,5 +97,15 @@ public:
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	FName GetWeaponTipSocketName() const;
+
+	// Attribute getters, perhaps these belong in another interface?
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	float GetMaxHealthValue() const;
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	float GetMaxManaValue() const;
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	float GetHealthValue() const;
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	float GetManaValue() const;
 
 };

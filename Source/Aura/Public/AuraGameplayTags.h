@@ -42,6 +42,9 @@ public:
 	// Meta
 	FGameplayTag Attributes_Meta_IncomingExp;
 
+	// Events
+	FGameplayTag Event_ActorDeath;
+
 	// Damage Types
 	FGameplayTag Damage;
 	FGameplayTag Damage_Arcane;

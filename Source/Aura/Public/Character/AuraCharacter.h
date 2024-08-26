@@ -33,7 +33,11 @@ public:
 
 	// CombatInterface
 	virtual int32 GetPlayerLevel_Implementation() const override;
-	virtual void Die(const FVector& DeathImpulse = FVector::ZeroVector) override;
+	virtual void Die(const AActor* InstigatingActor, const FVector& DeathImpulse) override;
+	virtual float GetMaxHealthValue_Implementation() const override;
+	virtual float GetMaxManaValue_Implementation() const override;
+	virtual float GetHealthValue_Implementation() const override;
+	virtual float GetManaValue_Implementation() const override;
 	// End CombatInterface
 	UPROPERTY(EditDefaultsOnly)
 	float DeathTime = 5.f;

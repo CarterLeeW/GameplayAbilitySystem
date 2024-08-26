@@ -301,9 +301,11 @@ void UAuraAttributeSet::HandleIncomingDamage(const FEffectProperties& Properties
 		{
 			if (ICombatInterface* CombatInterface = Cast<ICombatInterface>(Properties.TargetAvatarActor))
 			{
-				CombatInterface->Die(UAuraAbilitySystemLibrary::GetDeathImpulse(Properties.EffectContextHandle));
+				CombatInterface->Die(Properties.SourceAvatarActor, UAuraAbilitySystemLibrary::GetDeathImpulse(Properties.EffectContextHandle));
+				SendDeathEvent(Properties);
 			}
 			SendExpEvent(Properties);
+
 		}
 		// Show damage widget
 		ShowDamageWidget(Properties, LocalIncomingDamage);
@@ -446,4 +448,11 @@ void UAuraAttributeSet::SendExpEvent(const FEffectProperties& Properties)
 		Payload.EventMagnitude = static_cast<float>(ExpReward);
 		UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(Properties.SourceCharacter, FAuraGameplayTags::Get()->Attributes_Meta_IncomingExp, Payload);
 	}
+}
+
+void UAuraAttributeSet::SendDeathEvent(const FEffectProperties& Properties)
+{
+	FGameplayEventData Payload;
+	Payload.EventTag = FAuraGameplayTags::Get()->Event_ActorDeath;
+	UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(Properties.SourceCharacter, FAuraGameplayTags::Get()->Event_ActorDeath, Payload);
 }

@@ -40,7 +40,7 @@ public:
 	void SetCharacterClass(ECharacterClass InClass) { CharacterClass = InClass; }
 	// CombatInterface
 	virtual int32 GetPlayerLevel_Implementation() const override { return Level; };
-	virtual void Die(const FVector& DeathImpulse = FVector::ZeroVector) override;
+	virtual void Die(const AActor* InstigatingActor, const FVector& DeathImpulse = FVector::ZeroVector) override;
 	virtual void SetCombatTarget_Implementation(AActor* InCombatTarget) override { CombatTarget = InCombatTarget; }
 	virtual AActor* GetCombatTarget_Implementation() const override { return CombatTarget; }
 	// End CombatInterface
