@@ -24,6 +24,6 @@
 
 <h4>AI</h4>
 <p>
-  Enemy AI, while not the focus of this project, is functional and allows Enemies to choose which gameplay abilities to activate based on environment factors, and can be easily scaled to use attributes such as health and mana to influence the decision process.
+  Enemy AI, while not the focus of this project, is functional and allows Enemies to choose which gameplay abilities to activate based on environment factors and can be easily scaled to use attributes such as health and mana to influence the decision process.
 </p>
 
