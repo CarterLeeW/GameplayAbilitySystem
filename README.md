@@ -12,6 +12,18 @@
 
 <h2>Project Features</h2>
 
+<h4>Gameplay Ability System</h4>
+<p>
+  The Gameplay Ability System is the heart of most of the game's interaction and functionality. Each Pawn gets a Player State, an Ability System Component, and an Attribute Set. Gameplay Abilities are activated by a pawn and cause Gameplay Effects that act on another pawn's attributes. Damage can be caused using a damage Gameplay Effect, which can use attributes such as resistances to modify the final damage and trigger other effects. For multiplayer games, Gameplay Cues are used to handle cosmetic effects such as sounds and particles.
+</p>
+
+<h4>User Interface</h4>
+<p>
+  The user interface
+</p>
+
+<h4>AI</h4>
 <p>
   
 </p>
+
