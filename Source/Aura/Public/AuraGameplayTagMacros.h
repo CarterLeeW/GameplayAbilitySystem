@@ -21,3 +21,4 @@
 #define TAG_MONTAGE_ATTACK "Montage.Attack"
 #define TAG_PLAYER_BLOCK "Player.Block"
 #define TAG_EVENT "Event"
+#define TAG_GAMEPLAYCUE "GameplayCue"

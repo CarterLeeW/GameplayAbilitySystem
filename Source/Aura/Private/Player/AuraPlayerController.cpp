@@ -20,6 +20,7 @@
 #include "Actor/MagicCircle.h"
 #include "Components/DecalComponent.h"
 
+
 AAuraPlayerController::AAuraPlayerController()
 {
 	bReplicates = true;

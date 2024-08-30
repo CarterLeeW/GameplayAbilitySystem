@@ -15,6 +15,7 @@
 #include "Interaction/PlayerInterface.h"
 #include "AuraAbilityTypes.h"
 #include "GameplayEffectComponents/TargetTagsGameplayEffectComponent.h"
+#include "GameplayCueFunctionLibrary.h"
 
 #define MAP_TAG_TO_ATTRIBUTE(Type, Attr) TagsToAttributes.Add(GameplayTags->Attributes_##Type##_##Attr, Get##Attr##Attribute());
 UAuraAttributeSet::UAuraAttributeSet()
@@ -377,7 +378,11 @@ void UAuraAttributeSet::ShowDamageWidget(const FEffectProperties& Properties, co
 {
 	if (Properties.SourceCharacter != Properties.TargetCharacter)
 	{
-		if (AAuraPlayerController* SPC = Cast<AAuraPlayerController>(Properties.SourceCharacter->Controller))
+		FGameplayCueParameters Params;
+		Params.RawMagnitude = LocalIncomingDamage;
+		Params.EffectContext = Properties.EffectContextHandle;
+		UGameplayCueFunctionLibrary::ExecuteGameplayCueOnActor(Properties.TargetCharacter, FAuraGameplayTags::Get()->GameplayCue_DamageText, Params);
+		/*if (AAuraPlayerController* SPC = Cast<AAuraPlayerController>(Properties.SourceCharacter->Controller))
 		{
 			SPC->ShowDamageNumber(
 				Properties.TargetCharacter,
@@ -394,7 +399,7 @@ void UAuraAttributeSet::ShowDamageWidget(const FEffectProperties& Properties, co
 				UAuraAbilitySystemLibrary::IsBlockedHit(Properties.EffectContextHandle),
 				UAuraAbilitySystemLibrary::IsCriticalHit(Properties.EffectContextHandle)
 			);
-		}
+		}*/
 	}
 }
 

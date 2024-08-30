@@ -124,5 +124,7 @@ FAuraGameplayTags* FAuraGameplayTags::Get()
 	ADD_TAG(Player_Block_InputPressed,  TAG_PLAYER_BLOCK".InputPressed",  "Block callback for InputPressed");
 	ADD_TAG(Player_Block_InputReleased, TAG_PLAYER_BLOCK".InputReleased", "Block callback for InputReleased");
 
+	ADD_TAG(GameplayCue_DamageText, TAG_GAMEPLAYCUE".DamageText", "Damage Text gameplay cue tag");
+
 	return GameplayTags;
 }

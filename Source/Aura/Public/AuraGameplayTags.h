@@ -123,6 +123,8 @@ public:
 	FGameplayTag Player_Block_InputPressed;
 	FGameplayTag Player_Block_InputReleased;
 
+	FGameplayTag GameplayCue_DamageText;
+
 	FAuraGameplayTags(const FAuraGameplayTags& obj) = delete;
 
 private:
